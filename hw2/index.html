@@ -6,8 +6,8 @@ body {
   /*I use % and viewport units instead of pixels because we were told anything css native is fair game,
   but since we were discouraged from making it responsive I was a little confused so I included
   matching pixel values for some attributes to show that I could do it that way as well*/
-  height: 200vh;
-  /*height: 3000px;*/
+  height: 150vh;
+  /*height: 2500px;*/
   font-family: Times;
   color:blue; 
   font-weight: bolder;
@@ -39,14 +39,12 @@ div{
 	color: blue
 }
 #splash {
-  background: white url("img/Cutlery.png");
+  background: white url("https://csci571.com/hw/hw3/images/Cutlery.png");
   background-attachment: fixed;
   background-position: 5.5vw 0px;
   background-repeat: no-repeat;
   background-size: 85%;
   padding: 4vw 4vw 25vw 4vw;
-  /*margin-left:5vw;*/
-  /*width: 77vw;*/
   background-origin: content-box;
 }
 #splash p{
@@ -62,6 +60,29 @@ a {
   margin-left: 5%;
   margin-bottom: 50vw;
 }
+#style_header {
+	text-align: center;
+	font-size: 3vw;
+	margin: 4vh 0 3vh 0;
+}
+#style_table {
+	text-align: center;
+	font-size: 1.75vw;
+	padding: 0 0 0 4vw;
+}
+.cell {
+	width:45%;
+	padding: 0 1.5%;
+	float: left;
+}
+.cell p {
+	margin-top: 8%;
+	margin-bottom: 17%;
+}
+.cell img {
+	border-right: lightblue solid 25px;
+	width: 95%;
+}
 </style>
 </head>
 <body>
@@ -70,6 +91,12 @@ a {
 <!-- Normally I'd make each section it's own div or p, but since it was specified that it's non-functioning I thought spaces would be fine -->
 <div id='menu_bar'><span id='active'>Home</span><span>Decor</span><span>Yiour Kitchen</span><span>Your Bathroom</span><span>Your Bedroom</span><span>About</span><span>Contact</span></div>
 <div id='splash'><p>Fall Cutlery</p><p>Collection</p><br><a>Shop Now</a></div>
-<div id='style_table'></div>
+<div id='style_header'>Defining Styling Since 1965</div>
+<div id='style_table'>
+	<div class='cell'><img src="https://csci571.com/hw/hw3/images/Decor.png"><p>Decor</p></div>
+	<div class='cell'><img src="https://csci571.com/hw/hw3/images/Bedroom.png"><p>Your Bedroom</p></div>
+	<div class='cell'><img src="https://csci571.com/hw/hw3/images/Kitchen.png"><p>Your Kitchen</p></div>
+	<div class='cell'><img src="https://csci571.com/hw/hw3/images/Bathroom.png"><p>Your Bathroom</p></div>
+</div>
 </body>
 </html>
