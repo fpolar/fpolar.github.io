@@ -3,11 +3,16 @@
 <head>
 <style type="text/css">
 body {
+  /*I use % and viewport units instead of pixels because we were told anything css native is fair game,
+  but since we were discouraged from making it responsive I was a little confused so I included
+  matching pixel values for some attributes to show that I could do it that way as well*/
   height: 200vh;
+  /*height: 3000px;*/
   font-family: Times;
   color:blue; 
   font-weight: bolder;
   font-size: 5vw;
+  /*font-size: 50pt;*/
 }
 div{
 	padding:0% 5%;
@@ -36,10 +41,10 @@ div{
 #splash {
   background: white url("img/Cutlery.png");
   background-attachment: fixed;
-  background-position: 5.5vw;
+  background-position: 5.5vw 0px;
   background-repeat: no-repeat;
   background-size: 85%;
-  padding: 4vw 4vw 30vw 4vw;
+  padding: 4vw 4vw 25vw 4vw;
   /*margin-left:5vw;*/
   /*width: 77vw;*/
   background-origin: content-box;
