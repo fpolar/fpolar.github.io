@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+  font-family: Arial;
+  color:black; 
+  font-size: 12pt;
+  line-height: 36pt;
+  background: SlateBlue;
+  padding: 20px 300px;
+  text-align: center;
+}
+
+#splash, .seperator, #results{
+  /*width: 1200px;*/
+  min-width: 1100px;
+}
+
+#splash{
+  background: lightgrey;
+  border: transparent;
+  border-radius: 5px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+#splash h1{
+  margin-bottom: 10px;
+}
+
+#search_bar{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#splash input{
+  margin-left:20px;
+}
+
+#splash span{
+  color: red;
+}
+
+#search_buttons button{
+  border: transparent;
+  padding: 7px 25px;
+  border-radius: 5px;
+  margin:0 25px;
+}
+
+.seperator{
+  margin:15px 0;
+  border:lightgrey;
+  border-width: 2px;
+  border-radius: 2px;
+  background: lightgrey;
+  height:2px;
+}
+
+#header{
+  border-width: 0;
+  border-radius: 2px;
+  background: lightgrey;
+  display: flex;
+  margin-bottom:30px;
+}
+#header div{
+  display: inline-block;
+  padding: 4px 20px;
+
+}
+#header div:hover{
+  background: darkgrey;
+}
+.result_body{
+  display: none;
+}
+table{
+  text-align: left;
+  width:100%;
+}
+td{
+  background-color: lightgrey;
+  width: 65%;
+}
+th{
+  background-color: darkgrey;
+  width: 35%;
+  height:50px;
+}
+
+</style>
+</head>
+<body>
+  <div id='splash'>
+    <h1>Stock Search</h1>
+    <div id='search_bar'>Enter Stock Ticker Symbol <span>*</span><input type="text" name=""></div>
+    <div id='search_buttons'><button>Search</button><button>Clear</button></div>
+  </div>
+  <div class='seperator'></div>
+
+  <div id='results'>
+    <div id='header'><div id='outlook'>Company Outlook</div><div id='summary'>Stock Summary</div><div id='charts'>Charts</div><div id='news'>Latest News</div></div>
+
+    <div class='result_body' id='outlook_body'>
+      <table>
+        <tr><th>Company Name</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Stock Ticker Symbol</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Stock Exchange Code</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Company Start Date</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Description</th><td>PLACEHOLDER</td></tr>
+      </table>
+    </div>
+    <div class='result_body' id='summary_body'>
+      <table>
+        <tr><th>Stock Ticker Symbol</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Trading Day</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Previous Closing Price</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Opening Price</th><td>PLACEHOLDER</td></tr>
+        <tr><th>High Price</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Low Price</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Last Price</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Change</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Change Percent</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Number of Shares Traded</th><td>PLACEHOLDER</td></tr>
+      </table>
+    </div>
+    <div class='result_body' id='charts_body'></div>
+    <div class='result_body' id='news_body'><div class='card'><div class='info'><b>TITLE</b><p>DATE</p><a href="">See Original Post</a></div></div>
+    <b class='error'>Error : No record has been found, please enter a valid symbol.</b>
+  </div>
+</body>
+</html>
