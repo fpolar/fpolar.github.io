@@ -89,14 +89,13 @@ th{
   width: 35%;
   height:50px;
 }
-
 </style>
 </head>
 <body>
   <div id='splash'>
     <h1>Stock Search</h1>
     <div id='search_bar'>Enter Stock Ticker Symbol <span>*</span><input type="text" name=""></div>
-    <div id='search_buttons'><button>Search</button><button>Clear</button></div>
+    <div id='search_buttons'><button onclick='requestStockData(this)'>Search</button><button>Clear</button></div>
   </div>
   <div class='seperator'></div>
 
@@ -126,9 +125,10 @@ th{
         <tr><th>Number of Shares Traded</th><td>PLACEHOLDER</td></tr>
       </table>
     </div>
-    <div class='result_body' id='charts_body'></div>
+    <div class='result_body' id='chart_body'></div>
     <div class='result_body' id='news_body'><div class='card'><div class='info'><b>TITLE</b><p>DATE</p><a href="">See Original Post</a></div></div>
     <b class='error'>Error : No record has been found, please enter a valid symbol.</b>
   </div>
+  <script src="stocks.js"></script>
 </body>
 </html>
