@@ -38,7 +38,7 @@ api_key = 'ba0e8e5efb0a41f78fd9c83f4054c355'
 @app.route('/')
 def hello():
     """Return a friendly HTTP greeting."""
-    return '<b>Hello World!</b>'
+    return '<b>STONKS</b>'
 
 @app.route('/stonks', methods=['GET'])
 def GETMESTONKS():

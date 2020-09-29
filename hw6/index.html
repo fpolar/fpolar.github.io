@@ -89,6 +89,10 @@ th{
   width: 35%;
   height:50px;
 }
+img{
+  width: 15px;
+  margin-left: 10px;
+}
 </style>
 </head>
 <body>
@@ -100,29 +104,33 @@ th{
   <div class='seperator'></div>
 
   <div id='results'>
-    <div id='header'><div id='outlook'>Company Outlook</div><div id='summary'>Stock Summary</div><div id='charts'>Charts</div><div id='news'>Latest News</div></div>
+    <div id='header'>
+      <div id='outlook' onclick="displaySection('outlook');">Company Outlook</div>
+      <div id='summary' onclick="displaySection('summary');">Stock Summary</div>
+      <div id='charts' onclick="displaySection('charts');">Charts</div>
+      <div id='news' onclick="displaySection('news');">Latest News</div></div>
 
     <div class='result_body' id='outlook_body'>
       <table>
-        <tr><th>Company Name</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Stock Ticker Symbol</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Stock Exchange Code</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Company Start Date</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Description</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Company Name</th><td id='o-name'>PLACEHOLDER</td></tr>
+        <tr><th>Stock Ticker Symbol</th><td id='o-ticker'>PLACEHOLDER</td></tr>
+        <tr><th>Stock Exchange Code</th><td id='o-exchangeCode'>PLACEHOLDER</td></tr>
+        <tr><th>Company Start Date</th><td id='o-startDate'>PLACEHOLDER</td></tr>
+        <tr><th>Description</th><td id='o-description'>PLACEHOLDER</td></tr>
       </table>
     </div>
     <div class='result_body' id='summary_body'>
       <table>
-        <tr><th>Stock Ticker Symbol</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Trading Day</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Previous Closing Price</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Opening Price</th><td>PLACEHOLDER</td></tr>
-        <tr><th>High Price</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Low Price</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Last Price</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Change</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Change Percent</th><td>PLACEHOLDER</td></tr>
-        <tr><th>Number of Shares Traded</th><td>PLACEHOLDER</td></tr>
+        <tr><th>Stock Ticker Symbol</th><td id='s-ticker'>PLACEHOLDER</td></tr>
+        <tr><th>Trading Day</th><td id='s-timestamp'>PLACEHOLDER</td></tr>
+        <tr><th>Previous Closing Price</th><td id='s-prevClose'>PLACEHOLDER</td></tr>
+        <tr><th>Opening Price</th><td id='s-open'>PLACEHOLDER</td></tr>
+        <tr><th>High Price</th><td  id='s-high'>PLACEHOLDER</td></tr>
+        <tr><th>Low Price</th><td id='s-low'>PLACEHOLDER</td></tr>
+        <tr><th>Last Price</th><td id='s-last'>PLACEHOLDER</td></tr>
+        <tr><th>Change</th><td id='s-change'>PLACEHOLDER</td></tr>
+        <tr><th>Change Percent</th><td id='s-changePercent'>PLACEHOLDER</td></tr>
+        <tr><th>Number of Shares Traded</th><td id='s-volume'>PLACEHOLDER</td></tr>
       </table>
     </div>
     <div class='result_body' id='chart_body'></div>
