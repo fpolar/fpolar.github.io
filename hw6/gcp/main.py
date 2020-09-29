@@ -15,6 +15,7 @@
 # [START gae_python38_app]
 from flask import Flask
 from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 
 import requests
 
@@ -25,6 +26,8 @@ from dateutil.relativedelta import *
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 #tiingo
 token = '7575dba0525ff22472849e3fd5fe37cb7b70e825'
