@@ -3,6 +3,10 @@ var api_url = 'https://csci-gcp-stocks.wn.r.appspot.com/stonks';
 
 var data_ready = false;
 
+var form = document.getElementById("splash");
+function handleForm(event) { event.preventDefault(); } 
+form.addEventListener('submit', handleForm);
+
 function displaySection(section_name){
 	if(!data_ready){
 		return;
@@ -12,7 +16,9 @@ function displaySection(section_name){
     for(var i = 0; i < all_sections.length; i++){
         all_sections[i].style.display = "none";
     }
-	document.getElementById(section_name+'_body').style.display = "block";
+    if(section_name !== 'hideall'){
+		document.getElementById(section_name+'_body').style.display = "block";
+	}
 }
 
 function setOutlookData(data){
@@ -61,21 +67,21 @@ function setSummaryData(data){
 function setChartData(data){
 	console.log(data);
 	var date = new Date();
-	var dateFormatted = date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear();
-	var chartTitle = "Stock Price"+ticker+" "+dateFormatted;
+	var dateFormatted = date.getFullYear()+'-'+date.getDate()+'-'+(date.getMonth()+1);
+	var chartTitle = "Stock Price "+document.querySelector('#search_bar input').value.toUpperCase()+" "+dateFormatted;
 
 	var data1 = [];
 	var data2 = [];
 
 	data.forEach(element => {
-		var x1, x2 = element['date'];
+		var x1 = x2 = Date.parse(element['date']);
 		var y1 = element['close'];
 		var y2 = element['volume'];
-		data1.append([x1, y1]);
-		data2.append([x2, y2]);
+		data1.push([x1, y1]);
+		data2.push([x2, y2]);
 	});
 
-	setHighChartsData(data1, data2);
+	setHighChartsData(chartTitle, data1, data2);
 }
 
 function requestStockData(){
@@ -89,8 +95,15 @@ function requestStockData(){
 		    setSummaryData(JSON.parse(obj['summary'])[0]);
 		    setChartData(JSON.parse(obj['chart']));
 			data_ready = true;
+			displaySection('outlook');
 	    }
 	};
 	req.open("GET", api_url+"?stnk="+stnk, true);
 	req.send();
+}
+
+function emptyStockData(){
+	displaySection('hideall');
+	data_ready = false;
+	document.querySelector('#search_bar input').value = '';
 }

@@ -1,66 +1,130 @@
 
-function setHighChartsData(data1, data2){
+function setHighChartsData(title, data1, data2){
     console.log(data1, data2);
-    Highcharts.getJSON(
-        // 'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
-        data1,
-        function (data) {
+    //Highcharts.getJSON(
+        //'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
+        //data1,
+        //function (data) {
 
-            Highcharts.chart('chart_container', {
-                chart: {
-                    zoomType: 'x'
-                },
-                title: {
-                    text: 'USD to EUR exchange rate over time'
-                },
-                subtitle: {
-                    text: document.ontouchstart === undefined ?
-                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-                },
-                xAxis: {
-                    type: 'datetime'
-                },
-                yAxis: {
-                    title: {
-                        text: 'Exchange rate'
-                    }
-                },
-                legend: {
-                    enabled: false
-                },
-                plotOptions: {
-                    area: {
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, Highcharts.getOptions().colors[0]],
-                                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                            ]
-                        },
-                        marker: {
-                            radius: 2
-                        },
-                        lineWidth: 1,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        threshold: null
-                    }
-                },
+            Highcharts.stockChart('chart_container', {
+		        title: {
+		            text: title
+		        },
 
-                series: [{
-                    type: 'area',
-                    name: 'USD to EUR',
-                    data: data
-                }]
+		        subtitle: {
+		            text: 'Source: <a href="https://api.tiingo.com/">Tiingo</a>'
+		        },
+
+		        xAxis: {
+		        	title: '', 
+		            gapGridLineWidth: 0,
+				    type: 'datetime'
+		        },
+		        yAxis: [{ 
+				    labels: {
+				        format: '{value}',
+				        style: {
+				            color: '#000000'
+				        }
+				    },
+				    title: {
+				        text: 'Stock Price',
+				        style: {
+				            color: '#000000'
+				        }
+				    }
+				},
+				    {
+			        labels: {
+			            formatter: function() {
+				          return this.value / 1000 + 'k';
+				        },
+				        style: {
+			                color: '#000000'
+			            }
+			        },
+			        title: {
+			            text: 'Volume',
+			            style: {
+			                color: '#000000'
+			            }
+			        },
+				    opposite: true
+			    }],
+
+		        rangeSelector: {
+            		allButtonsEnabled: true,
+		            buttons: [ {
+		                type: 'day',
+		                count: 7,
+		                text: '7d'
+		            }, {
+		                type: 'day',
+		                count: 15,
+		                text: '15d'
+		            }, {
+		                type: 'month',
+		                count: 1,
+		                text: '1m'
+		            }, {
+		                type: 'month',
+		                count: 3,
+		                text: '3m'
+		            }, {
+		                type: 'month',
+		                count: 6,
+		                text: '6m'
+		            }],
+		            selected: 4
+		        },
+
+		        series: [{
+		            name: 'AAPL',
+		            type: 'area',
+		            data: data1,
+		            yAxis: 0,
+		            gapSize: 5,
+		            tooltip: {
+		                valueDecimals: 2
+		            },
+		            fillColor: {
+		                linearGradient: {
+		                    x1: 0,
+		                    y1: 0,
+		                    x2: 0,
+		                    y2: 1
+		                },
+		                stops: [
+		                    [0, Highcharts.getOptions().colors[0]],
+		                    [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+		                ]
+		            },
+		            threshold: null
+		        },
+		        {
+		            name: 'BAPL',
+		            type: 'column',
+		            yAxis: 1,
+		            data: data2,
+		            gapSize: 5,
+		            tooltip: {
+		                valueDecimals: 2
+		            },
+		            fillColor: {
+		                linearGradient: {
+		                    x1: 0,
+		                    y1: 0,
+		                    x2: 0,
+		                    y2: 1
+		                },
+		                stops: [
+		                    [0, Highcharts.getOptions().colors[0]],
+		                    [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+		                ]
+		            },
+		            threshold: null
+		        }]
             });
-        }
-    );
+        //}
+    //);
 }

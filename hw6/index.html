@@ -49,6 +49,11 @@ body {
   margin:0 25px;
 }
 
+input{
+  border-radius: 3px;
+  border-color: transparent;
+}
+
 .seperator{
   margin:15px 0;
   border:lightgrey;
@@ -93,9 +98,14 @@ img{
   width: 15px;
   margin-left: 10px;
 }
+#chart-body{
+  height: 600px;
+}
+
 </style>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
+<!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -103,11 +113,14 @@ img{
 
 </head>
 <body>
-  <div id='splash'>
+  <form id='splash' onsubmit='return requestStockData();'>
     <h1>Stock Search</h1>
-    <div id='search_bar'>Enter Stock Ticker Symbol <span>*</span><input type="text" name=""></div>
-    <div id='search_buttons'><button onclick='requestStockData()'>Search</button><button>Clear</button></div>
-  </div>
+    <div id='search_bar'>Enter Stock Ticker Symbol <span>*</span><input type="text" name="ticker" required></div>
+    <div id='search_buttons'>
+      <button type="submit">Search</button>
+      <button type="button" onclick='emptyStockData()'>Clear</button>
+    </div>
+  </form>
   <div class='seperator'></div>
 
   <div id='results'>
