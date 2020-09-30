@@ -58,6 +58,26 @@ function setSummaryData(data){
 	}
 }
 
+function setChartData(data){
+	console.log(data);
+	var date = new Date();
+	var dateFormatted = date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear();
+	var chartTitle = "Stock Price"+ticker+" "+dateFormatted;
+
+	var data1 = [];
+	var data2 = [];
+
+	data.forEach(element => {
+		var x1, x2 = element['date'];
+		var y1 = element['close'];
+		var y2 = element['volume'];
+		data1.append([x1, y1]);
+		data2.append([x2, y2]);
+	});
+
+	setHighChartsData(data1, data2);
+}
+
 function requestStockData(){
 	var stnk = document.querySelector('#search_bar input').value
 	var req = new XMLHttpRequest();
@@ -67,6 +87,7 @@ function requestStockData(){
 			console.log(JSON.parse(obj['outlook']));
 		    setOutlookData(JSON.parse(obj['outlook']));
 		    setSummaryData(JSON.parse(obj['summary'])[0]);
+		    setChartData(JSON.parse(obj['chart']));
 			data_ready = true;
 	    }
 	};

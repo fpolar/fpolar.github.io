@@ -94,6 +94,13 @@ img{
   margin-left: 10px;
 }
 </style>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
 </head>
 <body>
   <div id='splash'>
@@ -107,7 +114,7 @@ img{
     <div id='header'>
       <div id='outlook' onclick="displaySection('outlook');">Company Outlook</div>
       <div id='summary' onclick="displaySection('summary');">Stock Summary</div>
-      <div id='charts' onclick="displaySection('charts');">Charts</div>
+      <div id='charts' onclick="displaySection('chart');">Charts</div>
       <div id='news' onclick="displaySection('news');">Latest News</div></div>
 
     <div class='result_body' id='outlook_body'>
@@ -133,10 +140,11 @@ img{
         <tr><th>Number of Shares Traded</th><td id='s-volume'>PLACEHOLDER</td></tr>
       </table>
     </div>
-    <div class='result_body' id='chart_body'></div>
+    <div class='result_body' id='chart_body'><div id='chart_container'></div></div>
     <div class='result_body' id='news_body'><div class='card'><div class='info'><b>TITLE</b><p>DATE</p><a href="">See Original Post</a></div></div>
     <b class='error'>Error : No record has been found, please enter a valid symbol.</b>
   </div>
+  <script src="chart.js"></script>
   <script src="stocks.js"></script>
 </body>
 </html>
