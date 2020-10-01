@@ -84,6 +84,7 @@ input{
 table{
   text-align: left;
   width:100%;
+  table-layout: auto;
 }
 td{
   background-color: lightgrey;
@@ -92,7 +93,6 @@ td{
 th{
   background-color: darkgrey;
   width: 35%;
-  height:50px;
 }
 img{
   width: 15px;
@@ -101,10 +101,33 @@ img{
 #chart-body{
   height: 600px;
 }
+.card{
+  height: 80px;
+  background-color: lightgrey;
+  line-height: 2pt;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  padding: 10px 5px;
+  text-align: left;
+}
+
+.n-img, .n-info{
+  float: left;
+}
+
+.n-info{
+  margin-top: 10px;
+}
+
+.n-img{
+  object-fit: cover;
+  width:80px;
+  height:80px;
+  margin-right: 8px; 
+}
 
 </style>
 
-<!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -154,9 +177,19 @@ img{
       </table>
     </div>
     <div class='result_body' id='chart_body'><div id='chart_container'></div></div>
-    <div class='result_body' id='news_body'><div class='card'><div class='info'><b>TITLE</b><p>DATE</p><a href="">See Original Post</a></div></div>
-    <b class='error'>Error : No record has been found, please enter a valid symbol.</b>
+    <div class='result_body' id='news_body'>
+      <div class='card'>
+        <img src="" class='n-img'>
+        <div class='n-info'>
+          <b class='n-title'>TITLE</b>
+          <p class='n-date'>DATE</p>
+          <a href="" class='n-link' target="_blank">See Original Post</a>
+      </div>
+    </div>
+    
   </div>
+  <b class='result_body' id='error_body' style='display: none;'>Error : No record has been found, please enter a valid symbol.</b>
+</div>
   <script src="chart.js"></script>
   <script src="stocks.js"></script>
 </body>

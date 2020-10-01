@@ -25,7 +25,9 @@ from dateutil.relativedelta import *
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='', 
+            static_folder='static')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -37,8 +39,7 @@ api_key = 'ba0e8e5efb0a41f78fd9c83f4054c355'
 
 @app.route('/')
 def hello():
-    """Return a friendly HTTP greeting."""
-    return '<b>STONKS</b>'
+    return app.send_static_file('index.html')
 
 @app.route('/stonks', methods=['GET'])
 def GETMESTONKS():

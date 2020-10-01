@@ -27,7 +27,6 @@ function setOutlookData(data){
 		Object.keys(data).forEach(field => {
 			var field_elem_id = "o-"+field;
 			var field_elem = document.getElementById(field_elem_id);
-			console.log(field_elem_id);
 			if(field_elem){
 				field_elem.textContent = data[field];
 			}
@@ -42,7 +41,6 @@ function setSummaryData(data){
 		Object.keys(data).forEach(field => {
 			var field_elem_id = "s-"+field;
 			var field_elem = document.getElementById(field_elem_id);
-			console.log(field_elem_id);
 			if(field_elem){
 				field_elem.textContent = data[field];
 			}
@@ -65,7 +63,6 @@ function setSummaryData(data){
 }
 
 function setChartData(data){
-	console.log(data);
 	var date = new Date();
 	var dateFormatted = date.getFullYear()+'-'+date.getDate()+'-'+(date.getMonth()+1);
 	var chartTitle = "Stock Price "+document.querySelector('#search_bar input').value.toUpperCase()+" "+dateFormatted;
@@ -84,18 +81,45 @@ function setChartData(data){
 	setHighChartsData(chartTitle, data1, data2);
 }
 
+function setNewsData(data){
+	var cardTemplate = document.querySelector('.card');
+	cardTemplate.style.display = "block";
+	data['articles'].forEach(element => {
+		var imgURL = String(element['urlToImage']);
+		var title = String(element['title']);
+		var dateObj = new Date(element['publishedAt']);
+		var date = dateObj.getMonth()+"/"+dateObj.getDate()+"/"+dateObj.getFullYear();
+		var link = String(element['url']);
+		if(!(imgURL.length ==0 || title.length ==0 || date.length ==0 || link.length == 0)){
+			var newCard = cardTemplate.cloneNode(true);
+			newCard.querySelector('.n-img').src = imgURL;
+			newCard.querySelector('.n-title').textContent = title;
+			newCard.querySelector('.n-date').textContent = date;
+			newCard.querySelector('.n-link').href = link;
+			document.getElementById("news_body").appendChild(newCard);
+		}
+	});
+	cardTemplate.style.display = "none";
+}
+
 function requestStockData(){
 	var stnk = document.querySelector('#search_bar input').value
 	var req = new XMLHttpRequest();
 	req.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    	var obj = JSON.parse(req.responseText);
-			console.log(JSON.parse(obj['outlook']));
-		    setOutlookData(JSON.parse(obj['outlook']));
-		    setSummaryData(JSON.parse(obj['summary'])[0]);
-		    setChartData(JSON.parse(obj['chart']));
-			data_ready = true;
-			displaySection('outlook');
+	    	if(obj['summary'].length == 2){
+	    		data_ready=true;
+	    		displaySection('error');
+	    		data_ready=false;
+	    	}else{
+			    setOutlookData(JSON.parse(obj['outlook']));
+			    setSummaryData(JSON.parse(obj['summary'])[0]);
+			    setChartData(JSON.parse(obj['chart']));
+			    setNewsData(JSON.parse(obj['news']));
+				data_ready = true;
+				displaySection('outlook');
+	    	}
 	    }
 	};
 	req.open("GET", api_url+"?stnk="+stnk, true);

@@ -1,11 +1,5 @@
 
 function setHighChartsData(title, data1, data2){
-    console.log(data1, data2);
-    //Highcharts.getJSON(
-        //'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
-        //data1,
-        //function (data) {
-
             Highcharts.stockChart('chart_container', {
 		        title: {
 		            text: title
