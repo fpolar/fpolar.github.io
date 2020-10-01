@@ -2,6 +2,7 @@
 <html>
 <head>
 <style type="text/css">
+
 body {
   font-family: Arial;
   color:black; 
@@ -13,8 +14,7 @@ body {
 }
 
 #splash, .seperator, #results{
-  /*width: 1200px;*/
-  min-width: 1100px;
+  width: 1200px; 
 }
 
 #splash{
@@ -85,6 +85,9 @@ table{
   text-align: left;
   width:100%;
   table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-color: darkgrey
 }
 td{
   background-color: lightgrey;
@@ -93,6 +96,10 @@ td{
 th{
   background-color: darkgrey;
   width: 35%;
+}
+table, td, th{
+  border: 1px solid grey;
+  line-height: 1.5;
 }
 img{
   width: 15px;
@@ -117,6 +124,7 @@ img{
 
 .n-info{
   margin-top: 10px;
+  width:90%;
 }
 
 .n-img{
@@ -124,6 +132,21 @@ img{
   width:80px;
   height:80px;
   margin-right: 8px; 
+}
+
+.n-title{
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#o-description {
+  width: 300px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  border: none;
+  width: 99.9%;
 }
 
 </style>

@@ -48,7 +48,7 @@ function setSummaryData(data){
 		document.getElementById('s-timestamp').text = document.getElementById('s-timestamp').textContent.substring(0,10);
 		
 		var change = data['last'] - data['prevClose'];
-		var changePercent  = change/data['prevClose']
+		var changePercent  = change/data['prevClose']*100
 		var arrow_img = ""
 		if(change < 0){
 			arrow_img = "<img src='https://csci571.com/hw/hw6/images/RedArrowDown.jpg'>"
@@ -57,8 +57,8 @@ function setSummaryData(data){
 			arrow_img = "<img src='https://csci571.com/hw/hw6/images/GreenArrowUp.jpg'>"
 		}
 
-		document.getElementById('s-change').innerHTML = change+arrow_img;
-		document.getElementById('s-changePercent').innerHTML = changePercent+arrow_img;
+		document.getElementById('s-change').innerHTML = change.toPrecision(2)+arrow_img;
+		document.getElementById('s-changePercent').innerHTML = changePercent.toPrecision(2)+"%"+arrow_img;
 	}
 }
 
