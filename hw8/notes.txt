@@ -1,0 +1,7 @@
+This is not a good course, it is a series of assignents with lists of things to google
+'we warned you'
+
+Structure: 
+	Top = nodejs files and app folder (back end)
+		app folder = angular stuff and built dist from that
+			dist = front end that needs to be deployed to gcp
