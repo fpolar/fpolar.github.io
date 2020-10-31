@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule,FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,7 +21,11 @@ import { SearchComponent } from './components/search/search.component';
     BrowserModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    NgbModule
+    MatAutocompleteModule,
+    NgbModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

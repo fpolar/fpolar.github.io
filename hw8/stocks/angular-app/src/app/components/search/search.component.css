@@ -26,6 +26,9 @@
     border-color: initial;
     box-shadow: none;
 }
+.input-group-append {
+    margin-top: -2px;
+}
 
 /* clears the ‘X’ from Internet Explorer */
 input[type=search]::-ms-clear { display: none; width : 0; height: 0; }
