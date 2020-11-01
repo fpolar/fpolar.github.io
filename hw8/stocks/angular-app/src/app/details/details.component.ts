@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavComponent } from '../components/nav/nav.component';
 import { MatTabsModule, MatTabGroup } from '@angular/material/tabs';
 
 @Component({
@@ -7,7 +8,7 @@ import { MatTabsModule, MatTabGroup } from '@angular/material/tabs';
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
-
+  myNav = new NavComponent();
   ticker: string;
   name: string;
   price: string;
@@ -18,6 +19,7 @@ export class DetailsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  	this.myNav.active = 0;
   }
 
 }

@@ -15,13 +15,15 @@ import { NavComponent } from './components/nav/nav.component';
 import { SearchComponent } from './components/search/search.component';
 import { ConfigService } from './services/config.service';
 import { DetailsComponent } from './details/details.component';
+import { StockSearchComponent } from './stock-search/stock-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     SearchComponent,
-    DetailsComponent
+    DetailsComponent,
+    StockSearchComponent
   ],
   imports: [
     BrowserModule,

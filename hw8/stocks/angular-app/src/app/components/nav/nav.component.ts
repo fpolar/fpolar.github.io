@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-nav',
@@ -6,11 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  active = 1;
+  @Input() active: Number;
+
   public isMenuCollapsed = true;
   constructor() { }
 
   ngOnInit(): void {
   }
+
+
 
 }

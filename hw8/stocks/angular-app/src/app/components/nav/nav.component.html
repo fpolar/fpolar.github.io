@@ -10,15 +10,15 @@
   <!-- Step 2: Add the ngbCollapse directive to the element below. -->
   <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse ">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active">
+      <li class="nav-item" [routerLinkActiveOptions]="{exact: true}" [routerLinkActive]="['active']">
         <!-- Step 4: Close the menu when a link is clicked. -->
-        <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Search</a>
+        <a class="nav-link" [routerLink]="'/'" (click)="isMenuCollapsed = true">Search</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Watchlist</a>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="'/Watchlist'" (click)="isMenuCollapsed = true">Watchlist</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Portfolio</a>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" [routerLink]="'/Portfolio'" (click)="isMenuCollapsed = true">Portfolio</a>
       </li>
     </ul>
   </div>
