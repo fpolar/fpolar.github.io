@@ -47,4 +47,9 @@ export class SearchComponent implements OnInit {
 	  	this.filteredOptions = data;
 	  });
   }
+
+  onSubmit() {
+  	// this.http.get("http://localhost:3000/api/tick-search/" + value)
+  	window.location.assign('http://localhost:3000/details/'+this.myControl.value);
+  }
 }

@@ -1,5 +1,5 @@
 <div id='ig-container' class="row">
-        <form class=" input-group input-group-lg col-md-4 ">
+        <form class=" input-group input-group-lg col-md-4 " (ngSubmit)="onSubmit()">
             <input class="form-control py-2 border-right-0" type="search" placeholder="Enter stock name"  aria-label="Large" aria-describedby="inputGroup-sizing-lg" id="search-input" 
             matInput
             [formControl]="myControl"
