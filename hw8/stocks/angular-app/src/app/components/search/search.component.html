@@ -1,12 +1,4 @@
 <div id='ig-container' class="row">
-<!--     <div class="input-group input-group-lg col-md-4">
-        <input class="form-control py-2 border-right-0" type="search" placeholder="Enter stock name"  aria-label="Large" aria-describedby="inputGroup-sizing-lg" id="search-input">
-        <span class="input-group-append">
-            <button class="btn btn-outline-secondary py-2 border-left-0" type="button">
-                <i class="fa fa-search"></i>
-            </button>
-        </span>
-    </div> -->
         <form class=" input-group input-group-lg col-md-4 ">
             <input class="form-control py-2 border-right-0" type="search" placeholder="Enter stock name"  aria-label="Large" aria-describedby="inputGroup-sizing-lg" id="search-input" 
             matInput
@@ -17,15 +9,9 @@
                     <i class="fa fa-search"></i>
                 </button>
             </span>
-            <!-- <input type="text"
-                   placeholder="Pick one"
-                   aria-label="Number"
-                   matInput
-                   [formControl]="myControl"
-                   [matAutocomplete]="auto"> -->
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
+              <mat-option *ngFor="let option of filteredOptions" [value]="option">
+                {{option.name}}
               </mat-option>
             </mat-autocomplete>
         </form>
