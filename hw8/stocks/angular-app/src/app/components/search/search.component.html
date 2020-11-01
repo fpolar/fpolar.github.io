@@ -10,8 +10,8 @@
                 </button>
             </span>
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions" [value]="option">
-                {{option.name}}
+              <mat-option *ngFor="let option of filteredOptions" [value]="option.ticker">
+                {{option.ticker}} | {{option.name}}
               </mat-option>
             </mat-autocomplete>
         </form>

@@ -25,23 +25,9 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
- //  	this.currentDBUserBS$ = this.myControl.valueChanges;
-	// this.currentDBUserBS$.subscribe(data => {
- //        console.log('s');
- //        if (data['Search'] == undefined) {
- //          this.errorMsg = data['Error'];
- //          this.filteredOptions = [];
- //        } else {
- //          this.errorMsg = "";
- //          this.filteredOptions = data['Search'];
- //        }
-
- //        console.log(this.filteredOptions);
- //      });
-
 	this.myControl.valueChanges
 	  .pipe(
-	    debounceTime(500),
+	    debounceTime(1000),
 	    tap(() => {
 	      console.log('t');
 	      this.errorMsg = "";
