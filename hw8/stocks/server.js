@@ -28,7 +28,7 @@ app.get('/watchlist', (req, res) => {
 app.get('/api/details/*', (req, res) => {
   var ticker = req.originalUrl.substring(req.originalUrl.lastIndexOf('/') + 1)
   const tiingo_summary_path = `https://api.tiingo.com/iex/`;
-  const tiingo_util_path = `https://api.tiingo.com/tiingo/utilities/search/`;
+  const tiingo_daily_path = `https://api.tiingo.com/tiingo/daily/`;
   var requests_completed = 0;
   var request_num = 2;
   const out = {};
@@ -48,14 +48,14 @@ app.get('/api/details/*', (req, res) => {
     }
   });
 
-  request(tiingo_util_path + ticker + '?token='+token, { json: true }, (err, result, body) => {
+  request(tiingo_daily_path + ticker + '?token='+token, { json: true }, (err, result, body) => {
     if (err) { return console.log(err); }
-    for (key in body[0]) {
-      if(body[0].hasOwnProperty(key)){
-        out[key] = body[0][key];
+    for (key in body) {
+      if(body.hasOwnProperty(key)){
+        out[key] = body[key];
       }
     }
-
+    console.log(body);
     requests_completed++;
     if(requests_completed == request_num){
       res.send(out);

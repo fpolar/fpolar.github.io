@@ -2,29 +2,36 @@
   <app-nav></app-nav>
   <div class="container">
   	 <div class="row">
-  	 	<h1>{{ticker}} <fa-icon [icon]="farStar"></fa-icon><fa-icon [icon]="fasStar"></fa-icon></h1>
-  	 	<h1 style='float:right'>{{price}}</h1>
+  	 	<h1 class="col" >{{ticker}} <fa-icon (click)="toggleStar()" [icon]="faStar"></fa-icon></h1>
+  	 	<h1 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'>{{price| currency:'string':''}}</h1>
   	 </div>
   	 <div class="row">
-  	 	<h2 class="text-muted">{{name}}</h2>
+  	 	<h2 class="col text-muted">{{name}}</h2>
   	 	<!-- <h2 id='header-change'><fa-icon [icon]="farCaretDown"></fa-icon>{{change}}({{percent}})</h2> -->
-  	 	<h2 style='float:right'>{{change}}</h2>
+  	 	<h2 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
+  	 </div> 
+  	 <div class="row">
+  	 	<h3 class="col text-muted">{{exchange}}</h3>
+  	 	<h3 class="col text-muted" style='text-align: right'>{{date}}</h3>
   	 </div>
   	 <div class="row">
-  	 	<h3 class="text-muted">{{exchange}}</h3>
-  	 	<h3 class="text-muted" style='float:right'>{{date}}</h3>
+  	 	<div class='col'>
+  	 		<button class='btn-sm btn btn-success'>Buy</button>
+  	 	</div>
   	 </div>
   	 <div class="row">
-  	 	<button>Buy</button>
-  	 </div>
-  	 <div class="row">
-  	 	<h6>{{market}}</h6>
-  	 </div>
+  	 	<div class="col"></div>
+  	 	<h6 [className]="market ? 'bg-success align-self-center' : 'bg-danger align-self-center'">{{market}}</h6>
+  	 	<div class="col"></div>
+  	 </div> 
   	<h2></h2>
+	<mat-tab-group mat-stretch-tabs class='row'>
+	  <mat-tab label="Summary">
+	  </mat-tab>
+	  <mat-tab label="Top News">
+	  </mat-tab>
+	  <mat-tab label="Charts">
+	  </mat-tab>
+	</mat-tab-group>
   </div>
-  <mat-tab-group>
-    <mat-tab label="First"> Content 1 </mat-tab>
-    <mat-tab label="Second"> Content 2 </mat-tab>
-    <mat-tab label="Third"> Content 3 </mat-tab>
-  </mat-tab-group>
 </div>
