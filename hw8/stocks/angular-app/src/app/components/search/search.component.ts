@@ -3,8 +3,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {map, startWith, debounceTime, tap,distinctUntilChanged, switchMap, finalize} from 'rxjs/operators';
-import { ConfigService } from '../../services/config.service';
+import { map, startWith, debounceTime, tap,distinctUntilChanged, switchMap, finalize } from 'rxjs/operators';
+
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -16,12 +17,12 @@ export class SearchComponent implements OnInit {
 	public currentDBUserBS$: any;
 	options: string[] = ['One', 'Two', 'Three'];
 	filteredOptions: any;
-	// filteredOptions: Observable<string[]>;
 	isLoading = false;
     errorMsg: string;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -49,7 +50,9 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit() {
-  	// this.http.get("http://localhost:3000/api/tick-search/" + value)
-  	window.location.assign('http://localhost:3000/details/'+this.myControl.value);
+  	 this.router.navigate(['/details/'+this.myControl.value]);
+  	 //replace localhost with NODE server location, not angular
+  	 //window.location.assign('http://localhost:3000/details/'+this.myControl.value);
+  	 console.log('x');
   }
 }
