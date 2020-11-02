@@ -1,6 +1,27 @@
 <div>
   <app-nav></app-nav>
-  <h1>{{ticker}}<span class="glyphicon glyphicon-star-empty"></span></h1>
+  <div class="container">
+  	 <div class="row">
+  	 	<h1>{{ticker}} <fa-icon [icon]="farStar"></fa-icon><fa-icon [icon]="fasStar"></fa-icon></h1>
+  	 	<h1 style='float:right'>{{price}}</h1>
+  	 </div>
+  	 <div class="row">
+  	 	<h2 class="text-muted">{{name}}</h2>
+  	 	<!-- <h2 id='header-change'><fa-icon [icon]="farCaretDown"></fa-icon>{{change}}({{percent}})</h2> -->
+  	 	<h2 style='float:right'>{{change}}</h2>
+  	 </div>
+  	 <div class="row">
+  	 	<h3 class="text-muted">{{exchange}}</h3>
+  	 	<h3 class="text-muted" style='float:right'>{{date}}</h3>
+  	 </div>
+  	 <div class="row">
+  	 	<button>Buy</button>
+  	 </div>
+  	 <div class="row">
+  	 	<h6>{{market}}</h6>
+  	 </div>
+  	<h2></h2>
+  </div>
   <mat-tab-group>
     <mat-tab label="First"> Content 1 </mat-tab>
     <mat-tab label="Second"> Content 2 </mat-tab>

@@ -25,9 +25,42 @@ app.get('/watchlist', (req, res) => {
   res.send('The prof said hed be nice about covid, but I still despise this assignment')
 })
 
-app.get('/details/*', (req, res) => {
+app.get('/api/details/*', (req, res) => {
   var ticker = req.originalUrl.substring(req.originalUrl.lastIndexOf('/') + 1)
-  res.send('The prof said hed be nice about covid, but I still despise this assignment')
+  const tiingo_summary_path = `https://api.tiingo.com/iex/`;
+  const tiingo_util_path = `https://api.tiingo.com/tiingo/utilities/search/`;
+  var requests_completed = 0;
+  var request_num = 2;
+  const out = {};
+  let key;
+
+  request(tiingo_summary_path + ticker + '?token='+token, { json: true }, (err, result, body) => {
+    if (err) { return console.log(err); }
+    for (key in body[0]) {
+      if(body[0].hasOwnProperty(key)){
+        out[key] = body[0][key];
+      }
+    }
+
+    requests_completed++;
+    if(requests_completed == request_num){
+      res.send(out);
+    }
+  });
+
+  request(tiingo_util_path + ticker + '?token='+token, { json: true }, (err, result, body) => {
+    if (err) { return console.log(err); }
+    for (key in body[0]) {
+      if(body[0].hasOwnProperty(key)){
+        out[key] = body[0][key];
+      }
+    }
+
+    requests_completed++;
+    if(requests_completed == request_num){
+      res.send(out);
+    }
+  });
 })
 
 app.get('/api/tick-search/*', (req, res) => {
@@ -36,13 +69,6 @@ app.get('/api/tick-search/*', (req, res) => {
   const tiingo_search_path = `https://api.tiingo.com/tiingo/utilities/search/`;
 
   const results$ = RxHR.get(tiingo_search_path + ticker + '?token='+token, {json: true}).pipe(map(response => response.body));;
-
-  request(tiingo_search_path + ticker + '?token='+token, { json: true }, (err, result, body) => {
-    if (err) { return console.log(err); }
-    // console.log(body.url);
-    // console.log(body.explanation);
-    //res.json(result);
-  });
 
   results$.subscribe(console.log);
   results$.subscribe(

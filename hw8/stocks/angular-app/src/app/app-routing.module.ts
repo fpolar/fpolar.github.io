@@ -4,7 +4,7 @@ import { DetailsComponent } from './details/details.component';
 import { StockSearchComponent } from './stock-search/stock-search.component';
 
 const routes: Routes = [
-	{path:'details', component: DetailsComponent},
+	{path:'details/:tick', component: DetailsComponent},
 	{path:'', component: StockSearchComponent}
 ];
 
