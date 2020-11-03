@@ -136,93 +136,16 @@ export class DetailsComponent implements OnInit {
 
         //highchart init
         this.chartOptions = {
-              title: {
-                  text: this.ticker
-              },
-
-              xAxis: {
-                type: 'datetime'
-              },
-              yAxis: [{ 
-              labels: {
-                  format: '{value}',
-                  style: {
-                      color: '#000000'
-                  }
-              },
-              title: {
-                  text: 'Stock Price',
-                  style: {
-                      color: '#000000'
-                  }
-              }
-            },
-              {
-                labels: {
-                    formatter: function() {
-                    return this.value / 1000 + 'k';
-                  },
-                  style: {
-                        color: '#000000'
-                    }
-                },
-                title: {
-                    text: 'Volume',
-                    style: {
-                        color: '#000000'
-                    }
-                },
-              opposite: true
-            }],
-            series: [{
-                name: this.ticker,
-                type: 'area',
-                data: data1,
-                yAxis: 0,
-                gapSize: 5,
-                tooltip: {
-                    valueDecimals: 2
-                },
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, "255,255,255"]
-                    ]
-                },
-                threshold: null
-            },
-            {
-                name: this.ticker,
-                type: 'area',
-                data: data2,
-                yAxis: 1,
-                gapSize: 5,
-                tooltip: {
-                    valueDecimals: 2
-                },
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, "255,255,255"]                    
-                    ]
-                },
-                threshold: null
-            }]
-            };
-          this.updateFlag = true;
-          });
+          series: [{
+            data: data1,
+            type: 'line'
+          },{
+          data: data2,
+          type: 'line'
+          }]
+        } 
+        this.updateFlag = true;
+        });
        })
 
   }
