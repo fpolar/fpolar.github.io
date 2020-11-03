@@ -11,6 +11,6 @@ h1 fa-icon{
 .bg-success{
 	background-color: rgba(40, 167, 69, .25) !important;
 }
-.bg-failure{
+.bg-danger{
 	background-color: rgba(220, 53, 69, .25) !important;
 }

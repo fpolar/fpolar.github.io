@@ -25,6 +25,31 @@ app.get('/watchlist', (req, res) => {
   res.send('The prof said hed be nice about covid, but I still despise this assignment')
 })
 
+
+app.get('/api/chart-data/*', (req, res) => {
+
+  var temp = req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/'))
+  var ticker = req.originalUrl.substring(req.originalUrl.lastIndexOf('/') + 1)
+  var startDate = temp.substring(temp.lastIndexOf('/') + 1)
+  // var tiingo_chart_path = 'https://api.tiingo.com/iex/'+ticker+'/prices?startDate='+startDate+'&resampleFreq=12hour&columns=open,high,low,close,volume&token=';
+  var tiingo_chart_path = 'https://api.tiingo.com/iex/'+ticker+'/prices?startDate='+startDate+'&columns=open,high,low,close,volume&token=';
+
+  request(tiingo_chart_path+token, { json: true }, (err, result, body) => {
+    if (err) { return console.log(err); }
+    // for (key in body[0]) {
+    //   if(body[0].hasOwnProperty(key)){
+    //     out[key] = body[0][key];
+    //   }
+    // }
+    console.log(temp);
+    console.log(ticker);
+    console.log(startDate);
+    console.log(body);
+    var out = {'charts':body};
+    res.send(out);
+  });
+})
+
 app.get('/api/details/*', (req, res) => {
   var ticker = req.originalUrl.substring(req.originalUrl.lastIndexOf('/') + 1)
   const tiingo_summary_path = `https://api.tiingo.com/iex/`;

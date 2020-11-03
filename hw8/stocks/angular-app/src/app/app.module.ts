@@ -7,6 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule,FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,7 +38,8 @@ import { StockSearchComponent } from './stock-search/stock-search.component';
     FormsModule,
     ReactiveFormsModule,
     MatTabsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

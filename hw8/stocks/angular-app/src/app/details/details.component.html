@@ -21,12 +21,44 @@
   	 </div>
   	 <div class="row">
   	 	<div class="col"></div>
-  	 	<h6 [className]="market ? 'bg-success align-self-center' : 'bg-danger align-self-center'">{{market}}</h6>
+  	 	<h6 [className]="marketStatus ? 'bg-success align-self-center' : 'bg-danger align-self-center'">{{market}}</h6>
   	 	<div class="col"></div>
   	 </div> 
   	<h2></h2>
 	<mat-tab-group mat-stretch-tabs class='row'>
 	  <mat-tab label="Summary">
+		  <div class="container">
+	  	 	<div class="col info_col">
+  				<div class="row">
+  	 				<div class="col">
+		  				<div class="row">High Price: {{hiPrice}}</div>
+		  				<div class="row">Low Price: {{loPrice}}</div>
+		  				<div class="row">Open Price: {{openPrice}}</div>
+		  				<div class="row">Prev. Close: {{prevClose}}</div>
+		  				<div class="row">Volume: {{volume}}</div>
+  	 				</div>
+  	 				<div [className]="marketStatus ? 'col' : 'col d-none'"> 
+		  				<div class="row">Mid Price: {{midPrice}}</div>
+		  				<div class="row">Ask Price: {{askPrice}}</div>
+		  				<div class="row">Ask Size: {{askSize}}</div>
+		  				<div class="row">Bid Price: {{bidPrice}}</div>
+		  				<div class="row">Bid Size: {{bidSize}}</div>
+  	 				</div>
+  				</div>
+  				<div class="container">
+	  				<div class="row"><h3 class='col text-center font-weight-bold'>Company's Description</h3></div>
+	  				<div class="row">Start Date: {{startDate}}</div>
+	  				<div class="row">{{desc}}</div>
+  				</div>
+	  	 	</div>
+	  	 	<div class="col chart_col">
+	  	 		<highcharts-chart 
+				  [Highcharts]="Highcharts"
+				  [(update)]="updateFlag"
+				  [options]="chartOptions"
+				></highcharts-chart>
+	  	 	</div>
+		  </div>
 	  </mat-tab>
 	  <mat-tab label="Top News">
 	  </mat-tab>
