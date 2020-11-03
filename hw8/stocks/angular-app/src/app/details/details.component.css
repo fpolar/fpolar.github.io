@@ -14,3 +14,7 @@ h1 fa-icon{
 .bg-danger{
 	background-color: rgba(220, 53, 69, .25) !important;
 }
+
+.info_col .row{
+	margin:0;
+}

@@ -1,5 +1,47 @@
 <div>
   <app-nav></app-nav>
+  <ng-template #content let-modal> 
+    <div class="modal-header"> 
+        <h4 class="modal-title" 
+            id="modal-basic-title"> 
+            Geeks of Geeks 
+        </h4> 
+        <button type="button" class="close"
+                aria-label="Close" (click)= 
+                "modal.dismiss('Cross click')"> 
+  
+            <span aria-hidden="true"> 
+                × 
+            </span> 
+        </button> 
+    </div> 
+    <div class="modal-body"> 
+        <form> 
+            <div class="form-group"> 
+                <label for="dateOfBirth"> 
+                    Current Price: {{price}} 
+                </label> 
+                <div class="input-group"> 
+                    <input id="purchase-quantity" 
+                        class="form-control" 
+                        placeholder="0" 
+                        name="dp" 
+                        type="number" 
+                        [(ngModel)]="purchaseQuantity"> 
+                </div> 
+            </div> 
+        </form> 
+    </div> 
+    <div class="modal-footer"> 
+    	<span class='mr-auto' >Total: {{purchaseQuantity*price}}</span>
+        <button type="button" 
+            class="btn btn btn-success" 
+            (click)="modal.close('Save click')"
+            [disabled]="purchaseQuantity <= 0"> 
+            Buy 
+        </button> 
+    </div> 
+  </ng-template> 
   <div class="container">
   	 <div class="row">
   	 	<h1 class="col" >{{ticker}} <fa-icon (click)="toggleStar()" [icon]="faStar"></fa-icon></h1>
@@ -7,7 +49,6 @@
   	 </div>
   	 <div class="row">
   	 	<h2 class="col text-muted">{{name}}</h2>
-  	 	<!-- <h2 id='header-change'><fa-icon [icon]="farCaretDown"></fa-icon>{{change}}({{percent}})</h2> -->
   	 	<h2 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
   	 </div> 
   	 <div class="row">
@@ -16,7 +57,7 @@
   	 </div>
   	 <div class="row">
   	 	<div class='col'>
-  	 		<button class='btn-sm btn btn-success'>Buy</button>
+  	 		<button class='btn-sm btn btn-success' (click)="open(content)">Buy</button>
   	 	</div>
   	 </div>
   	 <div class="row">
@@ -25,9 +66,9 @@
   	 	<div class="col"></div>
   	 </div> 
   	<h2></h2>
-	<mat-tab-group mat-stretch-tabs class='row'>
+	<mat-tab-group mat-stretch-tabs>
 	  <mat-tab label="Summary">
-		  <div class="container">
+		  <div class="row">
 	  	 	<div class="col info_col">
   				<div class="row">
   	 				<div class="col">
@@ -35,7 +76,7 @@
 		  				<div class="row">Low Price: {{loPrice}}</div>
 		  				<div class="row">Open Price: {{openPrice}}</div>
 		  				<div class="row">Prev. Close: {{prevClose}}</div>
-		  				<div class="row">Volume: {{volume}}</div>
+		  				<div class="row">Volume: {{volume}}</div> 
   	 				</div>
   	 				<div [className]="marketStatus ? 'col' : 'col d-none'"> 
 		  				<div class="row">Mid Price: {{midPrice}}</div>
@@ -53,10 +94,11 @@
 	  	 	</div>
 	  	 	<div class="col chart_col">
 	  	 		<highcharts-chart 
-				  [Highcharts]="Highcharts"
-				  [update]="updateFlag"
-				  [options]="chartOptions"
-				  [oneToOne]="true"
+					[Highcharts]="Highcharts"
+					[update]="updateFlag"
+					[constructorType]="stockChart"
+					[options]="chartOptions"
+					[oneToOne]="true"
 				></highcharts-chart>
 	  	 	</div>
 		  </div>

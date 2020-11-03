@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NavComponent } from '../components/nav/nav.component';
 import { MatTabsModule, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +7,7 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faCaretDown as fasCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp as fasCaretUp } from '@fortawesome/free-solid-svg-icons';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 // import { HighchartsChartModule, HighchartsChartComponent} from 'highcharts-angular';
 import * as Highcharts from 'highcharts';
 
@@ -22,7 +23,7 @@ export class DetailsComponent implements OnInit {
   faCaret = fasCaretDown;
   ticker: string;
   name: string;
-  price: string;
+  price: number;
   change: number;
   changePercent: number;
   changePositive: boolean;
@@ -30,6 +31,9 @@ export class DetailsComponent implements OnInit {
   exchange: string;
   marketStatus: boolean;
   market: string;
+  purchaseQuantity = 0;
+  closeResult = ''; 
+
 
   //summary tab fields
   desc: string;
@@ -53,7 +57,8 @@ export class DetailsComponent implements OnInit {
   updateFlag: boolean = false; // optional boolean
   oneToOneFlag: boolean = true; // optional boolean, defaults to false
   runOutsideAngular: boolean = false; // optional boolean, defaults to false
-  constructor(private http: HttpClient, private route: ActivatedRoute) { }
+
+  constructor(private http: HttpClient, private route: ActivatedRoute, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.ticker = this.route.snapshot.paramMap.get('tick').toUpperCase();
@@ -120,7 +125,6 @@ export class DetailsComponent implements OnInit {
       var chartDateStr = y+"-"+ms+"-"+ds;
 
       this.http.get("http://localhost:3000/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
-        
         var data1 = [];
         var data2 = [];
         response2['charts'].forEach(element => {
@@ -136,14 +140,122 @@ export class DetailsComponent implements OnInit {
 
         //highchart init
         this.chartOptions = {
-          series: [{
-            data: data1,
-            type: 'line'
-          },{
-          data: data2,
-          type: 'line'
-          }]
-        } 
+            title: {
+                text: this.ticker
+            },
+
+            subtitle: {
+                text: 'Source: <a href="https://api.tiingo.com/">Tiingo</a>'
+            },
+
+            xAxis: {
+            type: 'datetime'
+            },
+            yAxis: [{ 
+            labels: {
+                format: '{value}',
+                style: {
+                    color: '#000000'
+                }
+            },
+            title: {
+                text: 'Stock Price',
+                style: {
+                    color: '#000000'
+                }
+            }
+        },
+            {
+              labels: {
+                  formatter: function() {
+                  return this.value / 1000 + 'k';
+                },
+                style: {
+                      color: '#000000'
+                  }
+              },
+              title: {
+                  text: 'Volume',
+                  style: {
+                      color: '#000000'
+                  }
+              },
+            opposite: true
+          }],
+
+            rangeSelector: {
+                allButtonsEnabled: true,
+                buttons: [ {
+                    type: 'day',
+                    count: 7,
+                    text: '7d'
+                }, {
+                    type: 'day',
+                    count: 15,
+                    text: '15d'
+                }, {
+                    type: 'month',
+                    count: 1,
+                    text: '1m'
+                }, {
+                    type: 'month',
+                    count: 3,
+                    text: '3m'
+                }, {
+                    type: 'month',
+                    count: 6,
+                    text: '6m'
+                }],
+                selected: 4
+            },
+
+            series: [{
+                name: 'AAPL',
+                type: 'area',
+                data: data1,
+                yAxis: 0,
+                gapSize: 5,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, '255,255,255']
+                    ]
+                },
+                threshold: null
+            },
+            {
+                name: 'BAPL',
+                type: 'area',
+                yAxis: 1,
+                data: data2,
+                gapSize: 5,
+                tooltip: {
+                    valueDecimals: 2
+                },
+                fillColor: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 0,
+                        y2: 1
+                    },
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, '255,255,255']
+                    ]
+                },
+                threshold: null
+            }]
+            }
         this.updateFlag = true;
         });
        })
@@ -160,5 +272,24 @@ export class DetailsComponent implements OnInit {
       this.faStar = fasStar;
     }
   }
+  open(content) { 
+      this.modalService.open(content, 
+     {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => { 
+        this.closeResult = `Closed with: ${result}`; 
+      }, (reason) => { 
+        this.closeResult =  
+           `Dismissed ${this.getDismissReason(reason)}`; 
+      }); 
+    } 
+    
+    private getDismissReason(reason: any): string { 
+      if (reason === ModalDismissReasons.ESC) { 
+        return 'by pressing ESC'; 
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) { 
+        return 'by clicking on a backdrop'; 
+      } else { 
+        return `with: ${reason}`; 
+      } 
+    } 
 
 }
