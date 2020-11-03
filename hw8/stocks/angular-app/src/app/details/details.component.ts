@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavComponent } from '../components/nav/nav.component';
 import { MatTabsModule, MatTabGroup } from '@angular/material/tabs';
+import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
@@ -9,7 +10,7 @@ import { faCaretDown as fasCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp as fasCaretUp } from '@fortawesome/free-solid-svg-icons';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 // import { HighchartsChartModule, HighchartsChartComponent} from 'highcharts-angular';
-import * as Highcharts from 'highcharts';
+import * as Highcharts from 'highcharts/highstock';
 
 @Component({
   selector: 'app-details',
@@ -48,6 +49,9 @@ export class DetailsComponent implements OnInit {
   bidSize: number;
   prevClose: number;
   volume: number;
+
+  //news fields
+  cards = [];
 
   //highcharts fields
   Highcharts: typeof Highcharts = Highcharts; // required
@@ -107,6 +111,7 @@ export class DetailsComponent implements OnInit {
       this.prevClose = response['prevClose'];
       this.volume = response['volume'];
 
+      //deciding on and formatting date for chart data
       var chartDate = endDate;
       if(this.marketStatus){
         chartDate = startDate;
@@ -115,7 +120,10 @@ export class DetailsComponent implements OnInit {
       console.log(startDate);
       console.log(endDate);
       console.log(response['timestamp']);
-      var d = chartDate.getDate() - 1; //we want the info leading up to this day
+      var d = chartDate.getDate(); //we want the info leading up to this day
+      if(!this.marketStatus){
+        d = d-1;
+      }
       var ds = ''+d;
       if(d<10) ds='0'+d;
       var m = chartDate.getMonth() + 1; //Months are zero based
@@ -259,6 +267,21 @@ export class DetailsComponent implements OnInit {
         this.updateFlag = true;
         });
        })
+      this.http.get("http://localhost:3000/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
+        
+
+        response['articles'].forEach(element => {
+          var curr_card = {};
+          curr_card['publisher'] = element['source']['name'];
+          curr_card['publishedDate'] = element['publishedAt'];
+          curr_card['title'] = element['title'];
+          curr_card['description'] = element['description'];
+          curr_card['url'] = element['urlToImage'];
+          this.cards.push(curr_card);
+        });
+
+        console.log(this.cards);
+      });   
 
   }
 

@@ -26,6 +26,15 @@ app.get('/watchlist', (req, res) => {
 })
 
 
+app.get('/api/news-data/*', (req, res) => {
+  var ticker = req.originalUrl.substring(req.originalUrl.lastIndexOf('/') + 1);
+  var news_path = "https://newsapi.org/v2/everything?apiKey=";
+  request(news_path+api_key+'&q='+ticker, { json: true }, (err, result, body) => {
+    if (err) { return console.log(err); }
+    console.log(body);
+    res.send(body);
+  });
+});
 app.get('/api/chart-data/*', (req, res) => {
 
   var temp = req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/'))
@@ -36,15 +45,6 @@ app.get('/api/chart-data/*', (req, res) => {
 
   request(tiingo_chart_path+token, { json: true }, (err, result, body) => {
     if (err) { return console.log(err); }
-    // for (key in body[0]) {
-    //   if(body[0].hasOwnProperty(key)){
-    //     out[key] = body[0][key];
-    //   }
-    // }
-    console.log(temp);
-    console.log(ticker);
-    console.log(startDate);
-    console.log(body);
     var out = {'charts':body};
     res.send(out);
   });
@@ -80,7 +80,6 @@ app.get('/api/details/*', (req, res) => {
         out[key] = body[key];
       }
     }
-    console.log(body);
     requests_completed++;
     if(requests_completed == request_num){
       res.send(out);
@@ -95,7 +94,6 @@ app.get('/api/tick-search/*', (req, res) => {
 
   const results$ = RxHR.get(tiingo_search_path + ticker + '?token='+token, {json: true}).pipe(map(response => response.body));;
 
-  results$.subscribe(console.log);
   results$.subscribe(
 		result => {
         res.json(result);

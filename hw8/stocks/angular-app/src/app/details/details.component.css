@@ -18,3 +18,7 @@ h1 fa-icon{
 .info_col .row{
 	margin:0;
 }
+
+mat-card img{
+	width: 15%;
+}
