@@ -1,14 +1,14 @@
 <div (click)="open(content)">
   <ng-template #content let-modal> 
     <div class="modal-header"> 
-        <h4 class="modal-title" 
+        <h1 class="modal-title" 
             id="modal-basic-title"> 
             {{source}}
-        </h4> 
-        <h6 class="modal-subtitle text-muted" 
+        </h1> 
+        <h4 class="modal-subtitle text-muted" 
             id="modal-basic-subtitle"> 
             {{date}}
-        </h6> 
+        </h4> 
         <button type="button" class="close"
                 aria-label="Close" (click)= 
                 "modal.dismiss('Cross click')"> 
@@ -16,25 +16,34 @@
             <span aria-hidden="true"> 
                 × 
             </span> 
-        </button> 
+        </button>  
+<!--         <div class="d-flex">
+                <h3 class="modal-title" id="exampleModalLabel">{{source}}</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <h5 class="modal-title">Modal Sub-Title</h5>
+    	</div>  -->
     </div> 
     <div class="modal-body"> 
+    	<div class="model-title"><strong> {{title}}</strong></div>
     	<div class="model-desc"> {{desc}}</div>
-    	<div class="model-link"> {{url}}</div>
+    	<div class="model-link text-muted"> For more details click <a href='{{url}}'>Here.</a></div>
     </div> 
     <div class="modal-footer"> 
-    	<span class='mr-auto row' >Share</span>
-    	<div>
-	        <button type="button" 
-	            class="btn btn btn-success " 
-	            (click)="shareF(modal)">
-	            <fa-icon [icon]="faFacebook"></fa-icon> 
-	        </button> 
-	        <button type="button" 
-	            class="btn btn btn-success " 
+    	<span class='mr-auto row' style='width:100%; padding-left: 3%;'>Share</span>
+    	<div class='mr-auto row' style='width:100%;'>
+	        <a type="button" 
+	            class="btn btn-lg btn-social btn-twitter" 
 	            (click)="shareT(modal)">
-	            <fa-icon [icon]="faTwitter"></fa-icon> 
-	        </button> 
+	            <fa-icon [icon]="faTwitter" style='font-size:xx-large; color:DodgerBlue;'></fa-icon> 
+	        </a> 
+	        <a type="button" 
+	            class="btn btn-lg btn-social btn-facebook" 
+	            (click)="shareF(modal)">
+	            <fa-icon [icon]="faFacebook" style='font-size:xx-large; color:blue;'></fa-icon> 
+	        </a> 
         </div>
     </div>  
   </ng-template> 

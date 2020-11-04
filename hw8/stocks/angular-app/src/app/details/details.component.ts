@@ -138,7 +138,19 @@ export class DetailsComponent implements OnInit {
       if(m<10) ms='0'+m;
       var y = chartDate.getFullYear();
       var chartDateStr = y+"-"+ms+"-"+ds;
-
+      var groupingUnits = [[
+                  'week',                         // unit name
+                  [1]                             // allowed multiples
+              ], [
+                  'month',
+                  [1, 2, 3, 4, 6]
+              ]]
+      //I know it's a little past 9, u can head out if you want
+      //no, im sure i can help solve your problem
+      //ok im having trouble with the highcharts stock graphs and the angular cards
+      //we never said that part would be easy, google it and understand the examples out there, i'm not going to explain it to you
+      //https://getbootstrap.com/docs/4.0/components/card/
+      //https://www.highcharts.com/demo/stock/sma-volume-by-price
       this.http.get("http://localhost:3000/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
         var data1 = [];
         var data2 = [];
@@ -202,37 +214,99 @@ export class DetailsComponent implements OnInit {
           time: {
             timezoneOffset: 420
           }, 
+          yAxis: [{
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'OHLC'
+            },
+            height: '60%',
+            lineWidth: 2,
+            resize: {
+                enabled: true
+            }
+           }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '65%',
+            height: '35%',
+            offset: 0,
+            lineWidth: 2
+          }],
+
           xAxis: {
             type: 'datetime'
           },
-          navigator: {
-            // maskFill: this.chartColor
 
-          },
           rangeSelector: {
             enabled: false
           },
 
-          series: [
-            {
-              type: "line",
-              /* throws an error in console, but works correctly */
-              //fillColor: this.chartColor,
-              color: this.chartColor,
-              name: `${this.ticker}`,
-              id: "base",
+          tooltip: {
+              split: true
+          },
+
+        //   series: [
+        //     {
+        //       type: "line",
+        //       /* throws an error in console, but works correctly */
+        //       //fillColor: this.chartColor,
+        //       color: this.chartColor,
+        //       name: `${this.ticker}`,
+        //       id: "base",
+        //       data: data1
+        //     },
+        //     {
+        //       type: "bar",
+        //       /* throws an error in console, but works correctly */
+        //       //fillColor: this.chartColor,
+        //       color: this.chartColor,
+        //       name: `${this.ticker}`,
+        //       id: "sidebar",
+        //       data: data2
+        //     },
+        //   ]
+          series: [{
+              type: 'candlestick',
+              name: 'AAPL',
+              id: 'aapl',
+              zIndex: 2,
               data: data1
-            },
-            {
-              type: "bar",
-              /* throws an error in console, but works correctly */
-              //fillColor: this.chartColor,
-              color: this.chartColor,
-              name: `${this.ticker}`,
-              id: "sidebar",
-              data: data2
-            },
-          ]
+          }, {
+              type: 'column',
+              name: 'Volume',
+              id: 'volume',
+              data: data2,
+              yAxis: 1
+          }, {
+              type: 'vbp',
+              linkedTo: 'aapl',
+              params: {
+                  volumeSeriesID: 'volume'
+              },
+              dataLabels: {
+                  enabled: false
+              },
+              zoneLines: {
+                  enabled: false
+              }
+          }, {
+              type: 'sma',
+              linkedTo: 'aapl',
+              zIndex: 1,
+              marker: {
+                  enabled: false
+              }
+          }]
         };
 
         this.updateFlag = true;

@@ -18,6 +18,10 @@ export class CardComponent implements OnInit {
 
   closeResult = ''; 
 
+
+  faFacebook = faFacebook; 
+  faTwitter = faTwitter;
+
   @Input() rawCardData: any;
   constructor(private modalService: NgbModal) { }
 
