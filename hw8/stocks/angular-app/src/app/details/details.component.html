@@ -1,5 +1,32 @@
 <div style='min-height: 100%;  position: relative; padding-bottom: 60px'>
   <app-nav></app-nav>
+
+<!--   <div class="container text-center alert alert-success alert-dismissible fade show " role="alert">
+    {{ticker}} Added to watchlist.
+      <button type="button" class="close" data-hide="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+
+  <div class="container text-center alert alert-danger alert-dismissible fade show " role="alert">
+    {{ticker}} Removed from watchlist.
+      <button type="button" class="close" data-hide="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div> -->
+  <div  class='container  text-center'>
+    <alert></alert>
+  </div>
+  <div  class='container text-center loading-container'>
+    <div class="row"> 
+      <div class="col-5"> </div>
+      <div class="col loading align-self-center" *ngIf="spin">
+          <mat-progress-spinner diameter="100" mode="indeterminate" *ngIf="spin"></mat-progress-spinner>
+      </div>
+      <div class="col-5"> </div>
+    </div>
+  </div>
+
   <ng-template #content let-modal> 
     <div class="modal-header"> 
         <h4 class="modal-title" 
@@ -9,7 +36,6 @@
         <button type="button" class="close"
                 aria-label="Close" (click)= 
                 "modal.dismiss('Cross click')"> 
-  
             <span aria-hidden="true"> 
                 × 
             </span> 
@@ -44,14 +70,14 @@
   </ng-template> 
 
 
-  <div class="container">
+  <div class="container" *ngIf='validResponse'>
   	 <div class="row">
-  	 	<h1 class="col" >{{ticker}} <fa-icon (click)="toggleStar()" [icon]="faStar"></fa-icon></h1>
+  	 	<h1 class="col" >{{ticker}}<span style="color:{{starColor}}"><fa-icon (click)="toggleStar()" [icon]="faStar" ></fa-icon></span></h1>
   	 	<h1 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'>{{price| currency:'string':''}}</h1>
   	 </div>
   	 <div class="row">
   	 	<h2 class="col text-muted">{{name}}</h2>
-  	 	<h2 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
+  	 	<h2 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right; '> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
   	 </div> 
   	 <div class="row">
   	 	<h3 class="col text-muted">{{exchange}}</h3>

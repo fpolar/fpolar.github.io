@@ -1,3 +1,13 @@
 <div style='min-height: 100%;  position: relative; padding-bottom: 60px'>
 	<app-nav></app-nav>
+	
+	<div  class='container text-center loading-container'>
+		<div class="row"> 
+		  <div class="col-5"> </div>
+		  <div class="col loading align-self-center" *ngIf="spin">
+		      <mat-progress-spinner diameter="100" mode="indeterminate" *ngIf="spin"></mat-progress-spinner>
+		  </div>
+		  <div class="col-5"> </div>
+		</div>
+	</div>
 </div>

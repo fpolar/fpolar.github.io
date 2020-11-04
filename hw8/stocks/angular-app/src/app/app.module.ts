@@ -28,6 +28,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CardComponent } from './components/card/card.component';
 import { PcardComponent } from './components/pcard/pcard.component';
 import { WcardComponent } from './components/wcard/wcard.component';
+import { AlertModule } from './components/_alert';
 
 
 @NgModule({
@@ -58,7 +59,8 @@ import { WcardComponent } from './components/wcard/wcard.component';
     ReactiveFormsModule,
     MatTabsModule,
     FontAwesomeModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    AlertModule
   ],
   providers: [],
   bootstrap: [AppComponent]

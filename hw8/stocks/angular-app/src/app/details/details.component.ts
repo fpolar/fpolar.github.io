@@ -9,6 +9,7 @@ import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faCaretDown as fasCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp as fasCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { AlertModule, AlertService } from '../components/_alert';
 
 import * as Highcharts from "highcharts/highstock";
 import {Options} from "highcharts/highstock";
@@ -24,6 +25,15 @@ IndicatorZigzag(Highcharts);
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
+
+  spin=true;
+  alertOptions = {
+    autoClose: false,
+    keepAfterRouteChange: false
+  };
+  validResponse = false;
+  starColor = 'black';
+
   //header fields
   myStorage = window.localStorage;
   faStar = farStar; 
@@ -58,7 +68,7 @@ export class DetailsComponent implements OnInit {
 
   //news fields
   cards = [];
-
+ 
   //highcharts fields
   Highcharts: typeof Highcharts = Highcharts;
   chartOptions: Highcharts.Options = {};
@@ -72,7 +82,8 @@ export class DetailsComponent implements OnInit {
   oneToOneFlag: boolean = true; // optional boolean, defaults to false
   runOutsideAngular: boolean = false; // optional boolean, defaults to false
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private modalService: NgbModal) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, 
+    private modalService: NgbModal, public alertService: AlertService) { }
 
   ngOnInit(): void {
     this.ticker = this.route.snapshot.paramMap.get('tick').toUpperCase();
@@ -81,7 +92,15 @@ export class DetailsComponent implements OnInit {
 
     //http request to init stock info
     this.http.get("http://localhost:3000/api/details/" + this.ticker, {responseType: 'json'}).subscribe(response=>{    
-
+      console.log(response);
+      if(response['detail']){
+        this.alertService.error('No results found. Please enter valid Ticker.', this.alertOptions);
+        this.validResponse = false;
+        this.spin = false;
+      }else{
+        this.validResponse = true;
+        this.spin = false;
+      }
       this.name  = response['name'];
       this.price  = response['last'];
       this.change = response['last'] - response['prevClose'];
@@ -151,19 +170,25 @@ export class DetailsComponent implements OnInit {
       //we never said that part would be easy, google it and understand the examples out there, i'm not going to explain it to you
       //https://getbootstrap.com/docs/4.0/components/card/
       //https://www.highcharts.com/demo/stock/sma-volume-by-price
+
       this.http.get("http://localhost:3000/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
         var data1 = [];
         var data2 = [];
         response2['charts'].forEach(element => {
           var x1 = Date.parse(element['date']);
-          var x2 = Date.parse(element['date']);
           var y1 = element['close'];
-          var y2 = element['volume'];
+          
+          var x2 = Date.parse(element['date']);
+          var open2 = element['open'];
+          var hi2 = element['high'];
+          var lo2 = element['low'];
+          var close2 = element['close'];
+
           data1.push([x1, y1]);
-          data2.push([x2, y2]);
+          data2.push([x2, open2, hi2, lo2, close2]);
         });
 
-        //highchart init
+        //highchart1 init
         this.chartOptions = { 
           chart: {
             type: 'area'
@@ -335,6 +360,7 @@ export class DetailsComponent implements OnInit {
     var wl = this.myStorage.getItem('wl');
     if(wl && wl.includes(this.ticker+",")){
       this.faStar = fasStar;
+      this.starColor = 'gold';
     }
   }
 
@@ -344,10 +370,14 @@ export class DetailsComponent implements OnInit {
       wl = wl.replace(this.ticker+",", '');
       this.myStorage.setItem('wl', wl);
       this.faStar = farStar;
+      this.alertService.error(this.ticker+' removed from watchlist.', this.alertOptions);
+      this.starColor = 'black';
     }else{
       if(!wl) wl = '';
       this.myStorage.setItem('wl', wl+this.ticker+",");
       this.faStar = fasStar;
+      this.alertService.success(this.ticker+' added to watchlist.', this.alertOptions);
+      this.starColor = 'gold';
     }
   }
 

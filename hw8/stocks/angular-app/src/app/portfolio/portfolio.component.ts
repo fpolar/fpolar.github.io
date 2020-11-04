@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PortfolioComponent implements OnInit {
 
+  spin=true;
+  alertOptions = {
+    autoClose: false,
+    keepAfterRouteChange: false
+  };
+  
   constructor() { }
 
   ngOnInit(): void {
