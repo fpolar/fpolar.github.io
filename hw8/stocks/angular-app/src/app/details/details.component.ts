@@ -8,9 +8,15 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faCaretDown as fasCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp as fasCaretUp } from '@fortawesome/free-solid-svg-icons';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-// import { HighchartsChartModule, HighchartsChartComponent} from 'highcharts-angular';
-import * as Highcharts from 'highcharts/highstock';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
+import * as Highcharts from "highcharts/highstock";
+import {Options} from "highcharts/highstock";
+import IndicatorsCore from "highcharts/indicators/indicators";
+import IndicatorZigzag from "highcharts/indicators/zigzag";
+
+IndicatorsCore(Highcharts);
+IndicatorZigzag(Highcharts);
 
 @Component({
   selector: 'app-details',
@@ -54,11 +60,15 @@ export class DetailsComponent implements OnInit {
   cards = [];
 
   //highcharts fields
-  Highcharts: typeof Highcharts = Highcharts; // required
-  // chartConstructor: string = 'chart'; // optional string, defaults to 'chart'
-  chartOptions: Highcharts.Options = {}; // required
-  // chartCallback: Highcharts.ChartCallbackFunction = function (chart) { ... } // optional function, defaults to null
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {};
   updateFlag: boolean = false; // optional boolean
+  chartColor: string;
+
+  Highcharts2: typeof Highcharts = Highcharts;
+  chartOptions2: Highcharts.Options = {};
+  updateFlag2: boolean = false; // optional boolean
+
   oneToOneFlag: boolean = true; // optional boolean, defaults to false
   runOutsideAngular: boolean = false; // optional boolean, defaults to false
 
@@ -67,24 +77,24 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     this.ticker = this.route.snapshot.paramMap.get('tick').toUpperCase();
     //init star with localStorage
-    if(this.myStorage.getItem(this.ticker)){
-      this.faStar = fasStar;
-    }
+    this.initStar();
+
     //http request to init stock info
     this.http.get("http://localhost:3000/api/details/" + this.ticker, {responseType: 'json'}).subscribe(response=>{    
-      console.log(response);
+
       this.name  = response['name'];
       this.price  = response['last'];
       this.change = response['last'] - response['prevClose'];
       this.changePercent = this.change/response['prevClose'];
-      console.log( this.change);
-      console.log( this.changePercent);
+
       if( this.change < 0){
         this.changePositive = false;
         this.faCaret = fasCaretDown;
+        this.chartColor = '#d9534f' // danger red
       }else{
         this.changePositive = true;
         this.faCaret = fasCaretUp;
+        this.chartColor = '#5cb85c' // success green
       }
       this.exchange = response['exchangeCode'];
       var startDate = new Date();
@@ -116,10 +126,7 @@ export class DetailsComponent implements OnInit {
       if(this.marketStatus){
         chartDate = startDate;
       }
-      console.log(this.marketStatus);
-      console.log(startDate);
-      console.log(endDate);
-      console.log(response['timestamp']);
+
       var d = chartDate.getDate(); //we want the info leading up to this day
       if(!this.marketStatus){
         d = d-1;
@@ -143,176 +150,163 @@ export class DetailsComponent implements OnInit {
           data1.push([x1, y1]);
           data2.push([x2, y2]);
         });
-        console.log(data1);
-        console.log(data2);
 
         //highchart init
-        this.chartOptions = {
-            title: {
-                text: this.ticker
-            },
-
-            subtitle: {
-                text: 'Source: <a href="https://api.tiingo.com/">Tiingo</a>'
-            },
-
-            xAxis: {
+        this.chartOptions = { 
+          chart: {
+            type: 'area'
+          },
+          title: {
+            text: `${this.ticker}`,
+            style: {
+              color: 'grey'
+            }
+          },
+          time: {
+            timezoneOffset: 420
+          }, 
+          xAxis: {
             type: 'datetime'
-            },
-            yAxis: [{ 
-            labels: {
-                format: '{value}',
-                style: {
-                    color: '#000000'
-                }
-            },
-            title: {
-                text: 'Stock Price',
-                style: {
-                    color: '#000000'
-                }
-            }
-        },
+          },
+          navigator: {
+            // maskFill: this.chartColor
+
+          },
+          rangeSelector: {
+            enabled: false
+          },
+
+          series: [
             {
-              labels: {
-                  formatter: function() {
-                  return this.value / 1000 + 'k';
-                },
-                style: {
-                      color: '#000000'
-                  }
-              },
-              title: {
-                  text: 'Volume',
-                  style: {
-                      color: '#000000'
-                  }
-              },
-            opposite: true
-          }],
-
-            rangeSelector: {
-                allButtonsEnabled: true,
-                buttons: [ {
-                    type: 'day',
-                    count: 7,
-                    text: '7d'
-                }, {
-                    type: 'day',
-                    count: 15,
-                    text: '15d'
-                }, {
-                    type: 'month',
-                    count: 1,
-                    text: '1m'
-                }, {
-                    type: 'month',
-                    count: 3,
-                    text: '3m'
-                }, {
-                    type: 'month',
-                    count: 6,
-                    text: '6m'
-                }],
-                selected: 4
+              type: "line",
+              /* throws an error in console, but works correctly */
+              //fillColor: this.chartColor,
+              color: this.chartColor,
+              name: `${this.ticker}`,
+              id: "base",
+              data: data1
             },
+          ]
+        };
 
-            series: [{
-                name: 'AAPL',
-                type: 'area',
-                data: data1,
-                yAxis: 0,
-                gapSize: 5,
-                tooltip: {
-                    valueDecimals: 2
-                },
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, '255,255,255']
-                    ]
-                },
-                threshold: null
+        this.chartOptions2 = { 
+          chart: {
+            type: 'area'
+          },
+          title: {
+            text: `${this.ticker}`,
+            style: {
+              color: 'grey'
+            }
+          },
+          time: {
+            timezoneOffset: 420
+          }, 
+          xAxis: {
+            type: 'datetime'
+          },
+          navigator: {
+            // maskFill: this.chartColor
+
+          },
+          rangeSelector: {
+            enabled: false
+          },
+
+          series: [
+            {
+              type: "line",
+              /* throws an error in console, but works correctly */
+              //fillColor: this.chartColor,
+              color: this.chartColor,
+              name: `${this.ticker}`,
+              id: "base",
+              data: data1
             },
             {
-                name: 'BAPL',
-                type: 'area',
-                yAxis: 1,
-                data: data2,
-                gapSize: 5,
-                tooltip: {
-                    valueDecimals: 2
-                },
-                fillColor: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 0,
-                        y2: 1
-                    },
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, '255,255,255']
-                    ]
-                },
-                threshold: null
-            }]
-            }
+              type: "bar",
+              /* throws an error in console, but works correctly */
+              //fillColor: this.chartColor,
+              color: this.chartColor,
+              name: `${this.ticker}`,
+              id: "sidebar",
+              data: data2
+            },
+          ]
+        };
+
         this.updateFlag = true;
+        this.updateFlag2 = true;
         });
        })
       this.http.get("http://localhost:3000/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
         
-
         response['articles'].forEach(element => {
           var curr_card = {};
-          curr_card['publisher'] = element['source']['name'];
+          curr_card['source'] = element['source']['name'];
           curr_card['publishedDate'] = element['publishedAt'];
           curr_card['title'] = element['title'];
           curr_card['description'] = element['description'];
-          curr_card['url'] = element['urlToImage'];
+          curr_card['urlToImage'] = element['urlToImage'];
+          curr_card['url'] = element['url'];
           this.cards.push(curr_card);
         });
 
-        console.log(this.cards);
       });   
 
   }
 
   //toggles star icon and saves or deletes tick from localStorage
-  toggleStar(): void {
-    if(this.myStorage.getItem(this.ticker)){
-      localStorage.removeItem(this.ticker);
-      this.faStar = farStar;
-    }else{
-      localStorage.setItem(this.ticker, 'X');
+  initStar(): void {
+    var wl = this.myStorage.getItem('wl');
+    if(wl && wl.includes(this.ticker+",")){
       this.faStar = fasStar;
     }
   }
+
+  toggleStar(): void {
+    var wl = this.myStorage.getItem('wl');
+    if(wl && wl.includes(this.ticker+",")){
+      wl = wl.replace(this.ticker+",", '');
+      this.myStorage.setItem('wl', wl);
+      this.faStar = farStar;
+    }else{
+      if(!wl) wl = '';
+      this.myStorage.setItem('wl', wl+this.ticker+",");
+      this.faStar = fasStar;
+    }
+  }
+
   open(content) { 
-      this.modalService.open(content, 
-     {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => { 
-        this.closeResult = `Closed with: ${result}`; 
-      }, (reason) => { 
-        this.closeResult =  
-           `Dismissed ${this.getDismissReason(reason)}`; 
-      }); 
+    this.modalService.open(content, 
+   {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => { 
+      this.closeResult = `Closed with: ${result}`; 
+    }, (reason) => { 
+      this.closeResult =  
+         `Dismissed ${this.getDismissReason(reason)}`; 
+    }); 
+  } 
+  
+  private getDismissReason(reason: any): string { 
+    if (reason === ModalDismissReasons.ESC) { 
+      return 'by pressing ESC'; 
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) { 
+      return 'by clicking on a backdrop'; 
+    } else { 
+      return `with: ${reason}`; 
     } 
-    
-    private getDismissReason(reason: any): string { 
-      if (reason === ModalDismissReasons.ESC) { 
-        return 'by pressing ESC'; 
-      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) { 
-        return 'by clicking on a backdrop'; 
-      } else { 
-        return `with: ${reason}`; 
-      } 
-    } 
+  } 
+
+  buyStock(modal) {
+    var t = this.myStorage.getItem(this.ticker);
+    if(t){
+      var x = this.purchaseQuantity+Number(t);
+      localStorage.setItem(this.ticker, String(x));
+    }else{
+      localStorage.setItem(this.ticker, String(this.purchaseQuantity));
+    }
+    modal.close('Save click');
+  }
+
 
 }

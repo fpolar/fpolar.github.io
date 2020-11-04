@@ -1,10 +1,10 @@
-<div>
+<div style='min-height: 100%;  position: relative; padding-bottom: 60px'>
   <app-nav></app-nav>
   <ng-template #content let-modal> 
     <div class="modal-header"> 
         <h4 class="modal-title" 
             id="modal-basic-title"> 
-            Geeks of Geeks 
+            {{ticker}}
         </h4> 
         <button type="button" class="close"
                 aria-label="Close" (click)= 
@@ -36,12 +36,14 @@
     	<span class='mr-auto' >Total: {{purchaseQuantity*price}}</span>
         <button type="button" 
             class="btn btn btn-success" 
-            (click)="modal.close('Save click')"
+            (click)="buyStock(modal)"
             [disabled]="purchaseQuantity <= 0"> 
             Buy 
         </button> 
     </div> 
   </ng-template> 
+
+
   <div class="container">
   	 <div class="row">
   	 	<h1 class="col" >{{ticker}} <fa-icon (click)="toggleStar()" [icon]="faStar"></fa-icon></h1>
@@ -93,40 +95,34 @@
   				</div>
 	  	 	</div>
 	  	 	<div class="col chart_col">
-	  	 		<highcharts-chart 
-					[Highcharts]="Highcharts"
-					[update]="updateFlag"
-					[options]="chartOptions"
-					[oneToOne]="true"
-				></highcharts-chart>
+			  <highcharts-chart
+			    [Highcharts]="Highcharts"
+			    [constructorType]="'stockChart'"
+			    [options]="chartOptions"
+			    [update]="updateFlag"
+				[oneToOne]="true">
+			  </highcharts-chart>
 	  	 	</div>
 		  </div>
 	  </mat-tab>
 	  <mat-tab label="Top News">
-<mat-card class="example-card">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
 	  	<div class='container'>
-
+			<div *ngFor="let card of cards; index as i; let odd=odd">
+				<div *ngIf='odd' class='news-row row'>
+					<app-card [rawCardData]=cards[i] class="card col-sm-12 col-md-6 pr-md-0 " ></app-card>
+					<app-card *ngIf="i + 1 < cards.length" [rawCardData]=cards[i+1] class="card col-sm-12 col-md-6 pr-md-0 " ></app-card>
+				</div>
+			</div>
 		</div>
 	  </mat-tab>
 	  <mat-tab label="Charts">
+		  <highcharts-chart
+		    [Highcharts]="Highcharts2" 
+		    [constructorType]="'stockChart'"
+		    [options]="chartOptions2"
+		    [update]="updateFlag2"
+			[oneToOne]="true">
+		  </highcharts-chart>
 	  </mat-tab>
 	</mat-tab-group>
   </div>

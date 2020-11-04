@@ -31,10 +31,10 @@ app.get('/api/news-data/*', (req, res) => {
   var news_path = "https://newsapi.org/v2/everything?apiKey=";
   request(news_path+api_key+'&q='+ticker, { json: true }, (err, result, body) => {
     if (err) { return console.log(err); }
-    console.log(body);
     res.send(body);
   });
 });
+
 app.get('/api/chart-data/*', (req, res) => {
 
   var temp = req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/'))

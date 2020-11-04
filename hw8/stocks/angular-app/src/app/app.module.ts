@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatCardModule} from '@angular/material/card';
+// import {MatCardModule} from '@angular/material/card';
 
 import { FormsModule,FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
@@ -21,6 +21,12 @@ import { SearchComponent } from './components/search/search.component';
 import { ConfigService } from './services/config.service';
 import { DetailsComponent } from './details/details.component';
 import { StockSearchComponent } from './stock-search/stock-search.component';
+import { WatchlistComponent } from './watchlist/watchlist.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { CardComponent } from './components/card/card.component';
+import { PcardComponent } from './components/pcard/pcard.component';
+import { WcardComponent } from './components/wcard/wcard.component';
 
 
 @NgModule({
@@ -29,7 +35,13 @@ import { StockSearchComponent } from './stock-search/stock-search.component';
     NavComponent,
     SearchComponent,
     DetailsComponent,
-    StockSearchComponent
+    StockSearchComponent,
+    WatchlistComponent,
+    PortfolioComponent,
+    FooterComponent,
+    CardComponent,
+    PcardComponent,
+    WcardComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +52,7 @@ import { StockSearchComponent } from './stock-search/stock-search.component';
     NgbModule,
     MatInputModule,
     FormsModule,
-    MatCardModule,
+    // MatCardModule,
     ReactiveFormsModule,
     MatTabsModule,
     FontAwesomeModule,

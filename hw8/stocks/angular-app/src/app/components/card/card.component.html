@@ -1,0 +1,49 @@
+<div (click)="open(content)">
+  <ng-template #content let-modal> 
+    <div class="modal-header"> 
+        <h4 class="modal-title" 
+            id="modal-basic-title"> 
+            {{source}}
+        </h4> 
+        <h6 class="modal-subtitle text-muted" 
+            id="modal-basic-subtitle"> 
+            {{date}}
+        </h6> 
+        <button type="button" class="close"
+                aria-label="Close" (click)= 
+                "modal.dismiss('Cross click')"> 
+  
+            <span aria-hidden="true"> 
+                × 
+            </span> 
+        </button> 
+    </div> 
+    <div class="modal-body"> 
+    	<div class="model-desc"> {{desc}}</div>
+    	<div class="model-link"> {{url}}</div>
+    </div> 
+    <div class="modal-footer"> 
+    	<span class='mr-auto row' >Share</span>
+    	<div>
+	        <button type="button" 
+	            class="btn btn btn-success " 
+	            (click)="shareF(modal)">
+	            <fa-icon [icon]="faFacebook"></fa-icon> 
+	        </button> 
+	        <button type="button" 
+	            class="btn btn btn-success " 
+	            (click)="shareT(modal)">
+	            <fa-icon [icon]="faTwitter"></fa-icon> 
+	        </button> 
+        </div>
+    </div>  
+  </ng-template> 
+  <div class='row'>
+	  <div class='col-sm-12 col-md-3  pr-md-0 v-center '>
+	    <img src="{{img_url}}" class="card-thumb align-middle align-center" alt="{{img_url}}">
+	  </div>
+	  <div class="card-body col-sm-12 col-md-9 pr-md-0 v-center ">
+	      <p class="card-text">{{ title }}</p>
+	  </div>
+  </div>
+</div>
