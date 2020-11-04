@@ -10,8 +10,11 @@ import { faCaretDown as fasCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp as fasCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModule, AlertService } from '../components/_alert';
+import { interval } from 'rxjs';
 
 import * as Highcharts from "highcharts/highstock";
+// import more from 'highcharts/highcharts-more';
+// more(Highcharts);
 import {Options} from "highcharts/highstock";
 import IndicatorsCore from "highcharts/indicators/indicators";
 import IndicatorZigzag from "highcharts/indicators/zigzag";
@@ -82,6 +85,8 @@ export class DetailsComponent implements OnInit {
   oneToOneFlag: boolean = true; // optional boolean, defaults to false
   runOutsideAngular: boolean = false; // optional boolean, defaults to false
 
+  api_request_interval: any;
+
   constructor(private http: HttpClient, private route: ActivatedRoute, 
     private modalService: NgbModal, public alertService: AlertService) { }
 
@@ -91,8 +96,20 @@ export class DetailsComponent implements OnInit {
     this.initStar();
 
     //http request to init stock info
+    // this.apiRequests();
+    // var api_request_interval = setInterval(this.apiRequests, 15000);  
+    this.apiRequests(); 
+    this.api_request_interval = interval(15000).subscribe(x => { this.apiRequests(); });
+
+  }
+
+  ngOnDestroy(): void {
+    this.api_request_interval.unsubscribe();
+  }
+
+  apiRequests():void {
     this.http.get("http://localhost:3000/api/details/" + this.ticker, {responseType: 'json'}).subscribe(response=>{    
-      console.log(response);
+      console.log('apiRequests function call:', response);
       if(response['detail']){
         this.alertService.error('No results found. Please enter valid Ticker.', this.alertOptions);
         this.validResponse = false;
@@ -163,7 +180,7 @@ export class DetailsComponent implements OnInit {
               ], [
                   'month',
                   [1, 2, 3, 4, 6]
-              ]]
+              ]];
       //I know it's a little past 9, u can head out if you want
       //no, im sure i can help solve your problem
       //ok im having trouble with the highcharts stock graphs and the angular cards
@@ -174,19 +191,35 @@ export class DetailsComponent implements OnInit {
       this.http.get("http://localhost:3000/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
         var data1 = [];
         var data2 = [];
+        var data3 = [];
         response2['charts'].forEach(element => {
           var x1 = Date.parse(element['date']);
           var y1 = element['close'];
+          var volume3 = element['volume'];
           
-          var x2 = Date.parse(element['date']);
           var open2 = element['open'];
           var hi2 = element['high'];
           var lo2 = element['low'];
           var close2 = element['close'];
 
           data1.push([x1, y1]);
-          data2.push([x2, open2, hi2, lo2, close2]);
+          data2.push([x1, open2, hi2, lo2, close2]);
+          data3.push([x1, volume3]);
         });
+        console.log(data1,data2,data3);
+        // var units1 = ['week', 1];
+        // var units2 = ['month', 1,2,3,4,6];
+        // groupingUnits = [units1, units2];
+        // var units1 = ['week', [1]];
+        // var units2 = ['month', [1,2,3,4,6]];
+        // groupingUnits = [units1, units2];
+        // groupingUnits = [[
+        //     'week',                         // unit name
+        //     [1]                             // allowed multiples
+        // ], [
+        //     'month',
+        //     [1, 2, 3, 4, 6]
+        // ]];
 
         //highchart1 init
         this.chartOptions = { 
@@ -226,91 +259,102 @@ export class DetailsComponent implements OnInit {
           ]
         };
 
-        this.chartOptions2 = { 
-          chart: {
-            type: 'area'
-          },
-          title: {
-            text: `${this.ticker}`,
-            style: {
-              color: 'grey'
-            }
-          },
-          time: {
-            timezoneOffset: 420
-          }, 
-          yAxis: [{
-            startOnTick: false,
-            endOnTick: false,
-            labels: {
-                align: 'right',
-                x: -3
-            },
-            title: {
-                text: 'OHLC'
-            },
-            height: '60%',
-            lineWidth: 2,
-            resize: {
-                enabled: true
-            }
-           }, {
-            labels: {
-                align: 'right',
-                x: -3
-            },
-            title: {
-                text: 'Volume'
-            },
-            top: '65%',
-            height: '35%',
-            offset: 0,
-            lineWidth: 2
-          }],
-
-          xAxis: {
-            type: 'datetime'
-          },
-
+        this.chartOptions2 = {
           rangeSelector: {
-            enabled: false
+              selected: 2
           },
+
+          title: {
+              text: 'AAPL Historical'
+          },
+
+          subtitle: {
+              text: 'With SMA and Volume by Price technical indicators'
+          },
+
+          yAxis: [{
+              startOnTick: false,
+              endOnTick: false,
+              labels: {
+                  align: 'right',
+                  x: -3
+              },
+              title: {
+                  text: 'OHLC'
+              },
+              height: '60%',
+              lineWidth: 2,
+              resize: {
+                  enabled: true
+              }
+          }, {
+              labels: {
+                  align: 'right',
+                  x: -3
+              },
+              title: {
+                  text: 'Volume'
+              },
+              top: '65%',
+              height: '35%',
+              offset: 0,
+              lineWidth: 2
+          }],
 
           tooltip: {
               split: true
           },
 
-        //   series: [
-        //     {
-        //       type: "line",
-        //       /* throws an error in console, but works correctly */
-        //       //fillColor: this.chartColor,
-        //       color: this.chartColor,
-        //       name: `${this.ticker}`,
-        //       id: "base",
-        //       data: data1
-        //     },
-        //     {
-        //       type: "bar",
-        //       /* throws an error in console, but works correctly */
-        //       //fillColor: this.chartColor,
-        //       color: this.chartColor,
-        //       name: `${this.ticker}`,
-        //       id: "sidebar",
-        //       data: data2
-        //     },
-        //   ]
+          // plotOptions: {
+          //     series: {
+          //         dataGrouping: {
+          //             units: groupingUnits
+          //         }
+          //     }
+          // },
+
+          plotOptions: {
+              series: {
+
+                  dataGrouping: {
+                      approximation: 'ohlc',
+                      units:  [[
+                            'week',
+                            [1]
+                        ], [
+                            'month',
+                            [1, 3, 6]
+                        ]],
+                      forced: true,
+                      enabled: true,
+                      groupAll: true
+                  }
+
+              }
+            },
+
           series: [{
               type: 'candlestick',
               name: 'AAPL',
               id: 'aapl',
               zIndex: 2,
-              data: data1
+              dataGrouping: {
+                approximation: 'ohlc',
+                units:  [[
+                      'week',
+                      [1]
+                  ], [
+                      'month',
+                      [1, 3, 6]
+                  ]],
+
+              },
+              data: data2
           }, {
               type: 'column',
               name: 'Volume',
               id: 'volume',
-              data: data2,
+              data: data3,
               yAxis: 1
           }, {
               type: 'vbp',
@@ -337,23 +381,23 @@ export class DetailsComponent implements OnInit {
         this.updateFlag = true;
         this.updateFlag2 = true;
         });
-       })
-      this.http.get("http://localhost:3000/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
-        
-        response['articles'].forEach(element => {
-          var curr_card = {};
-          curr_card['source'] = element['source']['name'];
-          curr_card['publishedDate'] = element['publishedAt'];
-          curr_card['title'] = element['title'];
-          curr_card['description'] = element['description'];
-          curr_card['urlToImage'] = element['urlToImage'];
-          curr_card['url'] = element['url'];
-          this.cards.push(curr_card);
-        });
+        this.http.get("http://localhost:3000/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
+                
+          response['articles'].forEach(element => {
+            var curr_card = {};
+            curr_card['source'] = element['source']['name'];
+            curr_card['publishedDate'] = element['publishedAt'];
+            curr_card['title'] = element['title'];
+            curr_card['description'] = element['description'];
+            curr_card['urlToImage'] = element['urlToImage'];
+            curr_card['url'] = element['url'];
+            this.cards.push(curr_card);
+          });
 
-      });   
-
-  }
+        }); 
+      });
+      
+    }
 
   //toggles star icon and saves or deletes tick from localStorage
   initStar(): void {
