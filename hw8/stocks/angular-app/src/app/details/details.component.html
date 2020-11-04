@@ -73,11 +73,22 @@
   <div class="container" *ngIf='validResponse'>
   	 <div class="row">
   	 	<h1 class="col" >{{ticker}}<span style="color:{{starColor}}"><fa-icon (click)="toggleStar()" [icon]="faStar" ></fa-icon></span></h1>
-  	 	<h1 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'>{{price| currency:'string':''}}</h1>
+
+      <!-- green or red text -->
+      <h1 *ngIf='!noChange' class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right'>{{price| currency:'string':''}}</h1>
+      
+      <!-- black text -->
+      <h1 *ngIf='noChange' class="col" style='color:black; text-align: right'>{{price| currency:'string':''}}</h1>
   	 </div>
   	 <div class="row">
   	 	<h2 class="col text-muted">{{name}}</h2>
-  	 	<h2 class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right; '> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
+
+      <!-- green or red numbers -->
+      <h2 *ngIf='!noChange' class="col" [className]="changePositive ? 'text-success' : 'text-danger'" style='text-align: right; '> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
+
+      <!-- black numbers -->
+      <h2 *ngIf='noChange' class="col" style='text-align: right; '> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h2>
+
   	 </div> 
   	 <div class="row">
   	 	<h3 class="col text-muted">{{exchange}}</h3>

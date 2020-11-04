@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NavComponent } from '../components/nav/nav.component';
 import { MatTabsModule, MatTabGroup } from '@angular/material/tabs';
-import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
@@ -47,6 +46,7 @@ export class DetailsComponent implements OnInit {
   change: number;
   changePercent: number;
   changePositive: boolean;
+  noChange: boolean;
   date: string;
   exchange: string;
   marketStatus: boolean;
@@ -123,6 +123,11 @@ export class DetailsComponent implements OnInit {
       this.change = response['last'] - response['prevClose'];
       this.changePercent = this.change/response['prevClose'];
 
+      this.noChange = false;
+      if(this.change == 0){
+        this.noChange = true;
+        this.chartColor = 'black' // black
+      }
       if( this.change < 0){
         this.changePositive = false;
         this.faCaret = fasCaretDown;

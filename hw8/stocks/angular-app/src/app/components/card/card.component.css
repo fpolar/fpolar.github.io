@@ -3,6 +3,7 @@
 }
 .card-thumb{
 	width: 100%;
+	min-height: 50%;
 	max-height: 70%;
 	margin-top:15%;
 }

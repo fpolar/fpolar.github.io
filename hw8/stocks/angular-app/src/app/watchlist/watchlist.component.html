@@ -12,5 +12,8 @@
 	</div>
 	<div  class='container' *ngIf="!spin">
 		<h2 class='row'>My Watchlist</h2>
+		<div *ngFor="let card of cards" class='row'>
+			<app-card [rawCardData]=cards[i] class="card col "></app-card>
+		</div>
 	</div>
 </div>
