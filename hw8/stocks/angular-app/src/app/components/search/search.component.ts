@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -19,6 +20,7 @@ export class SearchComponent implements OnInit {
 	filteredOptions: any;
 	isLoading = false;
     errorMsg: string;
+    spin = false;
 
   constructor(
     private http: HttpClient,
@@ -34,6 +36,7 @@ export class SearchComponent implements OnInit {
 	      this.errorMsg = "";
 	      this.filteredOptions = [];
 	      this.isLoading = true;
+	  	  this.spin = true;
 	    }),
 	    switchMap(value => this.http.get("http://localhost:3000/api/tick-search/" + value)
 	      .pipe(
@@ -46,6 +49,7 @@ export class SearchComponent implements OnInit {
 	  )
 	  .subscribe(data => {
 	  	this.filteredOptions = data;
+	  	this.spin = false;
 	  });
   }
 

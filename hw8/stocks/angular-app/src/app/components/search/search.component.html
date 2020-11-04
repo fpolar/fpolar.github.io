@@ -10,6 +10,9 @@
             </button>
         </span>
         <mat-autocomplete #auto="matAutocomplete">
+            <mat-option disabled class="loading" *ngIf="spin">
+                <mat-progress-spinner diameter="35" mode="indeterminate" *ngIf="spin"></mat-progress-spinner>
+            </mat-option>
           <mat-option *ngFor="let option of filteredOptions" [value]="option.ticker">
             {{option.ticker}} | {{option.name}}
           </mat-option>

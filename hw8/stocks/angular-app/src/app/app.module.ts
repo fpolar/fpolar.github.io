@@ -5,7 +5,8 @@ import { NgModule } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-// import {MatCardModule} from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule,FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
@@ -52,7 +53,8 @@ import { WcardComponent } from './components/wcard/wcard.component';
     NgbModule,
     MatInputModule,
     FormsModule,
-    // MatCardModule,
+	MatProgressSpinnerModule,
+	BrowserAnimationsModule,
     ReactiveFormsModule,
     MatTabsModule,
     FontAwesomeModule,
