@@ -19,6 +19,10 @@ h1 fa-icon{
 	margin:0;
 }
 
-mat-card img{
-	width: 15%;
+app-card{
+	padding-top: 2vh;
+}
+
+.compact-row{
+	margin-bottom: -1vh;
 }

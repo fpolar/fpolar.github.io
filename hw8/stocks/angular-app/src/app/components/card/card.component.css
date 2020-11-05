@@ -1,9 +1,30 @@
 .card-body{
 	width: 50%;
 }
+.card-img{
+	padding-right:0;
+}
 .card-thumb{
-	width: 100%;
+	/*width: 100%;*/
 	min-height: 50%;
-	max-height: 70%;
-	margin-top:15%;
+	max-height: 80%;
+	margin-top:20%;
+	object-fit: cover;
+}
+
+.news-card{
+	background-color: #F9F9F9;
+	border: 3px solid #F0F0F0;
+	border-radius: 3px;
+	font-size: small;
+	height: 100%;
+	cursor: pointer;
+}
+
+.modal-title, .modal-subtitle{
+	width:100%;
+}
+
+.btn{
+	padding: 1%;
 }

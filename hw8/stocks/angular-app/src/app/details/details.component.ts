@@ -17,9 +17,12 @@ import * as Highcharts from "highcharts/highstock";
 import {Options} from "highcharts/highstock";
 import IndicatorsCore from "highcharts/indicators/indicators";
 import IndicatorZigzag from "highcharts/indicators/zigzag";
+import IndicatorVbp from "highcharts/indicators/volume-by-price";
 
 IndicatorsCore(Highcharts);
 IndicatorZigzag(Highcharts);
+//this line causes chart to appear at the bottom
+IndicatorVbp(Highcharts);
 
 @Component({
   selector: 'app-details',
@@ -96,16 +99,17 @@ export class DetailsComponent implements OnInit {
     this.initStar();
 
     //http request to init stock info
-    // this.apiRequests();
-    // var api_request_interval = setInterval(this.apiRequests, 15000);  
     this.apiRequests(); 
-    this.api_request_interval = interval(15000).subscribe(x => { this.apiRequests(); });
-
+    // this.api_request_interval = interval(15000).subscribe(x => { this.apiRequests(); });
   }
 
   ngOnDestroy(): void {
-    this.api_request_interval.unsubscribe();
+    //this.api_request_interval.unsubscribe();
   }
+
+  // ngOnChanges(): void {
+  //   this.apiRequests(); 
+  // }
 
   apiRequests():void {
     this.http.get("http://localhost:3000/api/details/" + this.ticker, {responseType: 'json'}).subscribe(response=>{    
@@ -167,6 +171,7 @@ export class DetailsComponent implements OnInit {
       if(this.marketStatus){
         chartDate = startDate;
       }
+      this.date = chartDate.toLocaleString('sv-SE');
 
       var d = chartDate.getDate(); //we want the info leading up to this day
       if(!this.marketStatus){
@@ -186,12 +191,6 @@ export class DetailsComponent implements OnInit {
                   'month',
                   [1, 2, 3, 4, 6]
               ]];
-      //I know it's a little past 9, u can head out if you want
-      //no, im sure i can help solve your problem
-      //ok im having trouble with the highcharts stock graphs and the angular cards
-      //we never said that part would be easy, google it and understand the examples out there, i'm not going to explain it to you
-      //https://getbootstrap.com/docs/4.0/components/card/
-      //https://www.highcharts.com/demo/stock/sma-volume-by-price
 
       this.http.get("http://localhost:3000/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
         var data1 = [];
@@ -212,19 +211,6 @@ export class DetailsComponent implements OnInit {
           data3.push([x1, volume3]);
         });
         console.log(data1,data2,data3);
-        // var units1 = ['week', 1];
-        // var units2 = ['month', 1,2,3,4,6];
-        // groupingUnits = [units1, units2];
-        // var units1 = ['week', [1]];
-        // var units2 = ['month', [1,2,3,4,6]];
-        // groupingUnits = [units1, units2];
-        // groupingUnits = [[
-        //     'week',                         // unit name
-        //     [1]                             // allowed multiples
-        // ], [
-        //     'month',
-        //     [1, 2, 3, 4, 6]
-        // ]];
 
         //highchart1 init
         this.chartOptions = { 
@@ -270,13 +256,19 @@ export class DetailsComponent implements OnInit {
           },
 
           title: {
-              text: 'AAPL Historical'
+              text: this.ticker+' Historical'
           },
 
           subtitle: {
               text: 'With SMA and Volume by Price technical indicators'
           },
 
+          xAxis: {
+            type: 'datetime'
+          },
+          time: {
+            timezoneOffset: 420
+          }, 
           yAxis: [{
               startOnTick: false,
               endOnTick: false,
@@ -309,30 +301,23 @@ export class DetailsComponent implements OnInit {
           tooltip: {
               split: true
           },
-
-          // plotOptions: {
-          //     series: {
-          //         dataGrouping: {
-          //             units: groupingUnits
-          //         }
-          //     }
-          // },
-
           plotOptions: {
               series: {
-
                   dataGrouping: {
-                      approximation: 'ohlc',
+                      // approximation: 'ohlc',
                       units:  [[
                             'week',
                             [1]
                         ], [
                             'month',
-                            [1, 3, 6]
+                            [1, 3, 6, 12]
+                        ], [
+                            'year',
+                            [1]
                         ]],
-                      forced: true,
-                      enabled: true,
-                      groupAll: true
+                      // forced: true,
+                      // enabled: true,
+                      // groupAll: true
                   }
 
               }
@@ -340,19 +325,11 @@ export class DetailsComponent implements OnInit {
 
           series: [{
               type: 'candlestick',
-              name: 'AAPL',
+              name: this.ticker,
               id: 'aapl',
               zIndex: 2,
               dataGrouping: {
                 approximation: 'ohlc',
-                units:  [[
-                      'week',
-                      [1]
-                  ], [
-                      'month',
-                      [1, 3, 6]
-                  ]],
-
               },
               data: data2
           }, {
@@ -366,9 +343,6 @@ export class DetailsComponent implements OnInit {
               linkedTo: 'aapl',
               params: {
                   volumeSeriesID: 'volume'
-              },
-              dataLabels: {
-                  enabled: false
               },
               zoneLines: {
                   enabled: false
@@ -384,10 +358,9 @@ export class DetailsComponent implements OnInit {
         };
 
         this.updateFlag = true;
-        this.updateFlag2 = true;
         });
         this.http.get("http://localhost:3000/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
-                
+          this.cards = [];
           response['articles'].forEach(element => {
             var curr_card = {};
             curr_card['source'] = element['source']['name'];
@@ -403,6 +376,11 @@ export class DetailsComponent implements OnInit {
       });
       
     }
+
+  chartTabClick(b): void{
+    console.log('chart? ',b);
+    this.updateFlag2 = true;
+  }
 
   //toggles star icon and saves or deletes tick from localStorage
   initStar(): void {

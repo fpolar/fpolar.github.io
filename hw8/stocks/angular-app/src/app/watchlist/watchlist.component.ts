@@ -52,7 +52,7 @@ export class WatchlistComponent implements OnInit {
               curr_card['cardColor'] = 'black'
             }
 
-
+            this.cards.push(curr_card);
           }
           if(card_reqs_completed == tickers.length){
             this.spin = false;

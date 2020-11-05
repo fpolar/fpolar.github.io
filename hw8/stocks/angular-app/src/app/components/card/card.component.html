@@ -1,14 +1,12 @@
-<div (click)="open(content)">
+<div (click)="open(content)"  class='container news-card'>
   <ng-template #content let-modal> 
     <div class="modal-header"> 
-        <h1 class="modal-title" 
-            id="modal-basic-title"> 
+        <h1 class='font-weight-bold'> 
             {{source}}
+            <br>
+            <small class='font-weight-bold text-muted'>
+            {{date}}</small>
         </h1> 
-        <h4 class="modal-subtitle text-muted" 
-            id="modal-basic-subtitle"> 
-            {{date}}
-        </h4> 
         <button type="button" class="close"
                 aria-label="Close" (click)= 
                 "modal.dismiss('Cross click')"> 
@@ -17,14 +15,6 @@
                 × 
             </span> 
         </button>  
-<!--         <div class="d-flex">
-                <h3 class="modal-title" id="exampleModalLabel">{{source}}</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <h5 class="modal-title">Modal Sub-Title</h5>
-    	</div>  -->
     </div> 
     <div class="modal-body"> 
     	<div class="model-title"><strong> {{title}}</strong></div>
@@ -32,7 +22,7 @@
     	<div class="model-link text-muted"> For more details click <a href='{{url}}'>Here.</a></div>
     </div> 
     <div class="modal-footer"> 
-    	<span class='mr-auto row' style='width:100%; padding-left: 3%;'>Share</span>
+    	<span class='mr-auto row' style='width:100%; padding-left: 1%;'>Share</span>
     	<div class='mr-auto row' style='width:100%;'>
 	        <a type="button" 
 	            class="btn btn-lg btn-social btn-twitter" 
@@ -46,13 +36,15 @@
 	        </a> 
         </div>
     </div>  
-  </ng-template> 
-  <div class='row'>
-	  <div class='col-sm-12 col-md-3  pr-md-0 v-center '>
-	    <img src="{{img_url}}" class="card-thumb align-middle align-center" alt="{{img_url}}">
-	  </div>
-	  <div class="card-body col-sm-12 col-md-9 pr-md-0 v-center ">
-	      <p class="card-text">{{ title }}</p>
-	  </div>
+  </ng-template>
+  <div> 
+      <div class='row'>
+    	  <div class='card-img col-md-3'>
+    	    <img src="{{img_url}}" class="card-thumb card-img align-middle align-center" alt="{{img_url}}">
+    	  </div>
+    	  <div class="card-body col-md-9 v-center ">
+    	      <p class="card-text">{{ title }}</p>
+    	  </div>
+      </div>
   </div>
 </div>

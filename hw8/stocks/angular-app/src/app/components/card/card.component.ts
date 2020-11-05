@@ -31,7 +31,9 @@ export class CardComponent implements OnInit {
   	this.title = this.rawCardData['title'];
   	this.img_url = this.rawCardData['urlToImage'];
   	this.url = this.rawCardData['url'];
-  	this.date = this.rawCardData['publishedDate'];
+  	let rawDate = new Date(this.rawCardData['publishedDate']);
+    let options = {year: 'numeric', month: 'long', day: 'numeric' };
+    this.date = rawDate.toLocaleString('en-US', options);
   }
 
 
