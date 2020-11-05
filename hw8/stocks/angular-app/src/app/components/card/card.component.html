@@ -1,50 +1,52 @@
-<div (click)="open(content)"  class='container news-card'>
-  <ng-template #content let-modal> 
-    <div class="modal-header"> 
-        <h1 class='font-weight-bold'> 
-            {{source}}
-            <br>
-            <small class='font-weight-bold text-muted'>
-            {{date}}</small>
-        </h1> 
-        <button type="button" class="close"
-                aria-label="Close" (click)= 
-                "modal.dismiss('Cross click')"> 
-  
-            <span aria-hidden="true"> 
-                × 
-            </span> 
-        </button>  
-    </div> 
-    <div class="modal-body"> 
-    	<div class="model-title"><strong> {{title}}</strong></div>
-    	<div class="model-desc"> {{desc}}</div>
-    	<div class="model-link text-muted"> For more details click <a href='{{url}}'>Here.</a></div>
-    </div> 
-    <div class="modal-footer"> 
-    	<span class='mr-auto row' style='width:100%; padding-left: 1%;'>Share</span>
-    	<div class='mr-auto row' style='width:100%;'>
-	        <a type="button" 
-	            class="btn btn-lg btn-social btn-twitter" 
-	            (click)="shareT(modal)">
-	            <fa-icon [icon]="faTwitter" style='font-size:xx-large; color:DodgerBlue;'></fa-icon> 
-	        </a> 
-	        <a type="button" 
-	            class="btn btn-lg btn-social btn-facebook" 
-	            (click)="shareF(modal)">
-	            <fa-icon [icon]="faFacebook" style='font-size:xx-large; color:blue;'></fa-icon> 
-	        </a> 
-        </div>
-    </div>  
-  </ng-template>
-  <div> 
-      <div class='row'>
-    	  <div class='card-img col-md-3'>
-    	    <img src="{{img_url}}" class="card-thumb card-img align-middle align-center" alt="{{img_url}}">
-    	  </div>
-    	  <div class="card-body col-md-9 v-center ">
-    	      <p class="card-text">{{ title }}</p>
-    	  </div>
+<div  style='min-height: 100%;  position: relative; '>
+    <div (click)="open(content)" >
+      <ng-template #content let-modal> 
+        <div class="modal-header"> 
+            <h1 class='font-weight-bold'> 
+                {{source}}
+                <br>
+                <small class='font-weight-bold text-muted'>
+                {{date}}</small>
+            </h1> 
+            <button type="button" class="close"
+                    aria-label="Close" (click)= 
+                    "modal.dismiss('Cross click')"> 
+      
+                <span aria-hidden="true"> 
+                    × 
+                </span> 
+            </button>  
+        </div> 
+        <div class="modal-body"> 
+        	<div class="model-title"><strong> {{title}}</strong></div>
+        	<div class="model-desc"> {{desc}}</div>
+        	<div class="model-link text-muted"> For more details click <a href='{{url}}'>Here.</a></div>
+        </div> 
+        <div class="modal-footer"> 
+        	<span class='mr-auto row' style='width:100%; padding-left: 1%;'>Share</span>
+        	<div class='mr-auto row' style='width:100%;'>
+    	        <a type="button" 
+    	            class="btn btn-lg btn-social btn-twitter" 
+    	            (click)="shareT(modal)">
+    	            <fa-icon [icon]="faTwitter" style='font-size:xx-large; color:DodgerBlue;'></fa-icon> 
+    	        </a> 
+    	        <a type="button" 
+    	            class="btn btn-lg btn-social btn-facebook" 
+    	            (click)="shareF(modal)">
+    	            <fa-icon [icon]="faFacebook" style='font-size:xx-large; color:blue;'></fa-icon> 
+    	        </a> 
+            </div>
+        </div>  
+      </ng-template>
+      <div class='container news-card'> 
+          <div class='row align-items-center justify-content-center'>
+        	  <div class='card-img col-md-3 align-items-center justify-content-center'>
+        	    <img src="{{img_url}}" class="card-thumb card-img align-middle align-center" alt="{{img_url}}">
+        	  </div>
+        	  <div class="card-body col-md-9 v-center ">
+        	      <p class="card-text">{{ title }}</p>
+        	  </div>
+          </div>
       </div>
-  </div>
+    </div>
 </div>

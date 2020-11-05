@@ -2,13 +2,12 @@
 	width: 50%;
 }
 .card-img{
-	padding-right:0;
+	/*padding-right:0;*/
 }
 .card-thumb{
-	/*width: 100%;*/
 	min-height: 50%;
 	max-height: 80%;
-	margin-top:20%;
+	margin-top:2vh;
 	object-fit: cover;
 }
 

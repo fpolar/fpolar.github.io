@@ -40,32 +40,43 @@
     </div>
     <div class="card-body">
       <div class='row'>
-        <div class='col'>
+        <div class='col-md-6 col-sm-12'>
           <div class='row'>
             <p class="card-text col text-left">Quantity:</p>
             <p class="card-text col text-right">{{quantity}}</p>
           </div>
           <div class='row'>
             <p class="card-text col text-left">Avg. Cost / Share:</p>
-            <p class="card-text col text-right">{{avgCost| number:'1.2-2'}}</p>
+            <p class="card-text col text-right">
+              {{avgCost| number:'1.2-2'}}
+            </p>
           </div>
           <div class='row'>
             <p class="card-text col text-left">Total Cost:</p>
-            <p class="card-text col text-right">{{totalCost}}</p>
+            <p class="card-text col text-right">
+              {{totalCost}}
+            </p>
           </div>
         </div>
-        <div class='col'>
+        <div class='col-md-6 col-sm-12'>
           <div class='row'>
             <p class="card-text col text-left">Change:</p>
             <p class="card-text col text-right">{{change| number:'1.2-2'}}</p>
           </div>
           <div class='row'>
             <p class="card-text col text-left">Current Price:</p>
-            <p class="card-text col text-right">{{price}}</p>
+            <p class="card-text col text-right">
+              {{price}}
+            </p>
           </div>
           <div class='row'>
             <p class="card-text col text-left">Market Value:</p>
-            <p class="card-text col text-right">{{marketVal}}</p>
+            <div class="card-text col text-right">
+              <h3 *ngIf='!noChange' [className]="changePositive ? 'text-success col text-right float-right' : 'text-danger col text-right float-right '">{{marketVal}} </h3>
+         
+              <!-- black numbers -->
+              <h3 *ngIf='noChange' class='col text-right float-right font-weight-bold ' style='text-align: right; '> {{marketVal}} </h3>
+            </div> 
           </div>
         </div>
       </div>

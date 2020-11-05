@@ -1,14 +1,13 @@
+.row{
+	margin-top: 6vh;
+} 
 
-#ig-container{
-	margin-left:40%;
-	margin-top:5% ;
-}
 .btn-outline-secondary{
 	border-color: var(--indigo); 
 	border-style: inset;
 	border-width: 3px;
 	/*I know using important is bad but so is using angular with bootstrap*/
-	border-radius: 15px !important;
+	border-radius: 25px !important;
 	border-top-left-radius: 0px !important;
 	border-bottom-left-radius: 0px !important;
 	padding-top: 0 !important;
@@ -17,7 +16,7 @@
 .form-control{
 	border-color: var(--indigo);
 	border-width: 3px;
-	border-radius: 15px;
+	border-radius: 25px;
 	outline: 0 none;
 }
 
@@ -27,7 +26,7 @@
     box-shadow: none;
 }
 .input-group-append {
-    margin-top: -2px;
+    margin-top: -.16vh;
 }
 input:focus{
 	border-color: var(--indigo); 
