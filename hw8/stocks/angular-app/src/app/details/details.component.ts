@@ -433,7 +433,7 @@ export class DetailsComponent implements OnInit {
     if(!p){
       localStorage.setItem('p', this.ticker+",");
     }
-    else if(p.includes(this.ticker+",")){
+    else if(!p.includes(this.ticker+",")){
       localStorage.setItem('p', p+this.ticker+",");
     }
 
@@ -451,12 +451,12 @@ export class DetailsComponent implements OnInit {
     }
 
     //record total cost
-    var t = localStorage.getItem(this.ticker+"-total-cost");
-    if(t){
-      var x = this.purchaseQuantity*this.price+Number(t);
-      localStorage.setItem(this.ticker, String(x));
+    var tc = localStorage.getItem(this.ticker+"-total-cost");
+    if(tc){
+      var x = this.purchaseQuantity*this.price+Number(tc);
+      localStorage.setItem(this.ticker+"-total-cost", String(x));
     }else{
-      localStorage.setItem(this.ticker, String(this.purchaseQuantity*this.price));
+      localStorage.setItem(this.ticker+"-total-cost", String(this.purchaseQuantity*this.price));
     }
     modal.close('Save click');
   }

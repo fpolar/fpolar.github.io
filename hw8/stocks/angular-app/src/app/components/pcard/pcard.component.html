@@ -30,4 +30,49 @@
       <h3 *ngIf='noChange' class='col text-right float-right font-weight-bold ' style='text-align: right; '> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h3>
     </div>
   </div>
-</div>
+
+  <div class="card bg-light text-left">
+    <div class="card-header" routerLink="/details/{{ticker}}">
+      <h1>
+          {{ticker}}
+          <small class='text-muted'>{{name}}</small>
+      </h1>
+    </div>
+    <div class="card-body">
+      <div class='row'>
+        <div class='col'>
+          <div class='row'>
+            <p class="card-text col text-left">Quantity:</p>
+            <p class="card-text col text-right">{{quantity}}</p>
+          </div>
+          <div class='row'>
+            <p class="card-text col text-left">Avg. Cost / Share:</p>
+            <p class="card-text col text-right">{{avgCost| number:'1.2-2'}}</p>
+          </div>
+          <div class='row'>
+            <p class="card-text col text-left">Total Cost:</p>
+            <p class="card-text col text-right">{{totalCost}}</p>
+          </div>
+        </div>
+        <div class='col'>
+          <div class='row'>
+            <p class="card-text col text-left">Change:</p>
+            <p class="card-text col text-right">{{change| number:'1.2-2'}}</p>
+          </div>
+          <div class='row'>
+            <p class="card-text col text-left">Current Price:</p>
+            <p class="card-text col text-right">{{price}}</p>
+          </div>
+          <div class='row'>
+            <p class="card-text col text-left">Market Value:</p>
+            <p class="card-text col text-right">{{marketVal}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-muted text-right">
+      <button type="button" (click)='buyStock' class="btn btn-primary ml-3">Buy</button>
+      <button type="button" (click)='sellStock' class="btn btn-danger ml-3">Sell</button>
+    </div>
+  </div>
+</div> 

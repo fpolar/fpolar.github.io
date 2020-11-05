@@ -18,11 +18,17 @@
 
 .col{
 	margin-bottom: 0;
+	font-size: large;
+}
+
+.row{
+	/*margin-bottom: 3%;*/
 }
 
 h1, h2{
-	font-weight: 700;	
+	font-weight: 500;
+	margin-bottom: 0;	
 }
 h3, h4{
-	font-weight: 500;	
+	font-weight: 300;	
 }
