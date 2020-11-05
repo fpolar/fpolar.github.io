@@ -2,6 +2,12 @@
 	<app-nav></app-nav>
 	
 	<div  class='container text-center loading-container'>
+		<h1 class='row wl-title'>My Portfolio</h1>
+		<div  class='text-center' *ngIf='cardsEmpty'>
+			<div class="alert alert-warning" role="alert"> 
+			  Currently you don't have any stock.
+			</div>
+		</div>
 		<div class="row"> 
 		  <div class="col-5"> </div>
 		  <div class="col loading align-self-center" *ngIf="spin">
@@ -9,5 +15,11 @@
 		  </div>
 		  <div class="col-5"> </div>
 		</div>
+	</div>
+	
+	<div  class='container' *ngIf="!spin">
+		<div *ngFor="let card of cards" class='row'>
+			<app-pcard [rawCardData]=card class="col "></app-pcard>
 		</div>
+	</div>
 </div>
