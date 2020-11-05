@@ -25,8 +25,6 @@ export class WcardComponent implements OnInit {
   removed = false;
   closeResult = ''; 
 
-
-
   @Input() rawCardData: any;
   ngOnInit(): void {
   	this.ticker = this.rawCardData['ticker'];

@@ -3,6 +3,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import { AppRoutingModule } from '../../app-routing.module';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-pcard',
@@ -11,7 +12,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class PcardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ticker: string;
   name: string;
@@ -51,6 +52,26 @@ export class PcardComponent implements OnInit {
   }
 
 
+  open(content) { 
+    this.modalService.open(content, 
+   {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => { 
+      this.closeResult = `Closed with: ${result}`; 
+    }, (reason) => { 
+      this.closeResult =  
+         `Dismissed ${this.getDismissReason(reason)}`; 
+    }); 
+  } 
+  
+  private getDismissReason(reason: any): string { 
+    if (reason === ModalDismissReasons.ESC) { 
+      return 'by pressing ESC'; 
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) { 
+      return 'by clicking on a backdrop'; 
+    } else { 
+      return `with: ${reason}`; 
+    } 
+  } 
+
 
   buyStock(modal) {
     //adding to portfolio local storage var
@@ -58,7 +79,7 @@ export class PcardComponent implements OnInit {
     if(!p){
       localStorage.setItem('p', this.ticker+",");
     }
-    else if(p.includes(this.ticker+",")){
+    else if(!p.includes(this.ticker+",")){
       localStorage.setItem('p', p+this.ticker+",");
     }
 

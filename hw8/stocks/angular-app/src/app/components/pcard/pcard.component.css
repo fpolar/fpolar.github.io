@@ -16,13 +16,13 @@
 	margin-right:.4vw;
 }
 
-.col{
+.card-text{
 	margin-bottom: 0;
 	font-size: large;
 }
 
 .row{
-	/*margin-bottom: 3%;*/
+	margin-bottom: 1%;
 }
 
 h1, h2{

@@ -1,35 +1,90 @@
 
 <div *ngIf='!removed'> 
-  <div class='container port-card' routerLink="/details/{{ticker}}">
-    <div class='row'>
-      <button type="button" class="close col text-right float-right" aria-label="Close" (click)="removeFromWatchList()"> 
-        <span aria-hidden="true"> × </span> 
-      </button> 
-    </div>
-    <div class='row'>
-      <h1 class='col text-left float-left'>
-          {{ticker}}
-      </h1>
 
-      <!-- green or red text -->
-      <h1 *ngIf='!noChange' [className]="changePositive ? ' font-weight-bold text-success col text-right float-right' : ' font-weight-bold text-danger col text-right float-right'" style='text-align: right'>{{price| currency:'string':''}}</h1>
-      
-      <!-- black text -->
-      <h1 *ngIf='noChange' class="col text-right float-right font-weight-bold" style='color:black; text-align: right'>{{price| currency:'string':''}}</h1>
 
-    </div>
-    <div class='row'>
-      <h3 class='col-md-6 text-left float-left'>
-          {{name}}
-      </h3>
+  <ng-template #buyContent let-modal> 
+    <div class="modal-header"> 
+        <h4 class="modal-title" 
+            id="modal-basic-title"> 
+            {{ticker}}
+        </h4> 
+        <button type="button" class="close"
+                aria-label="Close" (click)= 
+                "modal.dismiss('Cross click')"> 
+            <span aria-hidden="true"> 
+                × 
+            </span> 
+        </button> 
+    </div> 
+    <div class="modal-body"> 
+        <form> 
+            <div class="form-group"> 
+                <label for="price"> 
+                    Current Price: {{price}} 
+                </label> 
+                <div class="input-group"> 
+                    <input id="purchase-quantity" 
+                        class="form-control" 
+                        placeholder="0" 
+                        name="dp" 
+                        type="number" 
+                        [(ngModel)]="purchaseQuantity"> 
+                </div> 
+            </div> 
+        </form> 
+    </div> 
+    <div class="modal-footer"> 
+      <span class='mr-auto' >Total: {{purchaseQuantity*price}}</span>
+        <button type="button" 
+            class="btn btn btn-success" 
+            (click)="buyStock(modal)"
+            [disabled]="purchaseQuantity <= 0"> 
+            Buy 
+        </button> 
+    </div> 
+  </ng-template> 
 
-      <!-- green or red numbers -->
-      <h3 *ngIf='!noChange' [className]="changePositive ? 'text-success col text-right float-right' : 'text-danger col text-right float-right '" style='text-align: right; '> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h3>
- 
-      <!-- black numbers -->
-      <h3 *ngIf='noChange' class='col text-right float-right font-weight-bold ' style='text-align: right; '> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h3>
-    </div>
-  </div>
+  <ng-template #sellContent let-modal> 
+    <div class="modal-header"> 
+        <h4 class="modal-title" 
+            id="modal-basic-title"> 
+            {{ticker}}
+        </h4> 
+        <button type="button" class="close"
+                aria-label="Close" (click)= 
+                "modal.dismiss('Cross click')"> 
+            <span aria-hidden="true"> 
+                × 
+            </span> 
+        </button> 
+    </div> 
+    <div class="modal-body"> 
+        <form> 
+            <div class="form-group"> 
+                <label for="price"> 
+                    Current Price: {{price}} 
+                </label> 
+                <div class="input-group"> 
+                    <input id="purchase-quantity" 
+                        class="form-control" 
+                        placeholder="0" 
+                        name="dp" 
+                        type="number" 
+                        [(ngModel)]="purchaseQuantity"> 
+                </div> 
+            </div> 
+        </form> 
+    </div> 
+    <div class="modal-footer"> 
+      <span class='mr-auto' >Total: {{purchaseQuantity*price}}</span>
+        <button type="button" 
+            class="btn btn btn-success" 
+            (click)="sellStock(modal)"
+            [disabled]="purchaseQuantity <= 0 || purchaseQuantity > quantity"> 
+            Sell 
+        </button> 
+    </div> 
+  </ng-template> 
 
   <div class="card bg-light text-left">
     <div class="card-header" routerLink="/details/{{ticker}}">
@@ -46,8 +101,8 @@
             <p class="card-text col text-right">{{quantity}}</p>
           </div>
           <div class='row'>
-            <p class="card-text col text-left">Avg. Cost / Share:</p>
-            <p class="card-text col text-right">
+            <p class="card-text col col-md-9 text-left">Avg. Cost / Share:</p>
+            <p class="card-text col col-md-3 text-right">
               {{avgCost| number:'1.2-2'}}
             </p>
           </div>
@@ -61,29 +116,36 @@
         <div class='col-md-6 col-sm-12'>
           <div class='row'>
             <p class="card-text col text-left">Change:</p>
-            <p class="card-text col text-right">{{change| number:'1.2-2'}}</p>
+            <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text col text-right' : 'text-danger col card-text text-right'"><fa-icon [icon]="faCaret"></fa-icon>     {{change| number:'1.2-2'}}</p>
+         
+              <!-- black numbers -->
+            <p *ngIf='noChange' class='col text-right ' style='text-align: right; '> {{change| number:'1.2-2'}} </p>
           </div>
           <div class='row'>
             <p class="card-text col text-left">Current Price:</p>
-            <p class="card-text col text-right">
-              {{price}}
-            </p>
+
+            <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text  col text-right' : 'text-danger col card-text text-right'">{{price| number:'1.2-2'}} </p>
+         
+              <!-- black numbers -->
+            <p *ngIf='noChange' class='col text-right font-weight-bold ' style='text-align: right; '> {{price| number:'1.2-2'}} </p>
+
           </div>
           <div class='row'>
             <p class="card-text col text-left">Market Value:</p>
-            <div class="card-text col text-right">
-              <h3 *ngIf='!noChange' [className]="changePositive ? 'text-success col text-right float-right' : 'text-danger col text-right float-right '">{{marketVal}} </h3>
-         
-              <!-- black numbers -->
-              <h3 *ngIf='noChange' class='col text-right float-right font-weight-bold ' style='text-align: right; '> {{marketVal}} </h3>
-            </div> 
+            <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text col text-right ' : 'text-danger col card-text text-right '">{{marketVal}} </p>
+       
+            <!-- black numbers -->
+            <p *ngIf='noChange' class='card-text col text-right ' style='text-align: right; '> {{marketVal}} </p>
           </div>
         </div>
       </div>
     </div>
+
+
+  
     <div class="card-footer text-muted text-right">
-      <button type="button" (click)='buyStock' class="btn btn-primary ml-3">Buy</button>
-      <button type="button" (click)='sellStock' class="btn btn-danger ml-3">Sell</button>
+      <button type="button" (click)='open(buyContent)' class="btn btn-primary ml-3">Buy</button>
+      <button type="button" (click)='open(sellContent)' class="btn btn-danger ml-3">Sell</button>
     </div>
   </div>
 </div> 
