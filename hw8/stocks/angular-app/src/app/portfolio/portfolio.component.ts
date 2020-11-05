@@ -23,7 +23,7 @@ export class PortfolioComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    const tickers = localStorage.getItem('wl').split(',');
+    const tickers = localStorage.getItem('p').split(',');
     tickers.pop();
     let card_reqs_completed = 0;
     if(tickers.length == 0){
@@ -35,12 +35,17 @@ export class PortfolioComponent implements OnInit {
         console.log(t);
         this.http.get("http://localhost:3000/api/details/" + t, {responseType: 'json'}).subscribe(response=>{    
           if(!(response['detail'])){
+            let q = parseInt(localStorage.getItem(t));
+            let c = parseInt(localStorage.getItem(t+'-total-cost'));
             let curr_card = {}
             curr_card['ticker'] = t;
             curr_card['name']  = response['name'];
             curr_card['price']  = response['last'];
-            curr_card['change'] = response['last'] - response['prevClose'];
-            curr_card['changePercent'] = curr_card['change']/response['prevClose'];
+            curr_card['quantity'] = q;
+            curr_card['totalCost'] = c*q;
+            curr_card['avgCost'] = c/q;
+            curr_card['change'] = curr_card['avgCost'] - curr_card['price'];
+            curr_card['marketVal'] = q*curr_card['price'];
 
             curr_card['noChange'] = false;
             curr_card['changePositive'] = true;

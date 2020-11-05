@@ -383,7 +383,7 @@ export class DetailsComponent implements OnInit {
 
   //toggles star icon and saves or deletes tick from localStorage
   initStar(): void {
-    var wl = this.myStorage.getItem('wl');
+    var wl = localStorage.getItem('wl');
     if(wl && wl.includes(this.ticker+",")){
       this.faStar = fasStar;
       this.starColor = 'gold';
@@ -391,16 +391,16 @@ export class DetailsComponent implements OnInit {
   }
 
   toggleStar(): void {
-    var wl = this.myStorage.getItem('wl');
+    var wl = localStorage.getItem('wl');
     if(wl && wl.includes(this.ticker+",")){
       wl = wl.replace(this.ticker+",", '');
-      this.myStorage.setItem('wl', wl);
+      localStorage.setItem('wl', wl);
       this.faStar = farStar;
       this.alertService.error(this.ticker+' removed from watchlist.', this.alertOptions);
       this.starColor = 'black';
     }else{
       if(!wl) wl = '';
-      this.myStorage.setItem('wl', wl+this.ticker+",");
+      localStorage.setItem('wl', wl+this.ticker+",");
       this.faStar = fasStar;
       this.alertService.success(this.ticker+' added to watchlist.', this.alertOptions);
       this.starColor = 'gold';
@@ -428,12 +428,35 @@ export class DetailsComponent implements OnInit {
   } 
 
   buyStock(modal) {
-    var t = this.myStorage.getItem(this.ticker);
+    //adding to portfolio local storage var
+    var p = localStorage.getItem('p');
+    if(!p){
+      localStorage.setItem('p', this.ticker+",");
+    }
+    else if(p.includes(this.ticker+",")){
+      localStorage.setItem('p', p+this.ticker+",");
+    }
+
+    //recording stock price on most recent purchase
+    //apparently we jus use average cost?
+    // localStorage.setItem(this.ticker+"-recent-purchase", ""+this.price);
+
+    //adding to stock amount
+    var t = localStorage.getItem(this.ticker);
     if(t){
       var x = this.purchaseQuantity+Number(t);
       localStorage.setItem(this.ticker, String(x));
     }else{
       localStorage.setItem(this.ticker, String(this.purchaseQuantity));
+    }
+
+    //record total cost
+    var t = localStorage.getItem(this.ticker+"-total-cost");
+    if(t){
+      var x = this.purchaseQuantity*this.price+Number(t);
+      localStorage.setItem(this.ticker, String(x));
+    }else{
+      localStorage.setItem(this.ticker, String(this.purchaseQuantity*this.price));
     }
     modal.close('Save click');
   }
