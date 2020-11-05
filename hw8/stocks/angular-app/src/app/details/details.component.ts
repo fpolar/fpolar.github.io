@@ -437,10 +437,6 @@ export class DetailsComponent implements OnInit {
       localStorage.setItem('p', p+this.ticker+",");
     }
 
-    //recording stock price on most recent purchase
-    //apparently we jus use average cost?
-    // localStorage.setItem(this.ticker+"-recent-purchase", ""+this.price);
-
     //adding to stock amount
     var t = localStorage.getItem(this.ticker);
     if(t){
@@ -452,11 +448,15 @@ export class DetailsComponent implements OnInit {
 
     //record total cost
     var tc = localStorage.getItem(this.ticker+"-total-cost");
+    console.log(this.purchaseQuantity,this.price,(tc));
+    var x = this.purchaseQuantity*this.price;
     if(tc){
-      var x = this.purchaseQuantity*this.price+Number(tc);
+      x += Number(tc);
+      console.log(x);
       localStorage.setItem(this.ticker+"-total-cost", String(x));
     }else{
-      localStorage.setItem(this.ticker+"-total-cost", String(this.purchaseQuantity*this.price));
+      console.log(x);
+      localStorage.setItem(this.ticker+"-total-cost", String(x));
     }
     modal.close('Save click');
   }

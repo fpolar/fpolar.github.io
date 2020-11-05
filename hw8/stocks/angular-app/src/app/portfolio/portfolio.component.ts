@@ -42,7 +42,7 @@ export class PortfolioComponent implements OnInit {
           this.http.get("http://localhost:3000/api/details/" + t, {responseType: 'json'}).subscribe(response=>{    
             if(!(response['detail'])){
               let q = parseInt(localStorage.getItem(t));
-              let c = parseInt(localStorage.getItem(t+'-total-cost'));
+              let c = parseFloat(localStorage.getItem(t+'-total-cost'));
               console.log(q);
               console.log(c);
               let curr_card = {}
@@ -50,7 +50,7 @@ export class PortfolioComponent implements OnInit {
               curr_card['name']  = response['name'];
               curr_card['price']  = response['last'];
               curr_card['quantity'] = q;
-              curr_card['totalCost'] = c*q;
+              curr_card['totalCost'] = c;
               curr_card['avgCost'] = c/q;
               curr_card['change'] = curr_card['avgCost'] - curr_card['price'];
               curr_card['marketVal'] = q*curr_card['price'];
@@ -68,9 +68,10 @@ export class PortfolioComponent implements OnInit {
                 curr_card['noChange'] = true;
                 curr_card['cardColor'] = 'black'
               }
-
-              this.cards.push(curr_card);
-              this.cardsEmpty = false;
+              if(q > 0){
+                this.cards.push(curr_card);
+                this.cardsEmpty = false;
+              }
             }
             console.log(tickers.length);
             console.log(card_reqs_completed);

@@ -54,7 +54,7 @@ export class PcardComponent implements OnInit {
 
   open(content) { 
     this.modalService.open(content, 
-   {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => { 
+    {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => { 
       this.closeResult = `Closed with: ${result}`; 
     }, (reason) => { 
       this.closeResult =  
@@ -74,69 +74,31 @@ export class PcardComponent implements OnInit {
 
 
   buyStock(modal) {
-    //adding to portfolio local storage var
-    var p = localStorage.getItem('p');
-    if(!p){
-      localStorage.setItem('p', this.ticker+",");
-    }
-    else if(!p.includes(this.ticker+",")){
-      localStorage.setItem('p', p+this.ticker+",");
-    }
-
-    //recording stock price on most recent purchase
-    //apparently we jus use average cost?
-    // localStorage.setItem(this.ticker+"-recent-purchase", ""+this.price);
-
-    //adding to stock amount
-    var t = localStorage.getItem(this.ticker);
-    if(t){
-      var x = this.purchaseQuantity+Number(t);
-      localStorage.setItem(this.ticker, String(x));
-    }else{
-      localStorage.setItem(this.ticker, String(this.purchaseQuantity));
-    }
-
-    //record total cost
-    var t = localStorage.getItem(this.ticker+"-total-cost");
-    if(t){
-      var x = this.purchaseQuantity*this.price+Number(t);
-      localStorage.setItem(this.ticker, String(x));
-    }else{
-      localStorage.setItem(this.ticker, String(this.purchaseQuantity*this.price));
-    }
+    console.log(this.quantity, this.purchaseQuantity);
+    this.quantity += this.purchaseQuantity;
+    this.marketVal = this.quantity*this.price;
+    this.totalCost = this.totalCost+this.price*this.purchaseQuantity;
+    localStorage.setItem(this.ticker, String(this.quantity));
+    localStorage.setItem(this.ticker+"-total-cost", String(this.totalCost));
     modal.close('Save click');
   }
 
   sellStock(modal) {
-    //adding to portfolio local storage var
-    var p = localStorage.getItem('p');
-    if(!p){
-      localStorage.setItem('p', this.ticker+",");
-    }
-    else if(p.includes(this.ticker+",")){
-      localStorage.setItem('p', p+this.ticker+",");
-    }
+    this.quantity += -this.purchaseQuantity;
+    this.marketVal = this.quantity*this.price;
 
-    //recording stock price on most recent purchase
-    //apparently we jus use average cost?
-    // localStorage.setItem(this.ticker+"-recent-purchase", ""+this.price);
-
-    //adding to stock amount
-    var t = localStorage.getItem(this.ticker);
-    if(t){
-      var x = this.purchaseQuantity+Number(t);
-      localStorage.setItem(this.ticker, String(x));
+    if(this.quantity <= 0){
+      this.removed = true;
+      var p = localStorage.getItem('p');
+      p = p.replace(this.ticker+",", '');
+      localStorage.setItem('p', p);
+      localStorage.removeItem(this.ticker+'-total-cost');
+      localStorage.removeItem(this.ticker);
+      window.location.reload();
     }else{
-      localStorage.setItem(this.ticker, String(this.purchaseQuantity));
-    }
-
-    //record total cost
-    var t = localStorage.getItem(this.ticker+"-total-cost");
-    if(t){
-      var x = this.purchaseQuantity*this.price+Number(t);
-      localStorage.setItem(this.ticker, String(x));
-    }else{
-      localStorage.setItem(this.ticker, String(this.purchaseQuantity*this.price));
+      this.totalCost = -this.purchaseQuantity*this.price+this.totalCost;
+      localStorage.setItem(this.ticker, String(this.quantity));
+      localStorage.setItem(this.ticker+"-total-cost", String(this.totalCost));
     }
     modal.close('Save click');
   }

@@ -109,7 +109,7 @@
           <div class='row'>
             <p class="card-text col text-left">Total Cost:</p>
             <p class="card-text col text-right">
-              {{totalCost}}
+              {{totalCost| number:'1.2-2'}}
             </p>
           </div>
         </div>
@@ -119,7 +119,7 @@
             <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text col text-right' : 'text-danger col card-text text-right'"><fa-icon [icon]="faCaret"></fa-icon>     {{change| number:'1.2-2'}}</p>
          
               <!-- black numbers -->
-            <p *ngIf='noChange' class='col text-right ' style='text-align: right; '> {{change| number:'1.2-2'}} </p>
+            <p *ngIf='noChange' class='card-text col text-right '> {{change| number:'1.2-2'}} </p>
           </div>
           <div class='row'>
             <p class="card-text col text-left">Current Price:</p>
@@ -127,15 +127,15 @@
             <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text  col text-right' : 'text-danger col card-text text-right'">{{price| number:'1.2-2'}} </p>
          
               <!-- black numbers -->
-            <p *ngIf='noChange' class='col text-right font-weight-bold ' style='text-align: right; '> {{price| number:'1.2-2'}} </p>
+            <p *ngIf='noChange' class='card-text col text-right'> {{price| number:'1.2-2'}} </p>
 
           </div>
           <div class='row'>
             <p class="card-text col text-left">Market Value:</p>
-            <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text col text-right ' : 'text-danger col card-text text-right '">{{marketVal}} </p>
+            <p *ngIf='!noChange' [className]="changePositive ? 'text-success card-text col text-right ' : 'text-danger col card-text text-right '">{{marketVal| number:'1.2-2'}} </p>
        
             <!-- black numbers -->
-            <p *ngIf='noChange' class='card-text col text-right ' style='text-align: right; '> {{marketVal}} </p>
+            <p *ngIf='noChange' class='card-text col text-right '> {{marketVal| number:'1.2-2'}} </p>
           </div>
         </div>
       </div>
