@@ -1,0 +1,28 @@
+
+
+.watch-card{
+	background-color: white;
+	border: 3px solid #F9F9F9;
+	border-radius: 3px;
+	font-size: small;
+	height: 100%;
+	cursor: pointer;
+	margin-bottom: 2%;
+}
+
+.row button{
+	font-size: medium;
+	margin-top:.2vw;
+	margin-right:.4vw;
+}
+
+.col{
+	margin-bottom: 0;
+}
+
+h1, h2{
+	font-weight: 700;	
+}
+h3, h4{
+	font-weight: 500;	
+}

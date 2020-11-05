@@ -33,7 +33,7 @@ export class DetailsComponent implements OnInit {
 
   spin=true;
   alertOptions = {
-    autoClose: false,
+    autoClose: true,
     keepAfterRouteChange: false
   };
   validResponse = false;
@@ -56,7 +56,6 @@ export class DetailsComponent implements OnInit {
   market: string;
   purchaseQuantity = 0;
   closeResult = ''; 
-
 
   //summary tab fields
   desc: string;

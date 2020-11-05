@@ -1,1 +1,33 @@
-<p>pcard works!</p>
+
+<div *ngIf='!removed'> 
+  <div class='container port-card' routerLink="/details/{{ticker}}">
+    <div class='row'>
+      <button type="button" class="close col text-right float-right" aria-label="Close" (click)="removeFromWatchList()"> 
+        <span aria-hidden="true"> × </span> 
+      </button> 
+    </div>
+    <div class='row'>
+      <h1 class='col text-left float-left'>
+          {{ticker}}
+      </h1>
+
+      <!-- green or red text -->
+      <h1 *ngIf='!noChange' [className]="changePositive ? ' font-weight-bold text-success col text-right float-right' : ' font-weight-bold text-danger col text-right float-right'" style='text-align: right'>{{price| currency:'string':''}}</h1>
+      
+      <!-- black text -->
+      <h1 *ngIf='noChange' class="col text-right float-right font-weight-bold" style='color:black; text-align: right'>{{price| currency:'string':''}}</h1>
+
+    </div>
+    <div class='row'>
+      <h3 class='col-md-6 text-left float-left'>
+          {{name}}
+      </h3>
+
+      <!-- green or red numbers -->
+      <h3 *ngIf='!noChange' [className]="changePositive ? 'text-success col text-right float-right' : 'text-danger col text-right float-right '" style='text-align: right; '> <fa-icon [icon]="faCaret"></fa-icon> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h3>
+ 
+      <!-- black numbers -->
+      <h3 *ngIf='noChange' class='col text-right float-right font-weight-bold ' style='text-align: right; '> {{change| number:'1.2-2'}} ( {{changePercent| percent:'.2-2'}} ) </h3>
+    </div>
+  </div>
+</div>

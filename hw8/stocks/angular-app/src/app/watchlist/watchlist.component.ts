@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertModule, AlertService } from '../components/_alert';
 import { HttpClient } from '@angular/common/http';
 
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { faCaretDown as fasCaretDown } from '@fortawesome/free-solid-svg-icons';
-import { faCaretUp as fasCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown} from '@fortawesome/free-solid-svg-icons';
+import { faCaretUp} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-watchlist',
@@ -20,15 +18,21 @@ export class WatchlistComponent implements OnInit {
     keepAfterRouteChange: false
   };
   cards = [];
+  cardsEmpty=false;
   
-  constructor(private http: HttpClient, 
-    private modalService: NgbModal, public alertService: AlertService) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     const tickers = localStorage.getItem('wl').split(',');
+    tickers.pop();
     let card_reqs_completed = 0;
-    tickers.forEach(t => {
-      if(t!=''){
+    if(tickers.length == 0){
+      console.log('no items in watchlist');
+      this.cardsEmpty = true;   
+      this.spin = false;   
+    }else{
+      tickers.forEach(t => {
+        console.log(t);
         this.http.get("http://localhost:3000/api/details/" + t, {responseType: 'json'}).subscribe(response=>{    
           if(!(response['detail'])){
             let curr_card = {}
@@ -40,11 +44,11 @@ export class WatchlistComponent implements OnInit {
 
             curr_card['noChange'] = false;
             curr_card['changePositive'] = true;
-            curr_card['faCaret'] = fasCaretUp;
+            curr_card['faCaret'] = faCaretUp;
             curr_card['cardColor'] = 'black'
             if( curr_card['change'] < 0){
               curr_card['changePositive'] = false;
-              curr_card['faCaret'] = fasCaretDown;
+              curr_card['faCaret'] = faCaretDown;
               curr_card['cardColor'] = '#d9534f' // danger red
             }
             if( curr_card['change'] == 0){
@@ -53,16 +57,16 @@ export class WatchlistComponent implements OnInit {
             }
 
             this.cards.push(curr_card);
+            this.cardsEmpty = false;
           }
+          console.log(tickers.length);
+          console.log(card_reqs_completed);
+          card_reqs_completed++;
           if(card_reqs_completed == tickers.length){
             this.spin = false;
           }
         });
-      }
-    });
-
-    if(this.cards.length == 0){
-      this.alertService.warn('Currently you don\'t have any stocks in your watchlist.', this.alertOptions);
+      });
     }
   }
 

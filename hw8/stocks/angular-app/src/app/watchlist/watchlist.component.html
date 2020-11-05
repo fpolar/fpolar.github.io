@@ -1,7 +1,12 @@
 <div style='min-height: 100%;  position: relative; padding-bottom: 60px'>
 	<app-nav></app-nav>
-	
 	<div  class='container text-center loading-container'>
+		<h1 class='row wl-title'>My Watchlist</h1>
+		<div  class='text-center' *ngIf='cardsEmpty'>
+			<div class="alert alert-warning" role="alert"> 
+			  Currently you don't have any stocks in your watchlist.
+			</div>
+		</div>
 		<div class="row"> 
 		  <div class="col-5"> </div>
 		  <div class="col loading align-self-center" *ngIf="spin">
@@ -11,9 +16,8 @@
 		</div>
 	</div>
 	<div  class='container' *ngIf="!spin">
-		<h2 class='row'>My Watchlist</h2>
 		<div *ngFor="let card of cards" class='row'>
-			<app-wcard [rawCardData]=cards[i] class="card col "></app-wcard>
+			<app-pcard [rawCardData]=card class="col "></app-pcard>
 		</div>
 	</div>
 </div>
