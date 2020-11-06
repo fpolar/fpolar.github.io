@@ -1,7 +1,7 @@
 runtime: nodejs12 
 handlers:
 - url: /
-  static_files: ../stocks/index.html
-  upload: ../stocks/index.html
+  static_files: ../angular-app/dist/angular-app/index.html
+  upload: ../angular-app/dist/angular-app/index.html
 - url: /
-  static_dir: ../stocks
+  static_dir: ../angular-app/dist/angular-app

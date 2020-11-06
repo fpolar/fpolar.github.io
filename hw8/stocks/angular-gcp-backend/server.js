@@ -1,6 +1,6 @@
 
-const RxHR = require('@akanass/rx-http-request').RxHR
-const map = require('rxjs/operators').map
+// const RxHR = require('@akanass/rx-http-request').RxHR
+// const map = require('rxjs/operators').map
 
 const request = require('request');
 var cors = require('cors')
@@ -20,13 +20,10 @@ var api_key = 'ba0e8e5efb0a41f78fd9c83f4054c355'
 
 app.use(cors())
 // app.use(express.static(__dirname + '/angular-app/dist/angular-app'));
-app.use(express.static(__dirname + '/dist/angular-app'));
+// app.use(express.static(__dirname + '/dist/angular-app'));
 // app.use(express.static(__dirname + '/angular-app'));
 // app.use(express.static(__dirname + '/'));
 
-app.get('/watchlist', (req, res) => {
-  res.send('The prof said hed be nice about covid, but I still despise this assignment')
-})
 
 
 app.get('/api/news-data/*', (req, res) => {
@@ -95,12 +92,18 @@ app.get('/api/tick-search/*', (req, res) => {
 
   const tiingo_search_path = `https://api.tiingo.com/tiingo/utilities/search/`;
 
-  const results$ = RxHR.get(tiingo_search_path + ticker + '?token='+token, {json: true}).pipe(map(response => response.body));;
+  request(tiingo_search_path + ticker + '?token='+token, { json: true }, (err, result, body) => {
+    res.json(body);
+    console.log(result);
+    console.log(result.body);
+    console.log(body);
+  });
+  // const results$ = RxHR.get(tiingo_search_path + ticker + '?token='+token, {json: true}).pipe(map(response => response.body));;
 
-  results$.subscribe(
-		result => {
-        res.json(result);
-  	});
+  // results$.subscribe(
+		// result => {
+  //       res.json(result);
+  // 	});
   
   // results = {}
 
@@ -121,7 +124,7 @@ app.get('/api/tick-search/*', (req, res) => {
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname));
-
+    res.send('this is just the backend');
 });
 
 const server = http.createServer(app)
