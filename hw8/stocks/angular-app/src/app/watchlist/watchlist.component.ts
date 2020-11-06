@@ -19,7 +19,8 @@ export class WatchlistComponent implements OnInit {
   };
   cards = [];
   cardsEmpty=false;
-  
+  // gcpURL = "http://localhost:3000";
+  gcpURL = 'https://angular-stocks.wn.r.appspot.com'
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -39,7 +40,7 @@ export class WatchlistComponent implements OnInit {
       }else{
         tickers.forEach(t => {
           console.log(t);
-          this.http.get("http://localhost:3000/api/details/" + t, {responseType: 'json'}).subscribe(response=>{    
+          this.http.get(this.gcpURL+"/api/details/" + t, {responseType: 'json'}).subscribe(response=>{    
             if(!(response['detail'])){
               let curr_card = {}
               curr_card['ticker'] = t;

@@ -20,6 +20,9 @@ var api_key = 'ba0e8e5efb0a41f78fd9c83f4054c355'
 
 app.use(cors())
 app.use(express.static(__dirname + '/angular-app/dist/angular-app'));
+// app.use(express.static(__dirname + '/dist/angular-app'));
+// app.use(express.static(__dirname + '/angular-app'));
+// app.use(express.static(__dirname + '/'));
 
 app.get('/watchlist', (req, res) => {
   res.send('The prof said hed be nice about covid, but I still despise this assignment')

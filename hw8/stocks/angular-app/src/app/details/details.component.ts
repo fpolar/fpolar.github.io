@@ -39,6 +39,9 @@ export class DetailsComponent implements OnInit {
   validResponse = false;
   starColor = 'black';
 
+  // gcpURL = "http://localhost:3000";
+  gcpURL = 'https://angular-stocks.wn.r.appspot.com'
+  
   //header fields
   myStorage = window.localStorage;
   faStar = farStar; 
@@ -111,7 +114,7 @@ export class DetailsComponent implements OnInit {
   // }
 
   apiRequests():void {
-    this.http.get("http://localhost:3000/api/details/" + this.ticker, {responseType: 'json'}).subscribe(response=>{    
+    this.http.get(this.gcpURL+"/api/details/" + this.ticker, {responseType: 'json'}).subscribe(response=>{    
       console.log('apiRequests function call:', response);
       if(response['detail']){
         this.alertService.error('No results found. Please enter valid Ticker.', this.alertOptions);
@@ -191,7 +194,7 @@ export class DetailsComponent implements OnInit {
                   [1, 2, 3, 4, 6]
               ]];
 
-      this.http.get("http://localhost:3000/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
+      this.http.get(this.gcpURL+"/api/chart-data/" + chartDateStr +"/"+ this.ticker, {responseType: 'json'}).subscribe(response2=>{
         var data1 = [];
         var data2 = [];
         var data3 = [];
@@ -358,7 +361,7 @@ export class DetailsComponent implements OnInit {
 
         this.updateFlag = true;
         });
-        this.http.get("http://localhost:3000/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
+        this.http.get(this.gcpURL+"/api/news-data/" + this.ticker, {responseType: 'json'}).subscribe(response=>{ 
           this.cards = [];
           response['articles'].forEach(element => {
             var curr_card = {};

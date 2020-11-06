@@ -21,7 +21,8 @@ export class SearchComponent implements OnInit {
 	isLoading = false;
     errorMsg: string;
     spin = false;
-
+	// gcpURL = "http://localhost:3000";
+	gcpURL = 'https://angular-stocks.wn.r.appspot.com'
   constructor(
     private http: HttpClient,
     private router: Router
@@ -38,7 +39,7 @@ export class SearchComponent implements OnInit {
 	      this.isLoading = true;
 	  	  this.spin = true;
 	    }),
-	    switchMap(value => this.http.get("http://localhost:3000/api/tick-search/" + value)
+	    switchMap(value => this.http.get(this.gcpURL+"/api/tick-search/" + value)
 	      .pipe(
 	        finalize(() => {
 	   		  console.log('f');
