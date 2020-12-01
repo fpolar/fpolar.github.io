@@ -1,6 +1,8 @@
 package com.android.stocks;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -16,6 +18,8 @@ import android.widget.ListView;
 
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.SearchView;
+
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,20 +32,36 @@ import com.android.volley.VolleyError;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Toolbar mToolbar;
-    ArrayAdapter<String> mAdapter;
-    ListView mListView;
-    TextView mEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTheme(R.style.SplashTheme);
+        setTheme(R.style.Theme_Stocks);
+
+        ActionBar ab = getActionBar();
+
+        new CountDownTimer(2000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            public void onFinish() {
+                ProgressBar spinner;
+                spinner = (ProgressBar)findViewById(R.id.progressBar1);
+                spinner.setVisibility(View.GONE);
+                TextView t;
+                t = (TextView)findViewById(R.id.progressBarText);
+                t.setVisibility(View.GONE);
+            }
+        }.start();
     }
 
     @Override
