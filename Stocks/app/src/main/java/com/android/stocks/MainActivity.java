@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     ListView mListView;
     TextView mEmptyView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

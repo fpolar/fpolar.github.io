@@ -28,7 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutoCompSearchView extends ActionProvider {
+public class AutoCompSearchProvider extends ActionProvider {
     Context mContext;
 
     private static final int TRIGGER_AUTO_COMPLETE = 100;
@@ -36,7 +36,7 @@ public class AutoCompSearchView extends ActionProvider {
     private Handler handler;
     private AutoSuggestAdapter autoSuggestAdapter;
 
-    public AutoCompSearchView(Context context) {
+    public AutoCompSearchProvider(Context context) {
         super(context);
         mContext = context;
     }
@@ -83,6 +83,7 @@ public class AutoCompSearchView extends ActionProvider {
                 @Override
                 public boolean handleMessage(Message msg) {
                     if (msg.what == TRIGGER_AUTO_COMPLETE) {
+                        Log.d("CREATION", "Handler: "+autoCompleteTextView.getText());
                         if (!TextUtils.isEmpty(autoCompleteTextView.getText())) {
                             makeApiCall(autoCompleteTextView.getText().toString());
                         }
@@ -95,17 +96,17 @@ public class AutoCompSearchView extends ActionProvider {
     }
 
     private void makeApiCall(String text) {
-        ApiCall.make(mContext, text, new Response.Listener<String>() {
+        ApiCall.make(mContext, "api/tick-search/"+text, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("CREATION", "ApiCall_onResponse: "+response);
                 //parsing logic, please change it as per your requirement
                 List<String> stringList = new ArrayList<>();
                 try {
-                    JSONObject responseObject = new JSONObject(response);
-                    JSONArray array = responseObject.getJSONArray("results");
+                    JSONArray array = new JSONArray(response);
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject row = array.getJSONObject(i);
-                        stringList.add(row.getString("trackName"));
+                        stringList.add(row.getString("ticker"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -117,6 +118,7 @@ public class AutoCompSearchView extends ActionProvider {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("CREATION", "ApiCall_errorResponse: "+error);
             }
         });
     }

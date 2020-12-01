@@ -1,6 +1,7 @@
 package com.android.stocks;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,8 +45,10 @@ public class ApiCall {
     public static void make(Context ctx, String query, Response.Listener<String>
             listener, Response.ErrorListener errorListener) {
         String url = apiURL + query;
+        Log.d("CREATION", "ApiCall_make: "+url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 listener, errorListener);
         ApiCall.getInstance(ctx).addToRequestQueue(stringRequest);
+        Log.d("CREATION", "ApiCall_make_reqs: "+ApiCall.getInstance(ctx).getRequestQueue().toString());
     }
 }
