@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.android.stocks.example1.Example1Fragment;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTheme(R.style.Theme_Stocks);
 
-        ActionBar ab = getActionBar();
+        View e1Home = findViewById(R.id.example1Fragment);
+        e1Home.setVisibility(View.GONE);
 
         new CountDownTimer(2000, 1000) {
 
@@ -57,11 +59,17 @@ public class MainActivity extends AppCompatActivity {
                 ProgressBar spinner;
                 spinner = (ProgressBar)findViewById(R.id.progressBar1);
                 spinner.setVisibility(View.GONE);
+
                 TextView t;
                 t = (TextView)findViewById(R.id.progressBarText);
                 t.setVisibility(View.GONE);
+
+                View e1Home = findViewById(R.id.example1Fragment);
+                e1Home.setVisibility(View.VISIBLE);
             }
         }.start();
+
+
     }
 
     @Override

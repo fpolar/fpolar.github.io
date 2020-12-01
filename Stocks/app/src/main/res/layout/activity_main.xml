@@ -14,7 +14,6 @@
         android:textColor="@color/black"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/MyToolbarStyle" />
-
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
@@ -34,4 +33,13 @@
         android:layout_gravity="center_vertical"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+    <fragment
+        android:id="@+id/example1Fragment"
+        android:name="com.android.stocks.example1.Example1Fragment"
+        android:label="x"
+        tools:layout="@layout/fragment_ex1"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
+
 </RelativeLayout>
