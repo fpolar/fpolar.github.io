@@ -47,7 +47,11 @@ final class StockItemSection extends Section {
 
         final StockItem stockItem = list.get(position);
 
-        itemHolder.nameItem.setText(stockItem.name);
+        if(stockItem.shares > 0) {
+            itemHolder.nameItem.setText(stockItem.shares+" shares");
+        }else{
+            itemHolder.nameItem.setText(stockItem.name);
+        }
         itemHolder.tickItem.setText(stockItem.tick);
         itemHolder.changeItem.setText(stockItem.change);
         itemHolder.priceItem.setText(stockItem.price);
@@ -88,5 +92,17 @@ final class StockItemSection extends Section {
         if(!contained){
             list.add(st);
         }
+    }
+
+    public void refreshNetWorth(float newAmt) {
+        for (int i=0;i<list.size();i++){
+            StockItem stC = list.get(i);
+            Log.d("CREATION", "refreshNetWorth: "+ newAmt);
+            StockItem st = new StockItem("Net Worth", "", ""+newAmt, "");
+            if(stC.tick.equals("Net Worth")){
+                list.set(i, st);
+            }
+        }
+
     }
 }

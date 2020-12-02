@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
             editor.clear();
             editor.commit(); // commit changes
 
+            editor.putFloat("net_worth", 20000);
+
             String[] favTicks = getApplicationContext().getResources().getStringArray(R.array.favorites_array);
             String favTickString = "";
             for (String ft : favTicks) {
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             String portTickString = "";
             for (String pt : portTicks) {
                 portTickString += pt + "|";
+                editor.putInt(pt+"_shares", 1);
             }
             editor.putString("portfolio_stocks", portTickString);
             editor.commit();

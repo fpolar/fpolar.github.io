@@ -61,6 +61,31 @@ final class LoadStockItemsUseCase {
             map.put("Favorites", favList);
         }
 
+        //creating portfolio section
+        final List<StockItem> portList = new ArrayList<>();
+        String rawPort = pref.getString("portfolio_stocks", null);
+        Log.d("CREATION", "execute_readingLocalStorage: "+rawPort);
+
+        String[] portTicks = rawPort.split("\\|");
+
+        for (String pt: portTicks ) {
+            if(!pt.isEmpty()) {
+                makeApiCall("Portfolio", pt);
+            }
+        }
+
+        //Networth Section
+        portList.add(new StockItem("Net Worth", "", ""+pref.getFloat("net_worth", 20000), ""));
+
+        for (final String tick : portTicks) {
+            if(!tick.isEmpty()) {
+                portList.add(new StockItem(tick, tick, "1", "1"));
+            }
+        }
+        if (portList.size() > 0) {
+            map.put("Portfolio", portList);
+        }
+
         return map;
     }
 
@@ -78,7 +103,16 @@ final class LoadStockItemsUseCase {
                     Log.d("CREATION", "makeApiCall_LoadStocks_onJSO" +
                             "N: "+resObj.getString("name")+" - "+resObj.getString("last"));
                     float changeTemp = (Float.parseFloat(resObj.getString("high")) - Float.parseFloat(resObj.getString("low")))/Float.parseFloat(resObj.getString("low"));
+
+
+                    SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
+                    int shares = pref.getInt(text+"_shares", -1);
+
                     st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),""+changeTemp);
+                    if(shares > 0){
+                        st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),""+changeTemp, shares);
+                    }
+
                     stockList.add(st);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -88,6 +122,16 @@ final class LoadStockItemsUseCase {
                 //stockItemAdapter.setIndivStockData(st);
                 StockItemSection sec = (StockItemSection)sectionedAdapter.getSection(sectionName);
                 sec.setIndivStockData(stockList.get(0));
+                 if(stockList.get(0).shares > 0){
+                     SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
+                     float newNetWorth = stockList.get(0).shares * Float.parseFloat(stockList.get(0).price) + pref.getFloat("net_worth", 20000);
+                     sec.refreshNetWorth(newNetWorth);
+
+                     SharedPreferences.Editor editor = pref.edit();
+                     editor.putFloat("net_worth", newNetWorth);
+                     editor.commit();
+                 }
+
                 Log.d("CREATION", "makeApiCall_LoadStocks_onAdapter: "+sec.getState()+" - "+stockList.get(0).name+" - "+stockList.get(0).price);
                 sectionedAdapter.getAdapterForSection(sectionName).notifyAllItemsChanged();
                 sectionedAdapter.notifyDataSetChanged();
