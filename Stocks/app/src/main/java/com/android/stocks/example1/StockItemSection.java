@@ -1,5 +1,6 @@
 package com.android.stocks.example1;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -12,17 +13,16 @@ import java.util.List;
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 
-final class ContactsSection extends Section {
+final class StockItemSection extends Section {
 
     private final String title;
-    private final List<Contact> list;
+    private final List<StockItem> list;
     private final ClickListener clickListener;
 
-    ContactsSection(@NonNull final String title, @NonNull final List<Contact> list,
-                    @NonNull final ClickListener clickListener) {
-
+    StockItemSection(@NonNull final String title, @NonNull final List<StockItem> list,
+                     @NonNull final ClickListener clickListener) {
         super(SectionParameters.builder()
-                .itemResourceId(R.layout.section_ex1_item)
+                .itemResourceId(R.layout.section_ex1_stock_item)
                 .headerResourceId(R.layout.section_ex1_header)
                 .build());
 
@@ -38,17 +38,19 @@ final class ContactsSection extends Section {
 
     @Override
     public RecyclerView.ViewHolder getItemViewHolder(final View view) {
-        return new ItemViewHolder(view);
+        return new StockItemViewHolder(view);
     }
 
     @Override
     public void onBindItemViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        final ItemViewHolder itemHolder = (ItemViewHolder) holder;
+        final StockItemViewHolder itemHolder = (StockItemViewHolder) holder;
 
-        final Contact contact = list.get(position);
+        final StockItem stockItem = list.get(position);
 
-        itemHolder.tvItem.setText(contact.name);
-        itemHolder.imgItem.setImageResource(contact.profileImage);
+        itemHolder.nameItem.setText(stockItem.name);
+        itemHolder.tickItem.setText(stockItem.tick);
+        itemHolder.changeItem.setText(stockItem.change);
+        itemHolder.priceItem.setText(stockItem.price);
 
         itemHolder.rootView.setOnClickListener(v ->
                 clickListener.onItemRootViewClicked(this, itemHolder.getAdapterPosition())
@@ -69,6 +71,22 @@ final class ContactsSection extends Section {
 
     interface ClickListener {
 
-        void onItemRootViewClicked(@NonNull final ContactsSection section, final int itemAdapterPosition);
+        void onItemRootViewClicked(@NonNull final StockItemSection section, final int itemAdapterPosition);
+    }
+
+    public void setIndivStockData(StockItem st) {
+        boolean contained = false;
+        for (int i=0;i<list.size();i++){
+            StockItem stC = list.get(i);
+            Log.d("CREATION", "setIndivStockData: "+ stC.tick+" - "+st.tick);
+            if(stC.tick.equals(st.tick)){
+                list.set(i, st);
+                contained = true;
+            }
+        }
+
+        if(!contained){
+            list.add(st);
+        }
     }
 }

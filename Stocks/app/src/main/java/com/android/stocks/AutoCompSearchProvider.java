@@ -44,8 +44,7 @@ public class AutoCompSearchProvider extends ActionProvider {
     @Override
     public View onCreateActionView() {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View providerView =
-                layoutInflater.inflate(R.layout.auto_comp_search, null);
+        View providerView = layoutInflater.inflate(R.layout.auto_comp_search, null);
 
             final AppCompatAutoCompleteTextView autoCompleteTextView =  providerView.findViewById(R.id.auto_complete_edit_text);
             final TextView selectedText = providerView.findViewById(R.id.selected_item);
