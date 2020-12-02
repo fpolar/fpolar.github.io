@@ -15,7 +15,10 @@ import com.android.volley.VolleyError;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +39,7 @@ final class LoadStockItemsUseCase {
 
         SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
 
+        //creating favorite section
         final List<StockItem> favList = new ArrayList<>();
         String rawFavs = pref.getString("favorite_stocks", null);
         Log.d("CREATION", "execute_readingLocalStorage: "+rawFavs);
@@ -48,7 +52,6 @@ final class LoadStockItemsUseCase {
             }
         }
 
-        //create sections for the
         for (final String tick : favTicks) {
             if(!tick.isEmpty()) {
                 favList.add(new StockItem(tick, tick, "1", "1"));

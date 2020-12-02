@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.stocks.R;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +45,16 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
 
         sectionedAdapter = new SectionedRecyclerViewAdapter();
 
-        final Map<String, List<StockItem>> contactsMap = new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter);
+        Date currentTime = Calendar.getInstance().getTime();
+        String formattedDate = DateFormat.getDateInstance(DateFormat.FULL).format(currentTime);
+        formattedDate = formattedDate.substring(formattedDate.indexOf(",")+1).trim();
+        DateItemSection temp = new DateItemSection(formattedDate, null);
+        sectionedAdapter.addSection("Date", temp);
+        temp.setState(Section.State.LOADED);
 
-        for (final Map.Entry<String, List<StockItem>> entry : contactsMap.entrySet()) {
+        final Map<String, List<StockItem>> sectionMap = new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter);
+
+        for (final Map.Entry<String, List<StockItem>> entry : sectionMap.entrySet()) {
             if (entry.getValue().size() > 0) {
                 sectionedAdapter.addSection(entry.getKey(), new StockItemSection(entry.getKey(), entry.getValue(), this));
             }

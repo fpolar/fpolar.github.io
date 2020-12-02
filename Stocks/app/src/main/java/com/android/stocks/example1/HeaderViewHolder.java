@@ -15,7 +15,9 @@ final class HeaderViewHolder extends RecyclerView.ViewHolder {
 
     HeaderViewHolder(@NonNull View view) {
         super(view);
-
         title = view.findViewById(R.id.tvTitle);
+//        if(title.equals("Date")){
+//            view.setVisibility(View.GONE);
+//        }
     }
 }

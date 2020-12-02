@@ -42,12 +42,11 @@ final class DateItemSection extends Section {
     public void onBindItemViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final ItemViewHolder itemHolder = (ItemViewHolder) holder;
 
-
-        itemHolder.tvItem.setText('x');
-
-        itemHolder.rootView.setOnClickListener(v ->
-                clickListener.onItemRootViewClicked(this, itemHolder.getAdapterPosition())
-        );
+        itemHolder.tvItem.setText(date);
+//
+//        itemHolder.rootView.setOnClickListener(v ->
+//                clickListener.onItemRootViewClicked(this, itemHolder.getAdapterPosition())
+//        );
     }
 
     @Override
@@ -59,7 +58,7 @@ final class DateItemSection extends Section {
     public void onBindHeaderViewHolder(final RecyclerView.ViewHolder holder) {
         final HeaderViewHolder headerHolder = (HeaderViewHolder) holder;
 
-        headerHolder.title.setText('x');
+        headerHolder.title.setText(date);
     }
 
     interface ClickListener {
