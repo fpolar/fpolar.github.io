@@ -3,8 +3,11 @@ package com.android.stocks.example1;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.stocks.ApiCall;
 import com.android.stocks.AutoSuggestAdapter;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
+import io.github.luizgrp.sectionedrecyclerviewadapter.SectionAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
 final class LoadStockItemsUseCase {
@@ -31,7 +35,7 @@ final class LoadStockItemsUseCase {
     private Context mContext;
 
     //returns a map of section name to list of items
-    Map<String, List<StockItem>> execute(@NonNull final Context context, SectionedRecyclerViewAdapter sectionedAdapter) {
+    Map<String, List<StockItem>> execute(@NonNull final Context context, SectionedRecyclerViewAdapter sectionedAdapter, RecyclerView view) {
         mContext = context;
         final Map<String, List<StockItem>> map = new LinkedHashMap<>();
 
@@ -74,7 +78,7 @@ final class LoadStockItemsUseCase {
             }
         }
 
-        //Networth Section
+        //Net worth Section
         portList.add(new StockItem("Net Worth", "", ""+pref.getFloat("net_worth", 20000), ""));
 
         for (final String tick : portTicks) {
@@ -85,6 +89,8 @@ final class LoadStockItemsUseCase {
         if (portList.size() > 0) {
             map.put("Portfolio", portList);
         }
+
+        enableSwipeToDeleteAndUndo(view);
 
         return map;
     }
@@ -142,5 +148,42 @@ final class LoadStockItemsUseCase {
                 Log.d("CREATION", "makeApiCall_LoadStocks_onErrorResponse: "+error);
             }
         });
+    }
+
+
+    private void enableSwipeToDeleteAndUndo(RecyclerView view) {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(mContext) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+                SectionAdapter faveAdapter = sectionedAdapter.getAdapterForSection("Favorites");
+
+                final int position = viewHolder.getAdapterPosition();
+//                final String item = sectionedAdapter.getAdapterForSection("Favorites").getPositionInAdapter(position);
+                final int pos = sectionedAdapter.getPositionInSection(position);
+                StockItemSection sec = (StockItemSection)sectionedAdapter.getSectionForPosition(position);
+                SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0);
+                String favString = pref.getString("favorite_stocks", "");
+                String[] favArray = favString.split("\\|");
+                sec.removeStock(favArray[pos]);
+                favArray[pos] = "";
+
+                String newFavString = "";
+                for (String f: favArray) {
+                    if(!f.isEmpty()){
+                        newFavString+=f+"|";
+                    }
+                }
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putString("favorite_stocks", newFavString);
+                editor.commit();
+
+                sectionedAdapter.getAdapterForSection("Favorites").notifyAllItemsChanged();
+                sectionedAdapter.notifyDataSetChanged();
+            }
+        };
+
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchhelper.attachToRecyclerView(view);
     }
 }

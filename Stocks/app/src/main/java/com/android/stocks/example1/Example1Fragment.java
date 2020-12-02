@@ -52,7 +52,8 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
         sectionedAdapter.addSection("Date", temp);
         temp.setState(Section.State.LOADED);
 
-        final Map<String, List<StockItem>> sectionMap = new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter);
+        final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        final Map<String, List<StockItem>> sectionMap = new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter, recyclerView);
 
         for (final Map.Entry<String, List<StockItem>> entry : sectionMap.entrySet()) {
             if (entry.getValue().size() > 0) {
@@ -60,9 +61,9 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
             }
         }
 
-        final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(sectionedAdapter);
+
 
         return view;
     }

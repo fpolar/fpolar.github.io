@@ -73,6 +73,17 @@ final class StockItemSection extends Section {
         headerHolder.title.setText(title);
     }
 
+    public void removeStock(String s) {
+        for (int i=0;i<list.size();i++){
+            StockItem stC = list.get(i);
+            Log.d("CREATION", "setIndivStockData: "+ stC.tick+" - "+s);
+            if(stC.tick.equals(s)){
+                list.remove(i);
+                break;
+            }
+        }
+    }
+
     interface ClickListener {
 
         void onItemRootViewClicked(@NonNull final StockItemSection section, final int itemAdapterPosition);

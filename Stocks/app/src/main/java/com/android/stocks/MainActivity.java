@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.SearchView;
 
@@ -26,8 +27,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.stocks.example1.Example1Fragment;
+import com.android.stocks.example1.SwipeToDeleteCallback;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         View e1Home = findViewById(R.id.example1Fragment);
         e1Home.setVisibility(View.GONE);
 
-        new CountDownTimer(2000, 1000) {
+        new CountDownTimer(5000, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -105,5 +108,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
 }
