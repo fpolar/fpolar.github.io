@@ -48,7 +48,7 @@ final class StockItemSection extends Section {
         final StockItem stockItem = list.get(position);
 
         if(stockItem.shares > 0) {
-            itemHolder.nameItem.setText(stockItem.shares+" shares");
+            itemHolder.nameItem.setText(stockItem.shares+" share(s)");
         }else{
             itemHolder.nameItem.setText(stockItem.name);
         }
