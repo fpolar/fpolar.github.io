@@ -1,6 +1,7 @@
 package com.android.stocks;
 
 import android.app.ActionBar;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -42,6 +43,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(true){
+            SharedPreferences pref = getApplicationContext().getSharedPreferences("StockPrefs", 0); // 0 - for private mode
+            SharedPreferences.Editor editor = pref.edit();
+
+            editor.clear();
+            editor.commit(); // commit changes
+
+            String[] favTicks = getApplicationContext().getResources().getStringArray(R.array.favorites_array);
+            String favTickString = "";
+            for (String ft : favTicks) {
+                favTickString += ft + "|";
+            }
+            editor.putString("favorite_stocks", favTickString);
+
+            String[] portTicks = getApplicationContext().getResources().getStringArray(R.array.portfolio_array);
+            String portTickString = "";
+            for (String pt : portTicks) {
+                portTickString += pt + "|";
+            }
+            editor.putString("portfolio_stocks", portTickString);
+            editor.commit();
+        }
+
         setContentView(R.layout.activity_main);
         setTheme(R.style.Theme_Stocks);
 

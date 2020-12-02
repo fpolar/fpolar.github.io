@@ -26,7 +26,7 @@
         <item>NVDA</item>
     </string-array>
 
-    <string-array name="purchased_array">
+    <string-array name="portfolio_array">
         <item>AAPL</item>
         <item>TSLA</item>
     </string-array>

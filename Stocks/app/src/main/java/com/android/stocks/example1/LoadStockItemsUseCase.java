@@ -1,6 +1,7 @@
 package com.android.stocks.example1;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -33,15 +34,25 @@ final class LoadStockItemsUseCase {
 
         this.sectionedAdapter = sectionedAdapter;
 
+        SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
+
         final List<StockItem> favList = new ArrayList<>();
-        String[] favTicks = context.getResources().getStringArray(R.array.favorites_array);
+        String rawFavs = pref.getString("favorite_stocks", null);
+        Log.d("CREATION", "execute_readingLocalStorage: "+rawFavs);
+
+        String[] favTicks = rawFavs.split("\\|");
+
         for (String ft: favTicks ) {
-            makeApiCall("Favorites", ft);
+            if(!ft.isEmpty()) {
+                makeApiCall("Favorites", ft);
+            }
         }
 
         //create sections for the
-        for (final String name : favTicks) {
-            favList.add(new StockItem(name, name, "1", "1"));
+        for (final String tick : favTicks) {
+            if(!tick.isEmpty()) {
+                favList.add(new StockItem(tick, tick, "1", "1"));
+            }
         }
         if (favList.size() > 0) {
             map.put("Favorites", favList);
