@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Stocks">
         <activity android:name=".MainActivity" android:theme="@style/Theme.Stocks"/>
+        <activity android:name=".DetailActivity" android:theme="@style/Theme.Stocks"
+            android:parentActivityName=".MainActivity"/>
 
         <activity android:name=".SearchableActivity" >
             <intent-filter>

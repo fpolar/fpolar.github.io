@@ -1,6 +1,7 @@
 package com.android.stocks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -59,6 +60,8 @@ public class AutoCompSearchProvider extends ActionProvider {
                         public void onItemClick(AdapterView<?> parent, View view,
                                                 int position, long id) {
                             selectedText.setText(autoSuggestAdapter.getObject(position));
+                            Intent myIntent = new Intent(view.getContext(), DetailActivity.class);
+                            mContext.startActivity(myIntent);
                         }
                     });
             autoCompleteTextView.addTextChangedListener(new TextWatcher() {
