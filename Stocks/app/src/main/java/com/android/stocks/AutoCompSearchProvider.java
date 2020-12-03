@@ -61,6 +61,7 @@ public class AutoCompSearchProvider extends ActionProvider {
                                                 int position, long id) {
                             selectedText.setText(autoSuggestAdapter.getObject(position));
                             Intent myIntent = new Intent(view.getContext(), DetailActivity.class);
+                            myIntent.putExtra("tick",autoSuggestAdapter.getObject(position));
                             mContext.startActivity(myIntent);
                         }
                     });

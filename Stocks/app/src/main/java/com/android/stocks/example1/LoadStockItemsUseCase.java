@@ -103,14 +103,14 @@ final class LoadStockItemsUseCase {
                     Log.d("CREATION", "makeApiCall_LoadStocks_onJSO" +
                             "N: "+resObj.getString("name")+" - "+resObj.getString("last"));
                     float changeTemp = (Float.parseFloat(resObj.getString("high")) - Float.parseFloat(resObj.getString("low")))/Float.parseFloat(resObj.getString("low"));
-
+                    String changeStr = String.format("%.2f", changeTemp*100);
 
                     SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
                     int shares = pref.getInt(text+"_shares", -1);
 
-                    st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),""+changeTemp);
+                    st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),changeStr);
                     if(shares > 0){
-                        st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),""+changeTemp, shares);
+                        st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),changeStr, shares);
                     }
 
                     stockList.add(st);
