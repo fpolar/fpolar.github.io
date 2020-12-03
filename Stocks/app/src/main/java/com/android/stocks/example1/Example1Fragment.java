@@ -1,11 +1,13 @@
 package com.android.stocks.example1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.stocks.DetailActivity;
 import com.android.stocks.R;
 
 import java.text.DateFormat;
@@ -70,7 +73,10 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
 
     @Override
     public void onItemRootViewClicked(@NonNull StockItemSection section, int itemAdapterPosition) {
-
+                Intent myIntent = new Intent(getContext(), DetailActivity.class);
+                int stockIdx = sectionedAdapter.getPositionInSection(itemAdapterPosition);
+                myIntent.putExtra("tick", section.list.get(stockIdx).tick);
+                getContext().startActivity(myIntent);
     }
 
     private void loadStock(final StockItemSection section) {

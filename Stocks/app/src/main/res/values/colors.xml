@@ -16,4 +16,7 @@
     <color name="splash">#FF018786</color>
     <color name="colorAccent">#FF018786</color>colorAccent
     <color name="sectionTabColor">#FF018786</color>colorAccent
+
+    <color name="red">#FF0000</color>
+    <color name="green">#00FF00</color>
 </resources>

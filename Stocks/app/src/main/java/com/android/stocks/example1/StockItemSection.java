@@ -1,11 +1,16 @@
 package com.android.stocks.example1;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.stocks.DetailActivity;
 import com.android.stocks.R;
 
 import java.util.List;
@@ -15,9 +20,10 @@ import io.github.luizgrp.sectionedrecyclerviewadapter.SectionParameters;
 
 final class StockItemSection extends Section {
 
-    private final String title;
-    private final List<StockItem> list;
+    public final String title;
+    public final List<StockItem> list;
     private final ClickListener clickListener;
+    private static Context context;
 
     StockItemSection(@NonNull final String title, @NonNull final List<StockItem> list,
                      @NonNull final ClickListener clickListener) {
@@ -52,6 +58,20 @@ final class StockItemSection extends Section {
         }else{
             itemHolder.nameItem.setText(stockItem.name);
         }
+
+        if(!stockItem.change.isEmpty() && Float.parseFloat(stockItem.change) > 0) {
+            itemHolder.changeImgItem.setImageResource(R.drawable.ic_twotone_trending_up_24);
+            itemHolder.changeItem.setTextColor(Color.GREEN);
+        }else if (!stockItem.change.isEmpty() && Float.parseFloat(stockItem.change) < 0){
+            itemHolder.changeImgItem.setImageResource(R.drawable.ic_baseline_trending_down_24);
+            itemHolder.changeItem.setTextColor(Color.RED);
+        }
+
+        if(stockItem.tick.equals("Net Worth") || stockItem.name.equals("Net Worth")){
+            itemHolder.changeImgItem.setVisibility(View.GONE);
+            itemHolder.arrowImgItem.setVisibility(View.GONE);
+        }
+
         itemHolder.tickItem.setText(stockItem.tick);
         itemHolder.changeItem.setText(stockItem.change);
         itemHolder.priceItem.setText(stockItem.price);

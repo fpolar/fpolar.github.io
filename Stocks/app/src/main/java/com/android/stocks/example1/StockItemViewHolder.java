@@ -14,6 +14,7 @@ final class StockItemViewHolder extends RecyclerView.ViewHolder {
 
     final View rootView;
     final ImageView changeImgItem;
+    final ImageView arrowImgItem;
     final TextView nameItem;
     final TextView tickItem;
     final TextView priceItem;
@@ -29,5 +30,6 @@ final class StockItemViewHolder extends RecyclerView.ViewHolder {
         priceItem = view.findViewById(R.id.priceItem);
         changeItem = view.findViewById(R.id.changeItem);
         changeImgItem = view.findViewById(R.id.changeImgItem);
+        arrowImgItem = view.findViewById(R.id.arrowImgItem);
     }
 }
