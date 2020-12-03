@@ -2,31 +2,25 @@ package com.android.stocks.example1;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.stocks.ApiCall;
-import com.android.stocks.AutoSuggestAdapter;
-import com.android.stocks.R;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.luizgrp.sectionedrecyclerviewadapter.Section;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionAdapter;
 import io.github.luizgrp.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
@@ -90,7 +84,7 @@ final class LoadStockItemsUseCase {
             map.put("Portfolio", portList);
         }
 
-        enableSwipeToDeleteAndUndo(view);
+        enableSwipeToDeleteAndMove(view);
 
         return map;
     }
@@ -151,7 +145,7 @@ final class LoadStockItemsUseCase {
     }
 
 
-    private void enableSwipeToDeleteAndUndo(RecyclerView view) {
+    private void enableSwipeToDeleteAndMove(RecyclerView view) {
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(mContext) {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
@@ -177,13 +171,38 @@ final class LoadStockItemsUseCase {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putString("favorite_stocks", newFavString);
                 editor.commit();
-
-                sectionedAdapter.getAdapterForSection("Favorites").notifyAllItemsChanged();
+                
+                faveAdapter.notifyAllItemsChanged();
                 sectionedAdapter.notifyDataSetChanged();
             }
+
+
         };
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDeleteCallback);
         itemTouchhelper.attachToRecyclerView(view);
+
+        ItemMoveCallback.ItemTouchHelperContract itemTouchHelperContract = new ItemMoveCallback.ItemTouchHelperContract(){
+
+            @Override
+            public void onRowMoved(int fromPosition, int toPosition) {
+
+                sectionedAdapter.notifyItemMoved(fromPosition, toPosition);
+            }
+
+            @Override
+            public void onRowSelected(StockItemViewHolder myViewHolder) {
+                myViewHolder.itemView.setBackgroundColor(Color.GRAY);
+            }
+
+            @Override
+            public void onRowClear(StockItemViewHolder myViewHolder) {
+                myViewHolder.itemView.setBackgroundColor(Color.WHITE);
+            }
+        };
+
+        ItemTouchHelper.Callback callback = new ItemMoveCallback(itemTouchHelperContract);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(view);
     }
 }
