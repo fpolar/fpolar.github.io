@@ -2,7 +2,9 @@ package com.android.stocks;
 
 import android.content.Context;
 import android.view.ActionProvider;
+import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
 
 public class FavoriteStarProvider extends ActionProvider {
     /**
@@ -18,5 +20,11 @@ public class FavoriteStarProvider extends ActionProvider {
     @Override
     public View onCreateActionView() {
         return null;
+    }
+
+    @Override
+    public boolean onPerformDefaultAction (){
+
+        return true;
     }
 }

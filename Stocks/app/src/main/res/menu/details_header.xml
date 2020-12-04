@@ -10,6 +10,5 @@
         android:icon="@drawable/ic_baseline_star_border_24"
         android:title="Star"
         android:textColor="@color/black"
-        app:actionProviderClass="com.android.stocks.AutoCompSearchProvider"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>

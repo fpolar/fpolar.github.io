@@ -39,6 +39,8 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
 
     private SectionedRecyclerViewAdapter sectionedAdapter;
 
+    RecyclerView recyclerView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,7 +57,7 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
         sectionedAdapter.addSection("Date", temp);
         temp.setState(Section.State.LOADED);
 
-        final RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+        recyclerView = view.findViewById(R.id.recyclerview);
         final Map<String, List<StockItem>> sectionMap = new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter, recyclerView);
 
         for (final Map.Entry<String, List<StockItem>> entry : sectionMap.entrySet()) {
@@ -72,11 +74,20 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter, recyclerView);
+    }
+
+    @Override
     public void onItemRootViewClicked(@NonNull StockItemSection section, int itemAdapterPosition) {
-                Intent myIntent = new Intent(getContext(), DetailActivity.class);
                 int stockIdx = sectionedAdapter.getPositionInSection(itemAdapterPosition);
-                myIntent.putExtra("tick", section.list.get(stockIdx).tick);
-                getContext().startActivity(myIntent);
+                String tickStr = section.list.get(stockIdx).tick;
+                if(!tickStr.isEmpty() && !tickStr.equals("Net Worth")) {
+                    Intent myIntent = new Intent(getContext(), DetailActivity.class);
+                    myIntent.putExtra("tick", tickStr);
+                    getContext().startActivity(myIntent);
+                }
     }
 
     private void loadStock(final StockItemSection section) {
