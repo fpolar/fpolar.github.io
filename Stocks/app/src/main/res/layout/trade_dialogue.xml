@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <TextView
+        android:id="@+id/dialogue_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"/>
+    <EditText
+        android:id="@+id/dialogue_input"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:inputType="numberPassword"
+        android:layout_below="@+id/dialogue_title"/>
+    <TextView
+        android:id="@+id/dialogue_price"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_below="@+id/dialogue_input"/>
+    <TextView
+        android:id="@+id/dialogue_total"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_below="@+id/dialogue_price"/>
+
+    <Button
+        android:id="@+id/dialogue_buy_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Ok "
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/dialogue_total"
+        />
+    <Button
+        android:id="@+id/dialogue_sell_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Ok "
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_below="@+id/dialogue_total"
+        android:layout_toEndOf="@+id/dialogue_buy_button"
+        android:layout_toRightOf="@+id/dialogue_buy_button"
+        />
+
+</RelativeLayout>

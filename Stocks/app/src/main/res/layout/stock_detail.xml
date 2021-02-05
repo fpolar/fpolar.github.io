@@ -48,20 +48,16 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textColor="#000000"
-        android:layout_below="@id/header_tick"/>
+        android:layout_toEndOf="@+id/header_tick"
+        android:layout_toRightOf="@+id/header_tick"/>
 
     <TextView
         android:id="@+id/header_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginStart="10dip"
-        android:layout_marginTop="10dip"
-        android:layout_marginEnd="10dip"
-        android:layout_marginBottom="10dip"
-        android:layout_toEndOf="@id/toolbar"
-        android:gravity="end"
-        android:textAlignment="textEnd"
+        android:layout_margin="10dip"
+        android:layout_toEndOf="@+id/header_name"
+        android:layout_toRightOf="@+id/header_name"
         android:textColor="#000000" />
 
     <TextView
@@ -70,8 +66,160 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
         android:textColor="#000000"
-        android:layout_below="@id/header_price"
-        android:layout_alignEnd="@id/header_price"/>
+        android:layout_toEndOf="@+id/header_price"
+        android:layout_toRightOf="@+id/header_price"/>
 
+
+    <TextView
+        android:id="@+id/portfolio_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_below="@+id/header_tick"/>
+    <TextView
+        android:id="@+id/portfolio_shares"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/portfolio_title"
+        android:layout_toRightOf="@+id/portfolio_title"
+        android:layout_below="@+id/header_tick"/>
+    <TextView
+        android:id="@+id/portfolio_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/portfolio_shares"
+        android:layout_toRightOf="@+id/portfolio_shares"
+        android:layout_below="@+id/header_tick"/>
+    <Button
+        android:id="@+id/portfolio_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="TRADE"
+        android:layout_toEndOf="@+id/header_change"
+        android:layout_toRightOf="@+id/header_change"/>
+
+
+    <TextView
+        android:id="@+id/stats_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Stats"
+        android:layout_below="@+id/portfolio_title"/>
+    <TextView
+        android:id="@+id/stats_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/stats_title"
+        android:layout_toRightOf="@+id/stats_title"
+        android:layout_below="@+id/portfolio_title"/>
+    <TextView
+        android:id="@+id/stats_low"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/stats_price"
+        android:layout_toRightOf="@+id/stats_price"
+        android:layout_below="@+id/portfolio_title"/>
+    <TextView
+        android:id="@+id/stats_bid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/stats_low"
+        android:layout_toRightOf="@+id/stats_low"
+        android:layout_below="@+id/portfolio_title"/>
+
+    <TextView
+        android:id="@+id/stats_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_below="@+id/stats_price"/>
+    <TextView
+        android:id="@+id/stats_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/stats_mid"
+        android:layout_toRightOf="@+id/stats_mid"
+        android:layout_below="@+id/stats_price"/>
+    <TextView
+        android:id="@+id/stats_high"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_toEndOf="@+id/stats_open"
+        android:layout_toRightOf="@+id/stats_open"
+        android:layout_below="@+id/stats_price"/>
+
+    <TextView
+        android:id="@+id/stats_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="Portfolio"
+        android:layout_below="@+id/stats_mid"/>
+
+
+
+    <TextView
+        android:id="@+id/about_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="About"
+        android:layout_below="@+id/stats_volume"/>
+    <TextView
+        android:id="@+id/about_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="About"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeMaxTextSize="100sp"
+        android:autoSizeStepGranularity="2sp"
+        android:layout_below="@+id/about_title"/>
+    <Button
+        android:id="@+id/about_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dip"
+        android:textColor="#000000"
+        android:text="show more..."
+        android:onClick="toggleAbout"
+        android:layout_below="@+id/about_text"/>
 
 </RelativeLayout>

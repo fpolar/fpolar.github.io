@@ -102,18 +102,24 @@ final class LoadStockItemsUseCase {
                     JSONObject resObj = new JSONObject(response);
                     Log.d("CREATION", "makeApiCall_LoadStocks_onJSO" +
                             "N: "+resObj.getString("name")+" - "+resObj.getString("last"));
-                    float changeTemp = (Float.parseFloat(resObj.getString("high")) - Float.parseFloat(resObj.getString("low")))/Float.parseFloat(resObj.getString("low"));
-                    String changeStr = String.format("%.2f", changeTemp*100);
 
-                    SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
-                    int shares = pref.getInt(text+"_shares", -1);
 
-                    st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),changeStr);
-                    if(shares > 0){
-                        st = new StockItem(resObj.getString("ticker"),resObj.getString("name"),resObj.getString("last"),changeStr, shares);
+                    if(resObj.has("details")){
+                        st = new StockItem("MAX TIINGO REQUESTS REACHED", "MAX TIINGO REQUESTS REACHED", "MAX TIINGO REQUESTS REACHED", "MAX TIINGO REQUESTS REACHED");
+                    }else {
+                        float changeTemp = (Float.parseFloat(resObj.getString("last")) - Float.parseFloat(resObj.getString("prevClose"))) / Float.parseFloat(resObj.getString("prevClose"));
+                        String changeStr = String.format("%.2f", changeTemp * 100);
+
+                        SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
+                        int shares = pref.getInt(text + "_shares", -1);
+
+                        st = new StockItem(resObj.getString("ticker"), resObj.getString("name"), resObj.getString("last"), changeStr);
+                        if (shares > 0) {
+                            st = new StockItem(resObj.getString("ticker"), resObj.getString("name"), resObj.getString("last"), changeStr, shares);
+                        }
+
+                        stockList.add(st);
                     }
-
-                    stockList.add(st);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -121,10 +127,11 @@ final class LoadStockItemsUseCase {
 //                stockItemAdapter.setData(stockList);
                 //stockItemAdapter.setIndivStockData(st);
                 StockItemSection sec = (StockItemSection)sectionedAdapter.getSection(sectionName);
-                sec.setIndivStockData(stockList.get(0));
-                 if(stockList.get(0).shares > 0){
+//                sec.setIndivStockData(stockList.get(0));
+                sec.setIndivStockData(st);
+                 if(st.shares > 0){
                      SharedPreferences pref = mContext.getSharedPreferences("StockPrefs", 0); // 0 - for private mode
-                     float newNetWorth = stockList.get(0).shares * Float.parseFloat(stockList.get(0).price) + pref.getFloat("net_worth", 20000);
+                     float newNetWorth = st.shares * Float.parseFloat(st.price) + pref.getFloat("net_worth", 20000);
                      sec.refreshNetWorth(newNetWorth);
 
                      SharedPreferences.Editor editor = pref.edit();
@@ -132,7 +139,7 @@ final class LoadStockItemsUseCase {
                      editor.commit();
                  }
 
-                Log.d("CREATION", "makeApiCall_LoadStocks_onAdapter: "+sec.getState()+" - "+stockList.get(0).name+" - "+stockList.get(0).price);
+                Log.d("CREATION", "makeApiCall_LoadStocks_onAdapter: "+sec.getState()+" - "+st.name+" - "+st.price);
                 sectionedAdapter.getAdapterForSection(sectionName).notifyAllItemsChanged();
                 sectionedAdapter.notifyDataSetChanged();
             }

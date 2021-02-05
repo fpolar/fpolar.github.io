@@ -74,12 +74,6 @@ public class Example1Fragment extends Fragment implements StockItemSection.Click
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        new LoadStockItemsUseCase().execute(requireContext(), sectionedAdapter, recyclerView);
-    }
-
-    @Override
     public void onItemRootViewClicked(@NonNull StockItemSection section, int itemAdapterPosition) {
                 int stockIdx = sectionedAdapter.getPositionInSection(itemAdapterPosition);
                 String tickStr = section.list.get(stockIdx).tick;

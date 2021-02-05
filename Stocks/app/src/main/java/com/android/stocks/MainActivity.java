@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(true){
+        if(false){
             SharedPreferences pref = getApplicationContext().getSharedPreferences("StockPrefs", 0); // 0 - for private mode
             SharedPreferences.Editor editor = pref.edit();
 
@@ -109,6 +110,27 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    public void toggleAbout(View view) {
+        TextView at = findViewById(R.id.about_text);
+        if(at.getEllipsize() == null) {
+            at.setEllipsize(TextUtils.TruncateAt.END);
+            at.setMaxLines(2);
+            at.setText(at.getContentDescription());
+            at.setVisibility(View.GONE);
+            at.setVisibility(View.VISIBLE);
+            Button ab = findViewById(R.id.about_button);
+            ab.setText("Show more...");
+        }else {
+            at.setEllipsize(null);
+            at.setMaxLines(20);
+            at.setText(at.getContentDescription());
+            at.setVisibility(View.GONE);
+            at.setVisibility(View.VISIBLE);
+            Button ab = findViewById(R.id.about_button);
+            ab.setText("Show less");
+        }
+    }
 
 
 }
